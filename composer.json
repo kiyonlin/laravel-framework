@@ -1,0 +1,45 @@
+{
+  "name": "kiyon/laravel-framework",
+  "description": "The Laravel Framework Extensions.",
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://github.com/kiyonlin/laravel-framework",
+  "support": {
+    "issues": "https://github.com/kiyonlin/laravel-framework/issues",
+    "source": "https://github.com/kiyonlin/laravel-framework"
+  },
+  "authors": [
+    {
+      "name": "kiyon",
+      "email": "kiyonlin@163.com"
+    }
+  ],
+  "require": {},
+  "require-dev": {
+    "mockery/mockery": "^1.0",
+    "orchestra/testbench": "^3.7"
+  },
+  "autoload": {
+    "files": [
+      "src/Foundation/helpers.php",
+      "src/Support/helpers.php"
+    ],
+    "psr-4": {
+      "Kiyon\\Laravel\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev"
+}
