@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiyon\Laravel\Authentication;
+namespace Kiyon\Laravel\Authentication\Model;
 
 use Kiyon\Laravel\Authorization\Contracts\UserInterface;
 use Kiyon\Laravel\Authorization\Traits\UserTrait;

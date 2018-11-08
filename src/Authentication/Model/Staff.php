@@ -6,7 +6,7 @@
  * Time: 2:55 PM
  */
 
-namespace Kiyon\Laravel\Authentication;
+namespace Kiyon\Laravel\Authentication\Model;
 
 class Staff extends User
 {
