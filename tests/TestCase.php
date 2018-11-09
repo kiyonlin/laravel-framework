@@ -4,6 +4,7 @@ namespace Tests;
 
 use Kiyon\Laravel\Authentication\AuthenticationServiceProvider;
 use Kiyon\Laravel\Authorization\AuthorizationServiceProvider;
+use Kiyon\Laravel\Menu\MenuServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -26,6 +27,7 @@ abstract class TestCase extends BaseTestCase
         return [
             AuthenticationServiceProvider::class,
             AuthorizationServiceProvider::class,
+            MenuServiceProvider::class
         ];
     }
 
