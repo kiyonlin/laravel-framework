@@ -1,0 +1,91 @@
+<?php
+/**
+ * Created by IntelliJ IDEA.
+ * User: kiyon
+ * Date: 2018/11/9
+ * Time: 2:05 PM
+ */
+
+namespace Tests\Unit\Authorization;
+
+
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Collection;
+use Kiyon\Laravel\Authorization\Model\Permission;
+use Kiyon\Laravel\Authorization\Model\Role;
+use Tests\TestCase;
+
+class RoleTest extends TestCase
+{
+
+    use DatabaseMigrations;
+
+    /** @test */
+    public function 角色拥有权限()
+    {
+        $role = create(Role::class);
+        $this->assertInstanceOf(Collection::class, $role->permissions);
+    }
+
+    /** @test */
+    public function 角色属于用户()
+    {
+        $role = create(Role::class);
+        $this->assertInstanceOf(Collection::class, $role->users);
+    }
+
+    /** @test */
+    public function 角色属于组织()
+    {
+        $role = create(Role::class);
+        $this->assertInstanceOf(Collection::class, $role->organizations);
+    }
+
+    /** @test */
+    public function 可以为角色分配或者解除权限()
+    {
+        $role = create(Role::class);
+
+        $permission = create(Permission::class);
+
+        $role->attachPermissions($permission);
+
+        $this->assertCount(1, $role->permissions);
+
+        $role->detachPermissions($permission);
+        $this->assertCount(0, $role->fresh()->permissions);
+    }
+
+    /** @test */
+    public function 可以为角色分配或解除多个权限()
+    {
+        $role = create(Role::class);
+
+        $permissions = create(Permission::class, 5);
+
+        $role->attachPermissions($permissions);
+
+        $this->assertCount(5, $role->permissions);
+
+        $role->detachPermissions($permissions);
+        $this->assertCount(0, $role->fresh()->permissions);
+    }
+
+    /** @test */
+    public function 可以为角色设置新权限()
+    {
+        $role = create(Role::class);
+
+        $permissions = create(Permission::class, 5);
+
+        $role->attachPermissions($permissions);
+
+        $this->assertCount(5, $role->permissions);
+
+        $newPermissions = create(Permission::class, 3);
+
+        $role->syncPermissions($newPermissions);
+
+        $this->assertCount(3, $role->fresh()->permissions);
+    }
+}

@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use Kiyon\Laravel\Authentication\AuthenticationServiceProvider;
+use Kiyon\Laravel\Authorization\AuthorizationServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -13,9 +15,6 @@ abstract class TestCase extends BaseTestCase
     protected function setUp()
     {
         parent::setUp();
-
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
-        $this->withFactories(__DIR__ . '/database/factories');
     }
 
     /**
@@ -24,7 +23,10 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getPackageProviders($app)
     {
-        return [];
+        return [
+            AuthenticationServiceProvider::class,
+            AuthorizationServiceProvider::class,
+        ];
     }
 
     /**
@@ -42,6 +44,10 @@ abstract class TestCase extends BaseTestCase
             'database' => ':memory:',
             'prefix'   => '',
         ]);
+
+        $app['config']->set('app.timezone', 'RPC');
+        $app['config']->set('app.locale', 'zh_CN');
+        $app['config']->set('app.faker_locale', 'zh_CN');
     }
 
     /**

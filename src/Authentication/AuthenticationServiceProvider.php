@@ -1,10 +1,11 @@
 <?php
 
-namespace Kiyon\Laravel\Authorization;
+namespace Kiyon\Laravel\Authentication;
 
-use Kiyon\Laravel\Support\ServiceProvider;
+use Tymon\JWTAuth\Providers\LaravelServiceProvider as JWTServiceProvider;
+use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 
-class AuthenticationServiceProvider extends ServiceProvider
+class AuthenticationServiceProvider extends JWTServiceProvider
 {
 
     /**
@@ -14,8 +15,21 @@ class AuthenticationServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        parent::register();
+
         $this->registerEloquentFactoriesFrom(__DIR__ . '/database/factories');
 
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+    }
+
+    /**
+     * Register factories.
+     *
+     * @param  string $path
+     * @return void
+     */
+    protected function registerEloquentFactoriesFrom($path)
+    {
+        $this->app->make(EloquentFactory::class)->load($path);
     }
 }

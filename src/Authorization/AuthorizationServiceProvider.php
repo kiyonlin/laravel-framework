@@ -2,7 +2,6 @@
 
 namespace Kiyon\Laravel\Authorization;
 
-use Kiyon\Laravel\Console\MigrationCommand;
 use Kiyon\Laravel\Support\ServiceProvider;
 
 class AuthorizationServiceProvider extends ServiceProvider
@@ -31,12 +30,6 @@ class AuthorizationServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/config.php' => config_path('authorization.php'),
-        ]);
-
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                MigrationCommand::class,
-            ]);
-        }
+        ], 'config');
     }
 }

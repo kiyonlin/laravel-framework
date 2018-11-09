@@ -9,9 +9,18 @@
 namespace Kiyon\Laravel\Authorization\Model;
 
 
+use Kiyon\Laravel\Authorization\Contracts\AuthorizationRoleContract;
+use Kiyon\Laravel\Authorization\Traits\AuthorizableRole;
 use Kiyon\Laravel\Support\Model\BaseModel;
 
-class Role extends BaseModel
+class Role extends BaseModel implements AuthorizationRoleContract
 {
 
+    use AuthorizableRole;
+
+    protected $table = 'sys_roles';
+
+    protected $fillable = [
+        'key', 'display_name', 'description',
+    ];
 }

@@ -16,9 +16,11 @@ use Kiyon\Laravel\Authentication\Model\User;
 
 $factory->define(User::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+        'username'       => $faker->unique()->name,
+        'display_name'   => $faker->name,
+        'mobile'         => $faker->unique()->phoneNumber,
+        'email'          => $faker->unique()->email,
+        'password'       => '111111',
         'remember_token' => str_random(10),
     ];
 });

@@ -8,9 +8,23 @@
 
 namespace Kiyon\Laravel\Authorization\Model;
 
+use Kiyon\Laravel\Authorization\Contracts\AuthorizationPermissionContract;
+use Kiyon\Laravel\Authorization\Traits\AuthorizablePermission;
 use Kiyon\Laravel\Support\Model\BaseModel;
 
-class Permission extends BaseModel
+class Permission extends BaseModel implements AuthorizationPermissionContract
 {
+
+    use AuthorizablePermission;
+
+    protected $table = 'sys_permissions';
+
+    protected $fillable = [
+        'parent_id', 'key', 'display_name', 'description', 'level'
+    ];
+
+    protected $appends = [
+        'ability'
+    ];
 
 }
