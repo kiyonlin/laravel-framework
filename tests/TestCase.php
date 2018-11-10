@@ -4,6 +4,7 @@ namespace Tests;
 
 use Kiyon\Laravel\Authentication\AuthenticationServiceProvider;
 use Kiyon\Laravel\Authorization\AuthorizationServiceProvider;
+use Kiyon\Laravel\Foundation\Http\Kernel;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -48,6 +49,17 @@ abstract class TestCase extends BaseTestCase
         $app['config']->set('app.timezone', 'RPC');
         $app['config']->set('app.locale', 'zh_CN');
         $app['config']->set('app.faker_locale', 'zh_CN');
+    }
+
+    /**
+     * Resolve application Http Kernel implementation.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     * @return void
+     */
+    protected function resolveApplicationHttpKernel($app)
+    {
+        $app->singleton('Illuminate\Contracts\Console\Kernel', Kernel::class);
     }
 
     /**

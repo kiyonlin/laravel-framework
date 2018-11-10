@@ -11,6 +11,8 @@ namespace Tests\Unit\Authorization;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Collection;
+use Kiyon\Laravel\Authentication\Model\User;
+use Kiyon\Laravel\Authorization\Model\Organization;
 use Kiyon\Laravel\Authorization\Model\Permission;
 use Kiyon\Laravel\Authorization\Model\Role;
 use Tests\TestCase;
@@ -68,5 +70,28 @@ class PermissionTest extends TestCase
 
         $subSubPermission = create(Permission::class, ['key' => 'sub sub', 'parent_id' => $subPermission->id]);
         $this->assertEquals('parent.sub.sub sub', $subSubPermission->ability);
+    }
+
+    /** @test */
+    public function 权限删除后与之相关联的关系会自动解除()
+    {
+        $user = create(User::class);
+        $role = create(Role::class);
+        $org = create(Organization::class);
+        $permission = create(Permission::class);
+
+        $user->syncPermissions($permission);
+        $role->syncPermissions($permission);
+        $org->syncPermissions($permission);
+
+        $this->assertCount(1, $user->permissions);
+        $this->assertCount(1, $role->permissions);
+        $this->assertCount(1, $org->permissions);
+
+        $permission->delete();
+
+        $this->assertCount(0, $user->refresh()->permissions);
+        $this->assertCount(0, $role->refresh()->permissions);
+        $this->assertCount(0, $org->refresh()->permissions);
     }
 }

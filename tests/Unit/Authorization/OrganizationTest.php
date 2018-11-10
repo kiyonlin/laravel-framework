@@ -186,4 +186,27 @@ class OrganizationTest extends TestCase
 
         $this->assertCount(3, $org->fresh()->roles);
     }
+
+    /** @test */
+    public function 组织删除后与之相关联的关系会自动解除()
+    {
+        $org = create(Organization::class);
+        $role = create(Role::class);
+        $user = create(User::class);
+        $permission = create(Permission::class);
+
+        $org->syncUsers($org);
+        $org->syncRoles($role);
+        $org->syncPermissions($permission);
+
+        $this->assertCount(1, $user->organizations);
+        $this->assertCount(1, $org->roles);
+        $this->assertCount(1, $org->permissions);
+
+        $org->delete();
+
+        $this->assertCount(0, $user->refresh()->organizations);
+        $this->assertCount(0, $role->refresh()->organizations);
+        $this->assertCount(0, $permission->refresh()->organizations);
+    }
 }

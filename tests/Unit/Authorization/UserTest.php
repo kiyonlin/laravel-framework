@@ -12,6 +12,8 @@ namespace Tests\Unit\Authorization;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Collection;
 use Kiyon\Laravel\Authentication\Model\User;
+use Kiyon\Laravel\Authentication\Repository\UserRepository;
+use Kiyon\Laravel\Authentication\Service\UserService;
 use Kiyon\Laravel\Authorization\Model\Organization;
 use Kiyon\Laravel\Authorization\Model\Permission;
 use Kiyon\Laravel\Authorization\Model\Role;
@@ -188,20 +190,137 @@ class UserTest extends TestCase
     }
 
     /** @test */
+    public function 用户删除后与之相关联的关系会自动解除()
+    {
+        $user = create(User::class);
+        $org = create(Organization::class);
+        $role = create(Role::class);
+        $permission = create(Permission::class);
+
+        $user->syncOrganizations($org);
+        $user->syncRoles($role);
+        $user->syncPermissions($permission);
+
+        $this->assertCount(1, $user->organizations);
+        $this->assertCount(1, $user->roles);
+        $this->assertCount(1, $user->permissions);
+
+        $user->delete();
+
+        $this->assertCount(0, $org->refresh()->users);
+        $this->assertCount(0, $role->refresh()->users);
+        $this->assertCount(0, $permission->refresh()->users);
+    }
+
+    /** @test */
+    public function 获取用户所有权限()
+    {
+        $user = create(User::class);
+
+        list($permissions) = $this->setPermissions($user);
+
+        /** @var UserRepository $repo */
+        $repo = resolve(UserRepository::class);
+        $actualPermissions = $repo->getAllPermissions($user);
+
+        $this->assertEquals($permissions->sortBy('id')->pluck('id')->toArray(),
+            $actualPermissions->sortBy('id')->pluck('id')->toArray());
+    }
+
+    /** @test */
     public function 获取用户所有能力()
     {
         $user = create(User::class);
 
-        $user->syncPermissions(create(Permission::class, ['key' => 'permission']));
+        list($permissions) = $this->setPermissions($user);
+
+        $abilities = $permissions->sortBy('id')->pluck('ability')->toArray();
+
+        /** @var UserService $service */
+        $service = resolve(UserService::class);
+        $actualAbilities = $service->getAllAbilities($user);
+
+        $this->assertEquals($abilities, $actualAbilities);
+    }
+
+    /** @test */
+    public function 获取NgZorro用户权限树()
+    {
+        $user = create(User::class);
+
+        list($permissions, $permissionTree) = $this->setPermissions($user);
+
+        /** @var UserService $service */
+        $service = resolve(UserService::class);
+        $actualPermissionTree = $service->getNgZorroPermissionTree($user);
+
+        $this->assertSame($permissionTree, $actualPermissionTree);
+    }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    private function setPermissions(User $user)
+    {
+        $permissions = collect([]);
+
+        $permissionTree = [];
+
+        $userPermission = create(Permission::class, ['key' => 'user'], 1);
+        $userSubPermission = create(Permission::class, ['key' => 'userSub', 'parent_id' => $userPermission[0]->id], 1);
+        $user->syncPermissions($userPermission->merge($userSubPermission));
+        $permissions = $permissions->merge($userPermission);
+        $permissions = $permissions->merge($userSubPermission);
+        $permissionTree[] = [
+            'title'    => $userPermission[0]->display_name,
+            'key'      => $userPermission[0]->key,
+            'children' => [
+                [
+                    'title'  => $userSubPermission[0]->display_name,
+                    'key'    => $userSubPermission[0]->key,
+                    'isLeaf' => true
+                ]
+            ]
+        ];
 
         $role = create(Role::class);
-        $role->syncPermissions(create(Permission::class, ['key' => 'role']));
+        $rolePermission = create(Permission::class, ['key' => 'role'], 1);
+        $role->syncPermissions($rolePermission);
         $user->syncRoles($role);
+        $permissions = $permissions->merge($rolePermission);
+        $permissionTree[] = [
+            'title'  => $rolePermission[0]->display_name,
+            'key'    => $rolePermission[0]->key,
+            'isLeaf' => true
+        ];
 
         $org = create(Organization::class);
-        $org->syncPermissions(create(Permission::class, ['key' => 'org']));
+        $orgRole = create(Role::class);
+        $orgRolePermission = create(Permission::class, ['key' => 'orgRole'], 1);
+        $orgRole->syncPermissions($orgRolePermission);
+        $org->syncRoles($orgRole);
+        $orgPermission = create(Permission::class, ['key' => 'org'], 1);
+        $org->syncPermissions($orgPermission);
         $user->syncOrganizations($org);
+        $permissions = $permissions->merge($orgRolePermission);
+        $permissions = $permissions->merge($orgPermission);
+        $permissionTree[] = [
+            'title'  => $orgRolePermission[0]->display_name,
+            'key'    => $orgRolePermission[0]->key,
+            'isLeaf' => true
+        ];
+        $permissionTree[] = [
+            'title'  => $orgPermission[0]->display_name,
+            'key'    => $orgPermission[0]->key,
+            'isLeaf' => true
+        ];
 
-        $this->assertEquals(['permission', 'role', 'org'], $user->getAllAbilities());
+        // 制造重复
+        $user->attachPermissions($rolePermission);
+        $user->attachPermissions($orgRolePermission);
+        $user->attachPermissions($orgPermission);
+
+        return [$permissions, $permissionTree];
     }
 }

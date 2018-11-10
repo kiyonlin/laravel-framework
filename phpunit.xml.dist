@@ -19,11 +19,17 @@
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./app</directory>
+            <directory suffix=".php">./src</directory>
+            <exclude>
+                <directory suffix="Factory.php">./src</directory>
+                <directory suffix="config.php">./src</directory>
+            </exclude>
         </whitelist>
     </filter>
     <php>
         <env name="APP_ENV" value="testing"/>
+        <env name="APP_KEY" value="base64:KlV/WxG2c/lBRdfRkDC4Pf8vjVOUq19bfECT5bnO7As="/>
+        <env name="JWT_SECRET" value="base64:KlV/WxG2c/lBRdfRkDC4Pf8vjVOUq19bfECT5bnO7As="/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>

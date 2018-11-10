@@ -11,6 +11,8 @@ namespace Tests\Unit\Authorization;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Collection;
+use Kiyon\Laravel\Authentication\Model\User;
+use Kiyon\Laravel\Authorization\Model\Organization;
 use Kiyon\Laravel\Authorization\Model\Permission;
 use Kiyon\Laravel\Authorization\Model\Role;
 use Tests\TestCase;
@@ -87,5 +89,28 @@ class RoleTest extends TestCase
         $role->syncPermissions($newPermissions);
 
         $this->assertCount(3, $role->fresh()->permissions);
+    }
+
+    /** @test */
+    public function 角色删除后与之相关联的关系会自动解除()
+    {
+        $role = create(Role::class);
+        $user = create(User::class);
+        $org = create(Organization::class);
+        $permission = create(Permission::class);
+
+        $user->syncRoles($role);
+        $org->syncRoles($role);
+        $role->syncPermissions($permission);
+
+        $this->assertCount(1, $user->roles);
+        $this->assertCount(1, $org->roles);
+        $this->assertCount(1, $role->permissions);
+
+        $role->delete();
+
+        $this->assertCount(0, $user->refresh()->roles);
+        $this->assertCount(0, $org->refresh()->roles);
+        $this->assertCount(0, $permission->refresh()->roles);
     }
 }

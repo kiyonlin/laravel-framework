@@ -44,23 +44,6 @@ trait AuthorizableUser
     }
 
     /**
-     * 获取用户的所有能力
-     * @return array
-     */
-    public function getAllAbilities()
-    {
-        $abilities = $this->permissions->pluck('ability')->toArray();
-
-        if ($roles = $this->roles) {
-            foreach ($roles as $role) {
-                $abilities = array_merge($abilities, $role->permissions->pluck('ability')->toArray());
-            }
-        }
-
-        return $abilities;
-    }
-
-    /**
      * Check if user has abilities.
      *
      * @param string|array $abilities ability string or array of abilities.
@@ -110,7 +93,7 @@ trait AuthorizableUser
     {
         parent::boot();
 
-        static::deleting(function ($user) {
+        static::deleting(function (User $user) {
             if (! method_exists(User::class, 'bootSoftDeletingTrait')) {
                 $user->roles()->detach();
                 $user->organizations()->detach();
