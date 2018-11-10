@@ -21,6 +21,7 @@ $factory->define(User::class, function (Faker $faker) {
         'mobile'         => $faker->unique()->phoneNumber,
         'email'          => $faker->unique()->email,
         'password'       => '111111',
+        'locked'         => false,
         'remember_token' => str_random(10),
     ];
 });

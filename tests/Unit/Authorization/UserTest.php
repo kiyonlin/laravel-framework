@@ -8,8 +8,6 @@
 
 namespace Tests\Unit\Authorization;
 
-
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Collection;
 use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Authentication\Repository\UserRepository;
@@ -21,8 +19,6 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-
-    use DatabaseMigrations;
 
     /** @test */
     public function 用户拥有权限()

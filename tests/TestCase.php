@@ -2,14 +2,18 @@
 
 namespace Tests;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Kiyon\Laravel\Authentication\AuthenticationServiceProvider;
 use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Authorization\AuthorizationServiceProvider;
-use Kiyon\Laravel\Foundation\Http\Kernel;
+use Kiyon\Laravel\Foundation\Http\Kernel as HttpKernel;
+use Kiyon\Laravel\Console\Kernel as ConsoleKernel;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
+
+    use RefreshDatabase;
 
     /**
      * Setup the test environment.
@@ -57,14 +61,14 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Resolve application Http Kernel implementation.
+     * Resolve application HTTP Kernel implementation.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param  \Illuminate\Foundation\Application $app
      * @return void
      */
     protected function resolveApplicationHttpKernel($app)
     {
-        $app->singleton('Illuminate\Contracts\Console\Kernel', Kernel::class);
+        $app->singleton('Illuminate\Contracts\Http\Kernel', HttpKernel::class);
     }
 
     /**

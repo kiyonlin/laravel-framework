@@ -21,6 +21,7 @@ class CreateSysUsersTable extends Migration
             $table->string('mobile')->unique();
             $table->string('email')->nullable()->unique();
             $table->string('password');
+            $table->boolean('locked')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

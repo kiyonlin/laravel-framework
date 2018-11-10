@@ -9,7 +9,6 @@
 namespace Tests\Unit\Authorization;
 
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Collection;
 use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Authorization\Model\Organization;
@@ -19,8 +18,6 @@ use Tests\TestCase;
 
 class OrganizationTest extends TestCase
 {
-
-    use DatabaseMigrations;
 
     /** @test */
     public function 组织拥有权限()

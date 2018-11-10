@@ -291,12 +291,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "4528502420d7e3bbd85e3a819860a03c8b8b7b55"
+                "reference": "66c248eb3cc2959ef6fe9236c1287b1604525d0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/4528502420d7e3bbd85e3a819860a03c8b8b7b55",
-                "reference": "4528502420d7e3bbd85e3a819860a03c8b8b7b55",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/66c248eb3cc2959ef6fe9236c1287b1604525d0c",
+                "reference": "66c248eb3cc2959ef6fe9236c1287b1604525d0c",
                 "shasum": ""
             },
             "require": {
@@ -427,7 +427,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2018-11-08T17:37:41+00:00"
+            "time": "2018-11-09T14:11:23+00:00"
         },
         {
             "name": "lcobucci/jwt",
