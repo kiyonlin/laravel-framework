@@ -11,6 +11,7 @@ namespace Kiyon\Laravel\Authentication\Service;
 use Illuminate\Support\Collection;
 use Kiyon\Laravel\Authentication\Contracts\UserRepositoryContract;
 use Kiyon\Laravel\Authentication\Model\User;
+use Kiyon\Laravel\Support\Constant;
 
 class UserService
 {
@@ -67,8 +68,7 @@ class UserService
     public function can(User $user, $abilities)
     {
         $roles = $user->roles->pluck('key')->toArray();
-        // TODO 用常量代替字符串
-        if (in_array('sys_admin', $roles)) {
+        if (in_array(Constant::ROLE_SYSTEM_ADMIN, $roles)) {
             return true;
         }
 

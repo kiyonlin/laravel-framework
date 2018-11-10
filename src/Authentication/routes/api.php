@@ -13,12 +13,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// 用户认证相关
 Route::namespace('Kiyon\Laravel\Authentication\Controller')
     ->prefix('auth')
     ->name('auth.')
     ->group(function () {
-        Route::post('/', 'AuthController@login')
+        Route::post('/login', 'AuthController@login')
             ->name('login');
+
+        Route::get('/logout', 'AuthController@logout')
+            ->middleware('auth')
+            ->name('logout');
+
+        Route::get('/refresh', 'AuthController@refresh')
+            ->middleware('auth')
+            ->name('refresh');
+
+        Route::get('/info', 'AuthController@info')
+            ->middleware('auth')
+            ->name('info');
     });
 
 

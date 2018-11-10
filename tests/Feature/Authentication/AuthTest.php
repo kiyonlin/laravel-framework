@@ -17,25 +17,102 @@ class AuthTest extends TestCase
     /** @test */
     public function 用户登录失败()
     {
+        $this->withExceptionHandling();
+
         $this->postJson(route('auth.login'), ['username' => 'username', 'password' => 'password'])
             ->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     /** @test */
+    public function 用户被锁定()
+    {
+        // $this->withExceptionHandling();
+
+        $user = create(User::class, ['locked' => true]);
+
+        $this->postJson(route('auth.login'),
+            ['username' => $user->mobile, 'password' => '111111'])
+            ->assertStatus(Response::HTTP_LOCKED);
+    }
+
+
+    /** @test */
     public function 用户使用手机登录()
     {
-        $jwt = m::mock(JWT::class);
-        $provider = m::mock(EloquentUserProvider::class);
-        $guard = m::mock(JWTGuard::class, [$jwt, $provider, Request::create('/auth', 'POST')]);
-
-        $guard->shouldReceive('attempt')->once()->andReturn('token');
-
         $user = create(User::class);
 
-        $resp = $this->postJson(route('auth.login'), ['username' => $user->mobile, 'password' => '111111'])
+        $resp = $this->postJson(route('auth.login'),
+            ['username' => $user->mobile, 'password' => '111111'])
             ->assertStatus(Response::HTTP_OK)
             ->json();
 
-        dd($resp);
+        $this->assertArrayHasKey('token', $resp);
+    }
+
+    /** @test */
+    public function 用户使用email登录()
+    {
+        $user = create(User::class);
+
+        $resp = $this->postJson(route('auth.login'),
+            ['username' => $user->email, 'password' => '111111'])
+            ->assertStatus(Response::HTTP_OK)
+            ->json();
+
+        $this->assertArrayHasKey('token', $resp);
+    }
+
+    /** @test */
+    public function 用户使用用户名登录()
+    {
+        $user = create(User::class);
+
+        $resp = $this->postJson(route('auth.login'),
+            ['username' => $user->username, 'password' => '111111'])
+            ->assertStatus(Response::HTTP_OK)
+            ->json();
+
+        $this->assertArrayHasKey('token', $resp);
+    }
+
+    /** @test */
+    public function 注销用户()
+    {
+        $user = create(User::class);
+        $token = auth()->tokenById($user->id);
+
+        $this->getJson(route('auth.logout'),
+            ['Authorization' => "Bearer {$token}"])
+            ->assertStatus(Response::HTTP_OK);
+
+        $this->assertNull(auth()->user());
+    }
+
+    /** @test */
+    public function 刷新token()
+    {
+        $user = create(User::class);
+        $token = auth()->tokenById($user->id);
+
+        $resp = $this->getJson(route('auth.refresh'),
+            ['Authorization' => "Bearer {$token}"])
+            ->assertStatus(Response::HTTP_OK)
+            ->json();
+
+        $this->assertNotEquals($resp['token'], $token);
+    }
+
+    /** @test */
+    public function 获取用户信息()
+    {
+        $user = create(User::class);
+        $token = auth()->tokenById($user->id);
+
+        $resp = $this->getJson(route('auth.info'),
+            ['Authorization' => "Bearer {$token}"])
+            ->assertStatus(Response::HTTP_OK)
+            ->json();
+
+        $this->assertEquals($resp['display_name'], $user->display_name);
     }
 }

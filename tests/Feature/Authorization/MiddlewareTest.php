@@ -19,6 +19,7 @@ class MiddlewareTest extends TestCase
     public function 权限中间件()
     {
         $user = create(User::class);
-        dd($user);
+        $this->assertTrue(true);
+        // dd($user);
     }
 }

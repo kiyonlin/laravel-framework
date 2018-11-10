@@ -8,6 +8,7 @@ use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Authorization\AuthorizationServiceProvider;
 use Kiyon\Laravel\Foundation\Http\Kernel as HttpKernel;
 use Kiyon\Laravel\Console\Kernel as ConsoleKernel;
+use Kiyon\Laravel\Menu\MenuServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -21,6 +22,8 @@ abstract class TestCase extends BaseTestCase
     protected function setUp()
     {
         parent::setUp();
+
+        $this->withoutExceptionHandling();
     }
 
     /**
@@ -32,6 +35,7 @@ abstract class TestCase extends BaseTestCase
         return [
             AuthenticationServiceProvider::class,
             AuthorizationServiceProvider::class,
+            MenuServiceProvider::class,
         ];
     }
 

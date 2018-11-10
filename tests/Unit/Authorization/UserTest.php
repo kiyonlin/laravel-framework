@@ -15,6 +15,7 @@ use Kiyon\Laravel\Authentication\Service\UserService;
 use Kiyon\Laravel\Authorization\Model\Organization;
 use Kiyon\Laravel\Authorization\Model\Permission;
 use Kiyon\Laravel\Authorization\Model\Role;
+use Kiyon\Laravel\Support\Constant;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -277,8 +278,7 @@ class UserTest extends TestCase
     public function 系统管理员无视权限可以做任何操作()
     {
         $user = create(User::class);
-        // TODO 用常量代替字符串
-        $role = create(Role::class, ['key' => 'sys_admin']);
+        $role = create(Role::class, ['key' => Constant::ROLE_SYSTEM_ADMIN]);
         $user->syncRoles($role);
 
         /** @var UserService $service */

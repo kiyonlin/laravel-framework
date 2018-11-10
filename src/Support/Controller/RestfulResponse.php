@@ -23,7 +23,7 @@ trait RestfulResponse
      * @param array $header
      * @return mixed
      */
-    public function respond($data, $header = [])
+    public function respond($data = [], $header = [])
     {
         return Response::json($data, $this->getStatusCode(), $header);
     }
@@ -41,7 +41,7 @@ trait RestfulResponse
                 'message'     => $message,
                 'status_code' => $this->getStatusCode()
             ]
-        ], $this->getStatusCode());
+        ]);
     }
 
     /**
@@ -73,8 +73,6 @@ trait RestfulResponse
     /**
      * 资源删除成功
      *
-     * @param $data
-     * @param array $header
      * @return mixed
      */
     public function respondNoContent()
@@ -128,6 +126,18 @@ trait RestfulResponse
     public function respondForbidden($message = 'Forbidden')
     {
         return $this->setStatusCode(SymfonyResponse::HTTP_FORBIDDEN)
+            ->respondWithError($message);
+    }
+
+    /**
+     * 响应锁定错误
+     *
+     * @param string $message
+     * @return mixed
+     */
+    public function respondLocked($message = 'Locked')
+    {
+        return $this->setStatusCode(SymfonyResponse::HTTP_LOCKED)
             ->respondWithError($message);
     }
 
