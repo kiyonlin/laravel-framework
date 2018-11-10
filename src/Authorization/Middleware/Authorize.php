@@ -3,12 +3,16 @@
 namespace Kiyon\Laravel\Authorization\Middleware;
 
 use Closure;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use Kiyon\Laravel\Authentication\Model\User;
+use Kiyon\Laravel\Authentication\Service\UserService;
 
 class Authorize
 {
+
     /**
      * The authentication factory instance.
      *
@@ -26,8 +30,8 @@ class Authorize
     /**
      * Create a new middleware instance.
      *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
-     * @param  \Illuminate\Contracts\Auth\Access\Gate  $gate
+     * @param  \Illuminate\Contracts\Auth\Factory $auth
+     * @param  \Illuminate\Contracts\Auth\Access\Gate $gate
      * @return void
      */
     public function __construct(Auth $auth, Gate $gate)
@@ -38,9 +42,9 @@ class Authorize
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string  $ability
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Closure $next
+     * @param  string $ability
      * @return mixed
      *
      * @throws \Illuminate\Auth\AuthenticationException
@@ -48,7 +52,14 @@ class Authorize
      */
     public function handle($request, Closure $next, $ability)
     {
-        $this->auth->authenticate();
+        $user = $this->auth->user();
+
+        /** @var UserService $service */
+        $service = app(UserService::class);
+
+        if (! $service->can($user, $ability)) {
+            throw new AuthorizationException();
+        }
 
         return $next($request);
     }
@@ -56,8 +67,8 @@ class Authorize
     /**
      * Get the arguments parameter for the gate.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  array|null  $models
+     * @param  \Illuminate\Http\Request $request
+     * @param  array|null $models
      * @return array|string|\Illuminate\Database\Eloquent\Model
      */
     protected function getGateArguments($request, $models)
@@ -74,8 +85,8 @@ class Authorize
     /**
      * Get the model to authorize.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $model
+     * @param  \Illuminate\Http\Request $request
+     * @param  string $model
      * @return \Illuminate\Database\Eloquent\Model|string
      */
     protected function getModel($request, $model)
@@ -86,7 +97,7 @@ class Authorize
     /**
      * Checks if the given string looks like a fully qualified class name.
      *
-     * @param  string  $value
+     * @param  string $value
      * @return bool
      */
     protected function isClassName($value)

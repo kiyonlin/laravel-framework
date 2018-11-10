@@ -12,6 +12,7 @@ namespace Kiyon\Laravel\Authorization\Service;
 use Illuminate\Support\Collection;
 use Kiyon\Laravel\Authorization\Contracts\GrantPermissionContract;
 use Kiyon\Laravel\Authorization\Model\Permission;
+use Kiyon\Laravel\Support\Constant;
 
 class PermissionService
 {
@@ -54,7 +55,8 @@ class PermissionService
      * @param int $parent_id
      * @return array
      */
-    private function generateNgZorroPermissionTree(Collection $permissions, $parent_id = 0)
+    private function generateNgZorroPermissionTree(
+        Collection $permissions, $parent_id = Constant::PERMISSION_ROOT_ID)
     {
         $root = [];
 
@@ -77,6 +79,8 @@ class PermissionService
     }
 
     /**
+     * 过滤给定权限id的子权限
+     *
      * @param Collection $permissions
      * @param int $parent_id
      * @return Collection

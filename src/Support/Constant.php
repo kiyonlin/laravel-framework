@@ -11,6 +11,7 @@ namespace Kiyon\Laravel\Support;
 
 class Constant
 {
+    const PERMISSION_ROOT_ID = 0;
 
     const ROLE_MEMBER = 'member';
     const ROLE_STAFF = 'staff';
