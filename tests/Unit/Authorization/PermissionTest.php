@@ -14,6 +14,7 @@ use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Authorization\Model\Organization;
 use Kiyon\Laravel\Authorization\Model\Permission;
 use Kiyon\Laravel\Authorization\Model\Role;
+use Kiyon\Laravel\Authorization\Service\PermissionService;
 use Tests\TestCase;
 
 class PermissionTest extends TestCase
@@ -90,5 +91,71 @@ class PermissionTest extends TestCase
         $this->assertCount(0, $user->refresh()->permissions);
         $this->assertCount(0, $role->refresh()->permissions);
         $this->assertCount(0, $org->refresh()->permissions);
+    }
+
+    /** @test */
+    public function 获取NgZorro格式的权限树()
+    {
+        $permissionTree = [];
+
+        $permissions = create(Permission::class, 3);
+
+        foreach ($permissions as $permission) {
+            $permissionTree[] = [
+                'title'  => $permission->display_name,
+                'key'    => $permission->key,
+                'isLeaf' => true
+            ];
+        }
+
+        $parentPermission = create(Permission::class);
+        $subPermissions = create(Permission::class, ['parent_id' => $parentPermission->id], 2);
+        $subNode = [];
+
+        foreach ($subPermissions as $permission) {
+            $subNode[] = [
+                'title'  => $permission->display_name,
+                'key'    => $permission->key,
+                'isLeaf' => true
+            ];
+        }
+
+        $permissionTree[] = [
+            'title'    => $parentPermission->display_name,
+            'key'      => $parentPermission->key,
+            'children' => $subNode
+        ];
+
+        /** @var PermissionService $service */
+        $service = app(PermissionService::class);
+
+        $actualPermissionTree = $service->getNgZorroPermissionTree();
+
+        $this->assertEquals($permissionTree, $actualPermissionTree);
+    }
+
+    /** @test */
+    public function 权限拥有者可以获取所有权限key来标识权限树上已拥有的权限()
+    {
+        /** @var PermissionService $service */
+        $service = app(PermissionService::class);
+
+        $permissions = create(Permission::class, 5);
+        $keys = $permissions->pluck('key')->toArray();
+
+        $user = create(User::class);
+        $user->syncPermissions($permissions);
+
+        $this->assertEquals($keys, $service->getNgZorroCheckedKeys($user));
+
+        $role = create(Role::class);
+        $role->syncPermissions($permissions);
+
+        $this->assertEquals($keys, $service->getNgZorroCheckedKeys($role));
+
+        $org = create(Organization::class);
+        $org->syncPermissions($permissions);
+
+        $this->assertEquals($keys, $service->getNgZorroCheckedKeys($org));
     }
 }

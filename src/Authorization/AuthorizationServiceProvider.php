@@ -19,6 +19,8 @@ class AuthorizationServiceProvider extends ServiceProvider
         $this->registerEloquentFactoriesFrom(__DIR__ . '/database/factories');
 
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+
+        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
     }
 
     /**

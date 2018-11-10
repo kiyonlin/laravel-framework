@@ -85,4 +85,19 @@ abstract class TestCase extends BaseTestCase
     {
         return 'Asia/shanghai';
     }
+
+    /**
+     * 登录用户
+     *
+     * @param User|null $user
+     * @return $this
+     */
+    protected function signIn(User $user = null)
+    {
+        $user = $user ?: create(User::class);
+
+        auth()->login($user);
+
+        return $this;
+    }
 }

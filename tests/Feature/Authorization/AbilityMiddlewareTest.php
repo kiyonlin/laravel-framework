@@ -12,7 +12,7 @@ namespace Tests\Feature\Authorization;
 use Kiyon\Laravel\Authentication\Model\User;
 use Tests\TestCase;
 
-class MiddlewareTest extends TestCase
+class AbilityMiddlewareTest extends TestCase
 {
 
     /** @test */
