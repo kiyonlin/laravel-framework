@@ -2,7 +2,6 @@
 
 namespace Kiyon\Laravel\Authorization\Traits;
 
-use Illuminate\Database\Eloquent\Model;
 use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Authorization\Model\Organization;
 use Kiyon\Laravel\Authorization\Model\Permission;
@@ -95,7 +94,7 @@ trait AuthorizablePermission
     {
         parent::boot();
 
-        static::deleting(function (Model $permission) {
+        static::deleting(function (Permission $permission) {
             if (! method_exists(Permission::class, 'bootSoftDeletingTrait')) {
                 $permission->users()->detach();
                 $permission->roles()->detach();
@@ -105,7 +104,7 @@ trait AuthorizablePermission
             return true;
         });
 
-        static::saving(function (Model $permission) {
+        static::saving(function (Permission $permission) {
             if ($permission->parent_id && $permission->level == 1) {
                 $parentPermission = self::find($permission->parent_id);
                 $permission->level = $parentPermission->level + 1;
@@ -117,7 +116,7 @@ trait AuthorizablePermission
             return true;
         });
 
-        static::saved(function (Model $permission) {
+        static::saved(function (Permission $permission) {
             if (array_get($permission->getDirty(), 'parent_id') !== null) {
                 self::updateSubPermissions($permission);
             }

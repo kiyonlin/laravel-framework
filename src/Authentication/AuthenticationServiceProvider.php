@@ -2,6 +2,8 @@
 
 namespace Kiyon\Laravel\Authentication;
 
+use Kiyon\Laravel\Authentication\Contracts\UserRepositoryContract;
+use Kiyon\Laravel\Authentication\Repository\UserRepository;
 use Tymon\JWTAuth\Providers\LaravelServiceProvider as JWTServiceProvider;
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 
@@ -20,6 +22,15 @@ class AuthenticationServiceProvider extends JWTServiceProvider
         $this->registerEloquentFactoriesFrom(__DIR__ . '/database/factories');
 
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+
+        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+
+        $this->app->bind(UserRepositoryContract::class, UserRepository::class);
+    }
+
+    public function boot()
+    {
+        parent::boot();
     }
 
     /**

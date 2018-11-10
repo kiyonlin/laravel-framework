@@ -4,6 +4,7 @@ namespace Kiyon\Laravel\Authentication\Model;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Kiyon\Laravel\Authorization\Contracts\AuthorizationUserContract;
 use Kiyon\Laravel\Authorization\Traits\AuthorizableUser;
 use Kiyon\Laravel\Support\Model\BaseModel;
@@ -18,12 +19,22 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizationUs
     protected $table = 'sys_users';
 
     protected $fillable = [
-        'name', 'email', 'password',
+        'username', 'display_name', 'mobile', 'email', 'password', 'locked', 'remember_token'
     ];
 
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * 自动加密密码
+     *
+     * @param $value
+     */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
 
     /**
      * Rest omitted for brevity

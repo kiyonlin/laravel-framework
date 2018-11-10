@@ -54,11 +54,11 @@ trait AuthorizableOrganization
     {
         parent::boot();
 
-        static::deleting(function ($organization) {
+        static::deleting(function (Organization $organization) {
             if (! method_exists(Organization::class, 'bootSoftDeletingTrait')) {
                 $organization->users()->detach();
                 $organization->roles()->detach();
-                $organization->permissons()->detach();
+                $organization->permissions()->detach();
             }
 
             return true;

@@ -53,10 +53,10 @@ trait AuthorizableRole
     {
         parent::boot();
 
-        static::deleting(function ($role) {
+        static::deleting(function (Role $role) {
             if (! method_exists(Role::class, 'bootSoftDeletingTrait')) {
                 $role->users()->detach();
-                $role->orgnizations()->detach();
+                $role->organizations()->detach();
                 $role->permissions()->detach();
             }
 

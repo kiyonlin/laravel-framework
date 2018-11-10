@@ -2,13 +2,18 @@
 
 namespace Tests;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Kiyon\Laravel\Authentication\AuthenticationServiceProvider;
+use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Authorization\AuthorizationServiceProvider;
-use Kiyon\Laravel\Menu\MenuServiceProvider;
+use Kiyon\Laravel\Foundation\Http\Kernel as HttpKernel;
+use Kiyon\Laravel\Console\Kernel as ConsoleKernel;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
+
+    use RefreshDatabase;
 
     /**
      * Setup the test environment.
@@ -27,7 +32,6 @@ abstract class TestCase extends BaseTestCase
         return [
             AuthenticationServiceProvider::class,
             AuthorizationServiceProvider::class,
-            MenuServiceProvider::class
         ];
     }
 
@@ -50,6 +54,21 @@ abstract class TestCase extends BaseTestCase
         $app['config']->set('app.timezone', 'RPC');
         $app['config']->set('app.locale', 'zh_CN');
         $app['config']->set('app.faker_locale', 'zh_CN');
+
+        $app['config']->set('auth.defaults.guard', 'api');
+        $app['config']->set('auth.guards.api.driver', 'jwt');
+        $app['config']->set('auth.providers.users.model', User::class);
+    }
+
+    /**
+     * Resolve application HTTP Kernel implementation.
+     *
+     * @param  \Illuminate\Foundation\Application $app
+     * @return void
+     */
+    protected function resolveApplicationHttpKernel($app)
+    {
+        $app->singleton('Illuminate\Contracts\Http\Kernel', HttpKernel::class);
     }
 
     /**
