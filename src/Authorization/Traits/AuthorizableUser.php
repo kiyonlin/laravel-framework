@@ -44,45 +44,6 @@ trait AuthorizableUser
     }
 
     /**
-     * Check if user has abilities.
-     *
-     * @param string|array $abilities ability string or array of abilities.
-     * @param bool $requireAll All abilities in the array are required.
-     *
-     * @return bool
-     */
-    public function can($abilities, $requireAll = false)
-    {
-        if (is_array($abilities)) {
-            foreach ($abilities as $permName) {
-                $hasPerm = $this->can($permName);
-
-                if ($hasPerm && ! $requireAll) {
-                    return true;
-                } elseif (! $hasPerm && $requireAll) {
-                    return false;
-                }
-            }
-
-            // If we've made it this far and $requireAll is FALSE, then NONE of the perms were found
-            // If we've made it this far and $requireAll is TRUE, then ALL of the perms were found.
-            // Return the value of $requireAll;
-            return $requireAll;
-        } else {
-            foreach ($this->roles as $role) {
-                // Validate against the Permission table
-                foreach ($role->perms as $perm) {
-                    if ($perm->name == $abilities) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Boot the user model
      * Attach event listener to remove the many-to-many records when trying to delete
      * Will NOT delete any records if the user model uses soft deletes.

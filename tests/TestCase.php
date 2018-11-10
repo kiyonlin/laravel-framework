@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Kiyon\Laravel\Authentication\AuthenticationServiceProvider;
+use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Authorization\AuthorizationServiceProvider;
 use Kiyon\Laravel\Foundation\Http\Kernel;
 use Orchestra\Testbench\TestCase as BaseTestCase;
@@ -49,6 +50,10 @@ abstract class TestCase extends BaseTestCase
         $app['config']->set('app.timezone', 'RPC');
         $app['config']->set('app.locale', 'zh_CN');
         $app['config']->set('app.faker_locale', 'zh_CN');
+
+        $app['config']->set('auth.defaults.guard', 'api');
+        $app['config']->set('auth.guards.api.driver', 'jwt');
+        $app['config']->set('auth.providers.users.model', User::class);
     }
 
     /**

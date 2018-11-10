@@ -58,6 +58,32 @@ class UserService
     }
 
     /**
+     * 判断用户是否有能力
+     *
+     * @param User $user
+     * @param array|string $abilities
+     * @return bool
+     */
+    public function can(User $user, $abilities)
+    {
+        $roles = $user->roles->pluck('key')->toArray();
+        // TODO 用常量代替字符串
+        if (in_array('sys_admin', $roles)) {
+            return true;
+        }
+
+        $ownAbilities = $this->getAllAbilities($user);
+
+        foreach ((array) $abilities as $ability) {
+            if (! in_array($ability, $ownAbilities)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * 生成 NgZorro 结构的权限树
      *
      * @param Collection $permissions

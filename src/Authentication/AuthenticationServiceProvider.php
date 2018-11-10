@@ -19,11 +19,26 @@ class AuthenticationServiceProvider extends JWTServiceProvider
     {
         parent::register();
 
+        // $this->mergeConfigFrom(__DIR__ . '/config.php', 'auth');
+
+        $this->mergeConfigFrom(__DIR__ . '/jwt-config.php', 'auth');
+
         $this->registerEloquentFactoriesFrom(__DIR__ . '/database/factories');
 
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
         $this->app->bind(UserRepositoryContract::class, UserRepository::class);
+    }
+
+    public function boot()
+    {
+        // $this->publishes([
+        //     __DIR__ . '/config.php' => config_path('auth.php'),
+        // ], 'config');
+
+        $this->publishes([
+            __DIR__ . '/jwt-config.php' => config_path('jwt.php'),
+        ], 'config');
     }
 
     /**

@@ -257,6 +257,47 @@ class UserTest extends TestCase
         $this->assertSame($permissionTree, $actualPermissionTree);
     }
 
+    /** @test */
+    public function 判断用户是否拥有权限()
+    {
+        $user = create(User::class);
+
+        $this->setPermissions($user);
+
+        /** @var UserService $service */
+        $service = resolve(UserService::class);
+
+        $canDoUser = $service->can($user, 'user');
+        $this->assertTrue($canDoUser);
+
+        $canDoRoleAndOrg = $service->can($user, ['role', 'org']);
+        $this->assertTrue($canDoRoleAndOrg);
+
+        $cannotDoExist = $service->can($user, 'not exist');
+        $this->assertFalse($cannotDoExist);
+    }
+
+    /** @test */
+    public function 系统管理员无视权限可以做任何操作()
+    {
+        $user = create(User::class);
+        // TODO 用常量代替字符串
+        $role = create(Role::class, ['key' => 'sys_admin']);
+        $user->syncRoles($role);
+
+        /** @var UserService $service */
+        $service = resolve(UserService::class);
+
+        $canDoUser = $service->can($user, 'user');
+        $this->assertTrue($canDoUser);
+
+        $canDoRole = $service->can($user, 'role');
+        $this->assertTrue($canDoRole);
+
+        $cannotDoExist = $service->can($user, 'not exist');
+        $this->assertTrue($cannotDoExist);
+    }
+
     /**
      * @param User $user
      * @return array
