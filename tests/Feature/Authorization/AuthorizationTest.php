@@ -9,6 +9,8 @@
 namespace Tests\Feature\Authorization;
 
 
+use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Route;
 use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Authorization\Model\Permission;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,5 +33,17 @@ class AuthorizationTest extends AuthTestCase
             ->json();
 
         $this->assertEquals(['user'], $resp);
+    }
+
+    /** @test */
+    public function 获取所有带权限中间件的参数()
+    {
+        $routes = app(Router::class)->getRoutes();
+        $routes = collect($routes)->map(function ($route) {
+            return collect($route->gatherMiddleware())->filter(function ($middleware) {
+                return ! ($middleware instanceof Closure) && strstr($middleware, 'ability');
+            })->implode(',');
+        })->all();
+        $abilities = (array_filter($routes));
     }
 }
