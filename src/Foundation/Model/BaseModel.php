@@ -6,7 +6,7 @@
  * Time: 2:58 PM
  */
 
-namespace Kiyon\Laravel\Support\Model;
+namespace Kiyon\Laravel\Foundation\Model;
 
 
 use Illuminate\Database\Eloquent\Model;

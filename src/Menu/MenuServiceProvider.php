@@ -2,7 +2,7 @@
 
 namespace Kiyon\Laravel\Menu;
 
-use Kiyon\Laravel\Support\ServiceProvider;
+use Kiyon\Laravel\Support\ServiceProviders\ServiceProvider;
 
 class MenuServiceProvider extends ServiceProvider
 {

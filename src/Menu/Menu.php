@@ -3,7 +3,7 @@
 namespace Kiyon\Laravel\Menu;
 
 
-use Kiyon\Laravel\Support\Model\BaseModel;
+use Kiyon\Laravel\Foundation\Model\BaseModel;
 
 class Menu extends BaseModel
 {

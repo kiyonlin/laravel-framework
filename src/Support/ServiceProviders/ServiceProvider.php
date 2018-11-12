@@ -6,7 +6,7 @@
  * Time: 5:02 PM
  */
 
-namespace Kiyon\Laravel\Support;
+namespace Kiyon\Laravel\Support\ServiceProviders;
 
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;

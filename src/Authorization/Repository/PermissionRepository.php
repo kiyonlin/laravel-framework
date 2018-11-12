@@ -10,7 +10,7 @@ namespace Kiyon\Laravel\Authorization\Repository;
 
 use Kiyon\Laravel\Authorization\Contracts\PermissionRepositoryContract;
 use Kiyon\Laravel\Authorization\Model\Permission;
-use Kiyon\Laravel\Support\Repository\RestfulRepository;
+use Kiyon\Laravel\Foundation\Repository\RestfulRepository;
 
 class PermissionRepository implements PermissionRepositoryContract
 {

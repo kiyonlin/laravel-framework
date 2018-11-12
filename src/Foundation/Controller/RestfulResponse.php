@@ -6,7 +6,7 @@
  * Time: 3:00 PM
  */
 
-namespace Kiyon\Laravel\Support\Controller;
+namespace Kiyon\Laravel\Foundation\Controller;
 
 use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;

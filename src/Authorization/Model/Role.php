@@ -11,7 +11,7 @@ namespace Kiyon\Laravel\Authorization\Model;
 
 use Kiyon\Laravel\Authorization\Contracts\AuthorizationRoleContract;
 use Kiyon\Laravel\Authorization\Traits\AuthorizableRole;
-use Kiyon\Laravel\Support\Model\BaseModel;
+use Kiyon\Laravel\Foundation\Model\BaseModel;
 
 class Role extends BaseModel implements AuthorizationRoleContract
 {

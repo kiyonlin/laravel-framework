@@ -10,7 +10,7 @@ namespace Kiyon\Laravel\Authorization\Model;
 
 use Kiyon\Laravel\Authorization\Contracts\AuthorizationPermissionContract;
 use Kiyon\Laravel\Authorization\Traits\AuthorizablePermission;
-use Kiyon\Laravel\Support\Model\BaseModel;
+use Kiyon\Laravel\Foundation\Model\BaseModel;
 
 class Permission extends BaseModel implements AuthorizationPermissionContract
 {

@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Kiyon\Laravel\Authorization\Contracts\AuthorizationUserContract;
 use Kiyon\Laravel\Authorization\Traits\AuthorizableUser;
-use Kiyon\Laravel\Support\Model\BaseModel;
+use Kiyon\Laravel\Foundation\Model\BaseModel;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 

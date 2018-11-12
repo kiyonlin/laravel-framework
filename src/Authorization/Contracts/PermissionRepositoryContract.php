@@ -9,7 +9,7 @@
 namespace Kiyon\Laravel\Authorization\Contracts;
 
 
-use Kiyon\Laravel\Foundation\Repository\RestfulRepositoryContract;
+use Kiyon\Laravel\Contracts\Repository\RestfulRepositoryContract;
 
 interface PermissionRepositoryContract extends RestfulRepositoryContract
 {

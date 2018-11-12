@@ -11,7 +11,7 @@ namespace Kiyon\Laravel\Authorization\Model;
 
 use Kiyon\Laravel\Authorization\Contracts\AuthorizationOrganizationContract;
 use Kiyon\Laravel\Authorization\Traits\AuthorizableOrganization;
-use Kiyon\Laravel\Support\Model\BaseModel;
+use Kiyon\Laravel\Foundation\Model\BaseModel;
 
 class Organization extends BaseModel implements AuthorizationOrganizationContract
 {

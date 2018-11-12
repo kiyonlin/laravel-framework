@@ -2,7 +2,7 @@
 
 namespace Kiyon\Laravel\Authorization;
 
-use Kiyon\Laravel\Support\ServiceProvider;
+use Kiyon\Laravel\Support\ServiceProviders\ServiceProvider;
 
 class AuthorizationServiceProvider extends ServiceProvider
 {

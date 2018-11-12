@@ -8,7 +8,6 @@
 
 namespace Kiyon\Laravel\Authentication\Service;
 
-use Illuminate\Support\Collection;
 use Kiyon\Laravel\Authentication\Contracts\UserRepositoryContract;
 use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Support\Constant;
