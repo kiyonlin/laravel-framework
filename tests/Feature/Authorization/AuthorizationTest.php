@@ -9,6 +9,7 @@
 namespace Tests\Feature\Authorization;
 
 
+use Closure;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Kiyon\Laravel\Authentication\Model\User;
@@ -45,5 +46,6 @@ class AuthorizationTest extends AuthTestCase
             })->implode(',');
         })->all();
         $abilities = (array_filter($routes));
+        $this->assertTrue(true);
     }
 }

@@ -4,11 +4,8 @@ namespace Kiyon\Laravel\Authorization\Middleware;
 
 use Closure;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Contracts\Auth\Factory as Auth;
-use Kiyon\Laravel\Authentication\Model\User;
-use Kiyon\Laravel\Authentication\Service\UserService;
+use Illuminate\Support\Facades\Gate;
 
 class Authorize
 {
@@ -52,56 +49,10 @@ class Authorize
      */
     public function handle($request, Closure $next, $ability)
     {
-        $user = $this->auth->user();
-
-        /** @var UserService $service */
-        $service = app(UserService::class);
-
-        if (! $service->can($user, $ability)) {
+        if (deny(auth()->user(), $ability)) {
             throw new AuthorizationException();
         }
 
         return $next($request);
-    }
-
-    /**
-     * Get the arguments parameter for the gate.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  array|null $models
-     * @return array|string|\Illuminate\Database\Eloquent\Model
-     */
-    protected function getGateArguments($request, $models)
-    {
-        if (is_null($models)) {
-            return [];
-        }
-
-        return collect($models)->map(function ($model) use ($request) {
-            return $model instanceof Model ? $model : $this->getModel($request, $model);
-        })->all();
-    }
-
-    /**
-     * Get the model to authorize.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  string $model
-     * @return \Illuminate\Database\Eloquent\Model|string
-     */
-    protected function getModel($request, $model)
-    {
-        return $this->isClassName($model) ? $model : $request->route($model);
-    }
-
-    /**
-     * Checks if the given string looks like a fully qualified class name.
-     *
-     * @param  string $value
-     * @return bool
-     */
-    protected function isClassName($value)
-    {
-        return strpos($value, '\\') !== false;
     }
 }

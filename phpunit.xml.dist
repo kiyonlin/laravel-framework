@@ -23,6 +23,7 @@
             <exclude>
                 <directory suffix="Factory.php">./src</directory>
                 <directory suffix="config.php">./src</directory>
+                <directory suffix="api.php">./src</directory>
             </exclude>
         </whitelist>
     </filter>

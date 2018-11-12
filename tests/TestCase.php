@@ -3,12 +3,15 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Facade;
 use Kiyon\Laravel\Authentication\AuthenticationServiceProvider;
 use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Authorization\AuthorizationServiceProvider;
+use Kiyon\Laravel\Authorization\Model\Role;
 use Kiyon\Laravel\Foundation\Http\Kernel as HttpKernel;
 use Kiyon\Laravel\Console\Kernel as ConsoleKernel;
 use Kiyon\Laravel\Menu\MenuServiceProvider;
+use Kiyon\Laravel\Support\Constant;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -23,7 +26,10 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        Facade::setFacadeApplication($this->app);
+
         $this->withoutExceptionHandling();
+
     }
 
     /**
@@ -99,5 +105,20 @@ abstract class TestCase extends BaseTestCase
         auth()->login($user);
 
         return $this;
+    }
+
+    /**
+     * 登录用户
+     *
+     * @param User|null $user
+     * @return $this
+     */
+    protected function signInSystemAdmin()
+    {
+        $user = create(User::class);
+
+        $user->syncRoles(create(Role::class, ['key' => Constant::ROLE_SYSTEM_ADMIN]));
+
+        return $this->signIn($user);
     }
 }

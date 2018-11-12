@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 trait RestfulResponse
 {
 
+    /** @var int */
     protected $statusCode = SymfonyResponse::HTTP_OK;
 
     /**
@@ -21,7 +22,7 @@ trait RestfulResponse
      *
      * @param $data
      * @param array $header
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function respond($data = [], $header = [])
     {
@@ -32,7 +33,7 @@ trait RestfulResponse
      * 响应错误操作
      *
      * @param $message
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function respondWithError($message)
     {
@@ -49,7 +50,7 @@ trait RestfulResponse
      *
      * @param $data
      * @param array $header
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function respondCreated($data, $header = [])
     {
@@ -62,7 +63,7 @@ trait RestfulResponse
      *
      * @param $data
      * @param array $header
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function respondAccepted($data, $header = [])
     {
@@ -73,19 +74,19 @@ trait RestfulResponse
     /**
      * 资源删除成功
      *
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function respondNoContent()
     {
         return $this->setStatusCode(SymfonyResponse::HTTP_NO_CONTENT)
-            ->respond([]);
+            ->respond();
     }
 
     /**
      * 响应请求错误
      *
      * @param string $message
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function respondBadRequest($message = 'Bad Request')
     {
@@ -97,7 +98,7 @@ trait RestfulResponse
      * 响应未找到资源错误
      *
      * @param string $message
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function respondNotFound($message = 'Not Found')
     {
@@ -109,7 +110,7 @@ trait RestfulResponse
      * 响应认证失败错误
      *
      * @param string $message
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function respondUnauthorised($message = 'Unauthorised')
     {
@@ -121,7 +122,7 @@ trait RestfulResponse
      * 响应没有权限错误
      *
      * @param string $message
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function respondForbidden($message = 'Forbidden')
     {
@@ -133,7 +134,7 @@ trait RestfulResponse
      * 响应锁定错误
      *
      * @param string $message
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function respondLocked($message = 'Locked')
     {
@@ -145,7 +146,7 @@ trait RestfulResponse
      * 响应服务器内部错误
      *
      * @param string $message
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse
      */
     public function respondInternalError($message = 'Internal Server Error')
     {
@@ -154,7 +155,7 @@ trait RestfulResponse
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getStatusCode()
     {

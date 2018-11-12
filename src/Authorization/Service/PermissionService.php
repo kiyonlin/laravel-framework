@@ -12,6 +12,7 @@ namespace Kiyon\Laravel\Authorization\Service;
 use Illuminate\Support\Collection;
 use Kiyon\Laravel\Authorization\Contracts\GrantPermissionContract;
 use Kiyon\Laravel\Authorization\Model\Permission;
+use Kiyon\Laravel\Authorization\Repository\PermissionRepository;
 use Kiyon\Laravel\Support\Constant;
 
 class PermissionService
@@ -20,9 +21,11 @@ class PermissionService
     /** @var Permission $model */
     protected $model;
 
-    public function __construct(Permission $model)
+    public function __construct(Permission $model, PermissionRepository $repo)
     {
         $this->model = $model;
+
+        $this->repo = $repo;
     }
 
     /**
