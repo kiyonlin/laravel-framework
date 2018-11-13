@@ -124,7 +124,6 @@ if (! function_exists('logcli')) {
     /**
      * Get a log driver instance.
      *
-     * @param  string  $driver
      * @return \Illuminate\Log\LogManager|\Psr\Log\LoggerInterface
      */
     function logcli()

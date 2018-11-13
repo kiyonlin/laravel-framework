@@ -70,6 +70,12 @@ abstract class TestCase extends BaseTestCase
         $app['config']->set('auth.defaults.guard', 'api');
         $app['config']->set('auth.guards.api.driver', 'jwt');
         $app['config']->set('auth.providers.users.model', User::class);
+
+        $app['config']->set('query-builder.parameters.include', 'load');
+        $app['config']->set('query-builder.parameters.filter', 'search');
+        $app['config']->set('query-builder.parameters.fields', 'select');
+        $app['config']->set('query-builder.parameters.sort', 'sort');
+        $app['config']->set('query-builder.parameters.append', 'append');
     }
 
     /**
