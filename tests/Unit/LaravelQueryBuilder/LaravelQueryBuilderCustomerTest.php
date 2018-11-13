@@ -12,7 +12,10 @@ namespace Tests\Unit\LaravelQueryBuilder;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Route;
+use Kiyon\Laravel\Contracts\Repository\RestfulRepositoryContract;
 use Kiyon\Laravel\Foundation\Model\BaseModel;
+use Kiyon\Laravel\Foundation\Repository\RestfulRepository;
+use Kiyon\Laravel\Foundation\Routing\Controller;
 use Tests\TestCase;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
@@ -145,17 +148,7 @@ class LaravelQueryBuilderCustomerTest extends TestCase
     protected function createRoute()
     {
         // GET /test-query-builder?filter[between]=2018-11-11,2018-11-16
-        Route::get('test-query-builder', function () {
-            $queryBuilders = TestQueryBuilder::filter();
-
-            if (request()->has('page') && request()->has('perPage')) {
-                $queryBuilders = $queryBuilders->paginate(request('perPage', ['*'], 'page', request('page')));
-            } else {
-                $queryBuilders = $queryBuilders->get();
-            }
-
-            return response()->json($queryBuilders, 200);
-        });
+        Route::get('test-query-builder', '\Tests\Unit\LaravelQueryBuilder\TestQueryBuilderController@index');
     }
 
     /**
@@ -219,4 +212,54 @@ class TestQueryBuilder extends BaseModel
     protected $loadable = [
         'member.name'
     ];
+}
+
+class TestQueryBuilderController extends Controller
+{
+
+    /** @var TestQueryBuilderService */
+    protected $service;
+
+    public function __construct(TestQueryBuilderService $service)
+    {
+        $this->service = $service;
+    }
+
+    public function index()
+    {
+        $data = request()->all();
+
+        $queryBuilder = $this->service->repo->all($data);
+
+        return $this->respond($queryBuilder);
+    }
+}
+
+interface TestQueryBuilderRepositoryContract extends RestfulRepositoryContract
+{
+
+}
+
+class TestQueryBuilderRepository implements TestQueryBuilderRepositoryContract
+{
+
+    use RestfulRepository;
+
+    protected $model;
+
+    public function __construct(TestQueryBuilder $model)
+    {
+        $this->model = $model;
+    }
+}
+
+class TestQueryBuilderService
+{
+
+    public $repo;
+
+    public function __construct(TestQueryBuilderRepository $repository)
+    {
+        $this->repo = $repository;
+    }
 }

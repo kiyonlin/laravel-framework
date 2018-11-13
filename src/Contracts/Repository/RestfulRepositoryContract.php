@@ -17,10 +17,9 @@ interface RestfulRepositoryContract
     /**
      * fetch all items with data
      *
-     * @param $data
      * @return mixed
      */
-    public function all($data);
+    public function all();
 
     /**
      * show item info to edit

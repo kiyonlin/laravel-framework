@@ -15,12 +15,19 @@ trait RestfulRepository
 {
 
     /**
-     * @param $data
      * @return \Illuminate\Database\Eloquent\Collection|Model[]|mixed
      */
-    public function all($data)
+    public function all()
     {
-        return $this->model->all();
+        $queryBuilder = $this->model->filter();
+
+        if (request()->has('page') && request()->has('perPage')) {
+            $result = $queryBuilder->paginate(request('perPage', ['*'], 'page', request('page')));
+        } else {
+            $result = $queryBuilder->get();
+        }
+
+        return $result;
     }
 
 

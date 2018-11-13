@@ -27,9 +27,7 @@ class PermissionController extends Controller
 
     public function index()
     {
-        $data = request()->all();
-
-        $permissions = $this->service->repo->all($data);
+        $permissions = $this->service->repo->all();
 
         return $this->respond($permissions);
     }
