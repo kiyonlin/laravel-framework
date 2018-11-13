@@ -10,6 +10,7 @@ use Kiyon\Laravel\Authorization\AuthorizationServiceProvider;
 use Kiyon\Laravel\Authorization\Model\Role;
 use Kiyon\Laravel\Foundation\Http\Kernel as HttpKernel;
 use Kiyon\Laravel\Console\Kernel as ConsoleKernel;
+use Kiyon\Laravel\Foundation\QueryBuilderServiceProvider;
 use Kiyon\Laravel\Menu\MenuServiceProvider;
 use Kiyon\Laravel\Support\Constant;
 use Orchestra\Testbench\TestCase as BaseTestCase;
@@ -42,6 +43,7 @@ abstract class TestCase extends BaseTestCase
             AuthenticationServiceProvider::class,
             AuthorizationServiceProvider::class,
             MenuServiceProvider::class,
+            QueryBuilderServiceProvider::class
         ];
     }
 
