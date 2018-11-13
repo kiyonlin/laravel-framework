@@ -10,6 +10,7 @@ namespace Kiyon\Laravel\Foundation\Model;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Kiyon\Laravel\Foundation\Model\GlobalScopes\MemberScope;
 use Kiyon\Laravel\Foundation\Model\LocalScopes\FilterScope;
 
 class BaseModel extends Model
@@ -44,4 +45,16 @@ class BaseModel extends Model
      * @var array
      */
     protected $selectable = [];
+
+    /**
+     * 模型的「启动」方法
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new MemberScope);
+    }
 }
