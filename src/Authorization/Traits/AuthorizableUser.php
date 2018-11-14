@@ -2,11 +2,11 @@
 
 namespace Kiyon\Laravel\Authorization\Traits;
 
-use InvalidArgumentException;
 use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Authorization\Model\Organization;
 use Kiyon\Laravel\Authorization\Model\Permission;
 use Kiyon\Laravel\Authorization\Model\Role;
+use Kiyon\Laravel\Support\Constant;
 
 trait AuthorizableUser
 {
@@ -41,6 +41,30 @@ trait AuthorizableUser
     public function permissions()
     {
         return $this->belongsToMany(Permission::class, 'sys_permission_user');
+    }
+
+    /**
+     * 判断用户是否会员
+     *
+     * @return bool
+     */
+    public function isMember()
+    {
+        return $this->roles->search(function ($role) {
+                return $role->key == Constant::ROLE_MEMBER;
+            }) !== false;
+    }
+
+    /**
+     * 用户是否员工
+     *
+     * @return bool
+     */
+    public function isStaff()
+    {
+        return $this->roles->search(function ($role) {
+                return $role->key == Constant::ROLE_STAFF;
+            }) !== false;
     }
 
     /**
