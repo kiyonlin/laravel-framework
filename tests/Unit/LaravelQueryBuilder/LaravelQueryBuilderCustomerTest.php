@@ -10,17 +10,18 @@ namespace Tests\Unit\LaravelQueryBuilder;
 
 
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Route;
 use Kiyon\Laravel\Contracts\Repository\RestfulRepositoryContract;
 use Kiyon\Laravel\Foundation\Model\BaseModel;
 use Kiyon\Laravel\Foundation\Repository\RestfulRepository;
 use Kiyon\Laravel\Foundation\Routing\Controller;
+use Tests\MigrationsForTest;
 use Tests\TestCase;
-use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class LaravelQueryBuilderCustomerTest extends TestCase
 {
+
+    use MigrationsForTest;
 
     /**
      * Setup the database schema.
@@ -45,6 +46,8 @@ class LaravelQueryBuilderCustomerTest extends TestCase
      */
     public function tearDown()
     {
+        parent::tearDown();
+
         $this->dropSchema();
     }
 
@@ -151,29 +154,9 @@ class LaravelQueryBuilderCustomerTest extends TestCase
         Route::get('test-query-builder', '\Tests\Unit\LaravelQueryBuilder\TestQueryBuilderController@index');
     }
 
-    /**
-     * Get a database connection instance.
-     *
-     * @return \Illuminate\Database\Connection
-     */
-    protected function connection($connection = 'testing')
-    {
-        return Eloquent::getConnectionResolver()->connection($connection);
-    }
-
-    /**
-     * Get a schema builder instance.
-     *
-     * @return \Illuminate\Database\Schema\Builder
-     */
-    protected function schema($connection = 'testing')
-    {
-        return $this->connection($connection)->getSchemaBuilder();
-    }
-
     protected function createSchema()
     {
-        $this->schema()->create('test_query_builders', function (Blueprint $table) {
+        $this->initSchema('test_query_builders', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->integer('uid');
@@ -186,7 +169,7 @@ class LaravelQueryBuilderCustomerTest extends TestCase
 
     protected function dropSchema()
     {
-        $this->schema()->drop('test_query_builders');
+        $this->clearSchema('test_query_builders');
     }
 }
 

@@ -15,10 +15,13 @@ use Kiyon\Laravel\Authorization\Model\Role;
 use Kiyon\Laravel\Foundation\Model\BaseModel;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Kiyon\Laravel\Support\Constant;
+use Tests\MigrationsForTest;
 use Tests\TestCase;
 
 class MemberScope extends TestCase
 {
+
+    use MigrationsForTest;
 
     /**
      * Setup the database schema.
@@ -39,6 +42,8 @@ class MemberScope extends TestCase
      */
     public function tearDown()
     {
+        parent::tearDown();
+
         $this->dropSchema();
     }
 
@@ -107,13 +112,13 @@ class MemberScope extends TestCase
 
     protected function createSchema()
     {
-        $this->schema()->create('member', function (Blueprint $table) {
+        $this->initSchema('member', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('uid');
             $table->timestamps();
         });
 
-        $this->schema()->create('non_member', function (Blueprint $table) {
+        $this->initSchema('non_member', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('count');
             $table->timestamps();
@@ -122,8 +127,7 @@ class MemberScope extends TestCase
 
     protected function dropSchema()
     {
-        $this->schema()->drop('member');
-        $this->schema()->drop('non_member');
+        $this->clearSchema('member', 'non_member');
     }
 }
 
