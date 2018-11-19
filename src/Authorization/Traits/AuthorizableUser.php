@@ -50,9 +50,9 @@ trait AuthorizableUser
      */
     public function isMember()
     {
-        return $this->roles->search(function ($role) {
-                return $role->key == Constant::ROLE_MEMBER;
-            }) !== false;
+        return $this->whereHas('roles', function ($query) {
+            return $query->where('key', Constant::ROLE_MEMBER);
+        })->exists();
     }
 
     /**
@@ -62,9 +62,9 @@ trait AuthorizableUser
      */
     public function isStaff()
     {
-        return $this->roles->search(function ($role) {
-                return $role->key == Constant::ROLE_STAFF;
-            }) !== false;
+        return $this->whereHas('roles', function ($query) {
+            return $query->where('key', Constant::ROLE_STAFF);
+        })->exists();
     }
 
     /**

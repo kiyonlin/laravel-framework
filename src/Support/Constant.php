@@ -20,6 +20,13 @@ class Constant
     const ROLE_STAFF = 'staff';
     const ROLE_SYSTEM_ADMIN = 'system_admin';
 
+    // 初始化就有的角色
+    const INIT_ROLES = [
+        self::ROLE_SYSTEM_ADMIN,
+        self::ROLE_MEMBER,
+        self::ROLE_STAFF
+    ];
+
     const MENU_SIDE_NAV = 'side_nav';
     const MENU_TOP_NAV = 'top_nav';
 }

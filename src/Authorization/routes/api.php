@@ -43,4 +43,44 @@ Route::namespace('Kiyon\Laravel\Authorization\Controller')
                     ->middleware('ability:system.permission.destroy')
                     ->name('destroy');
             });
+
+        Route::prefix('system/role')
+            ->name('system.role.')
+            ->group(function () {
+                Route::get('/', 'RoleController@index')
+                    ->middleware('ability:system.role.index')
+                    ->name('index');
+
+                Route::post('/', 'RoleController@store')
+                    ->middleware('ability:system.role.store')
+                    ->name('store');
+
+                Route::patch('/update/{role}', 'RoleController@update')
+                    ->middleware('ability:system.role.update')
+                    ->name('update');
+
+                Route::delete('/destroy/{role}', 'RoleController@destroy')
+                    ->middleware('ability:system.role.destroy')
+                    ->name('destroy');
+            });
+
+        Route::prefix('system/organization')
+            ->name('system.organization.')
+            ->group(function () {
+                Route::get('/', 'OrganizationController@index')
+                    ->middleware('ability:system.organization.index')
+                    ->name('index');
+
+                Route::post('/', 'OrganizationController@store')
+                    ->middleware('ability:system.organization.store')
+                    ->name('store');
+
+                Route::patch('/update/{organization}', 'OrganizationController@update')
+                    ->middleware('ability:system.organization.update')
+                    ->name('update');
+
+                Route::delete('/destroy/{organization}', 'OrganizationController@destroy')
+                    ->middleware('ability:system.organization.destroy')
+                    ->name('destroy');
+            });
     });

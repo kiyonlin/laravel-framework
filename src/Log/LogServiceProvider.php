@@ -2,7 +2,8 @@
 
 namespace Kiyon\Laravel\Log;
 
-use Kiyon\Laravel\Support\ServiceProvider;
+
+use Kiyon\Laravel\Support\ServiceProviders\ServiceProvider;
 
 class LogServiceProvider extends ServiceProvider
 {

@@ -12,7 +12,6 @@ namespace Kiyon\Laravel\Authorization\Controller;
 use Kiyon\Laravel\Authorization\Model\Permission;
 use Kiyon\Laravel\Authorization\Service\PermissionService;
 use Kiyon\Laravel\Foundation\Routing\Controller;
-use Kiyon\Laravel\Support\Constant;
 
 class PermissionController extends Controller
 {
@@ -69,16 +68,15 @@ class PermissionController extends Controller
     }
 
     /**
+     * @param Permission $permission
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy(Permission $permission)
     {
-        // 【删除权限】权限无法删除
-        if ($permission->key == Constant::SYSTEM_PERMISSION_DESTROY) {
-            return $this->respondForbidden();
-        }
+        $data = request()->all();
 
-        $this->service->repo->destroy($permission);
+        $this->service->repo->destroy($permission, $data);
 
         return $this->respondNoContent();
     }

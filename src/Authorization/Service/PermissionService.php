@@ -11,16 +11,16 @@ namespace Kiyon\Laravel\Authorization\Service;
 
 use Illuminate\Support\Collection;
 use Kiyon\Laravel\Authorization\Contracts\GrantPermissionContract;
-use Kiyon\Laravel\Authorization\Repository\PermissionRepository;
+use Kiyon\Laravel\Authorization\Contracts\PermissionRepositoryContract;
 use Kiyon\Laravel\Support\Constant;
 
 class PermissionService
 {
 
-    /** @var PermissionRepository $repo */
+    /** @var PermissionRepositoryContract $repo */
     public $repo;
 
-    public function __construct(PermissionRepository $repo)
+    public function __construct(PermissionRepositoryContract $repo)
     {
         $this->repo = $repo;
     }

@@ -263,9 +263,7 @@ class UserTest extends TestCase
     /** @test */
     public function 系统管理员无视权限可以做任何操作()
     {
-        $user = create(User::class);
-        $role = create(Role::class, ['key' => Constant::ROLE_SYSTEM_ADMIN]);
-        $user->syncRoles($role);
+        $user = getSystemAdmin();
 
         /** @var UserService $service */
         $service = resolve(UserService::class);

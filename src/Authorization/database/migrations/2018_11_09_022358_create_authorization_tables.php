@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Kiyon\Laravel\Authentication\Model\User;
+use Kiyon\Laravel\Authorization\Model\Role;
+use Kiyon\Laravel\Support\Constant;
 
 class CreateAuthorizationTables extends Migration
 {
@@ -93,6 +96,8 @@ class CreateAuthorizationTables extends Migration
 
             $table->primary(['role_id', 'permission_id']);
         });
+
+        $this->setupInitData();
     }
 
     /**
@@ -111,5 +116,21 @@ class CreateAuthorizationTables extends Migration
         Schema::dropIfExists('sys_permission_user');
         Schema::dropIfExists('sys_organization_permission');
         Schema::dropIfExists('sys_permission_role');
+    }
+
+    private function setupInitData()
+    {
+        foreach (Constant::INIT_ROLES as $role) {
+            create(Role::class, ['key' => $role]);
+        }
+
+        create(User::class, [
+            'username'     => 'kiyon',
+            'display_name' => 'kiyon',
+            'mobile'       => '13675822217',
+            'email'        => 'kiyonlin@163.com',
+            'password'     => 'admin.amyfair',
+        ]);
+
     }
 }

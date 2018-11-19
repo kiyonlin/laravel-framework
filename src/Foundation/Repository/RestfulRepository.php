@@ -64,11 +64,31 @@ trait RestfulRepository
     /**
      * @param Model $item
      * @param array $data
-     * @return bool|null
+     * @return bool|null|int
      * @throws \Exception
      */
     public function destroy(Model $item, array $data = [])
     {
+        $ids = $this->getIds($data);
+
+        if (count($ids)) {
+            return $this->model->destroy($ids);
+        }
+
         return $item->delete();
+    }
+
+    /**
+     * @param array $data
+     * @return array|mixed
+     */
+    private function getIds(array $data)
+    {
+        $ids = array_get($data, 'ids', []);
+        if (is_string($ids)) {
+            $ids = explode(',', $ids);
+        }
+
+        return $ids;
     }
 }

@@ -12,8 +12,6 @@ namespace Tests\Feature\Authorization;
 use Illuminate\Support\Facades\Route;
 use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Authorization\Model\Permission;
-use Kiyon\Laravel\Authorization\Model\Role;
-use Kiyon\Laravel\Support\Constant;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\AuthTestCase;
 
@@ -53,10 +51,7 @@ class AbilityMiddlewareTest extends AuthTestCase
     /** @test */
     public function 系统管理员通过任意权限中间件()
     {
-        /** @var User $user */
-        $user = auth()->user();
-        $role = create(Role::class, ['key' => Constant::ROLE_SYSTEM_ADMIN]);
-        $user->syncRoles($role);
+        $this->signInSystemAdmin();
 
         Route::middleware('ability:anything')->get('foo', function () {
             return 'hit';

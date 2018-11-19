@@ -31,8 +31,10 @@ class MemberScope implements Scope
 
     private function isMember($user)
     {
-        return $user ? $user->roles->search(function ($role) {
-                return $role->key == Constant::ROLE_MEMBER;
-            }) !== false : false;
+        return $user ?
+            $user->whereHas('roles', function ($query) {
+                return $query->where('key', Constant::ROLE_MEMBER);
+            })->exists()
+            : false;
     }
 }

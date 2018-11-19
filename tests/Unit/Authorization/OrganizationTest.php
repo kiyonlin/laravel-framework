@@ -192,11 +192,11 @@ class OrganizationTest extends TestCase
         $user = create(User::class);
         $permission = create(Permission::class);
 
-        $org->syncUsers($org);
+        $org->syncUsers($user);
         $org->syncRoles($role);
         $org->syncPermissions($permission);
 
-        $this->assertCount(1, $user->organizations);
+        $this->assertCount(1, $org->users);
         $this->assertCount(1, $org->roles);
         $this->assertCount(1, $org->permissions);
 

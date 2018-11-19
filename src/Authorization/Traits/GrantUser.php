@@ -35,6 +35,7 @@ trait GrantUser
      * Alias to eloquent many-to-many relation's attach() method.
      *
      * @param mixed $users
+     * @param array $pivot
      */
     public function attachUsers($users, $pivot = [])
     {

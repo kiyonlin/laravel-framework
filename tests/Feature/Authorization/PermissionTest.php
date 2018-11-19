@@ -10,7 +10,6 @@ namespace Tests\Feature\Authorization;
 
 
 use Kiyon\Laravel\Authorization\Model\Permission;
-use Kiyon\Laravel\Support\Constant;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\AuthTestCase;
 
@@ -90,19 +89,6 @@ class PermissionTest extends AuthTestCase
     }
 
     /** @test */
-    public function 【删除权限】权限无法删除()
-    {
-        $this->signInSystemAdmin();
-
-        $permission = create(Permission::class, ['key' => Constant::SYSTEM_PERMISSION_DESTROY]);
-
-        $this->deleteJson(route('system.permission.destroy', ['permission' => $permission->id]))
-            ->assertStatus(Response::HTTP_FORBIDDEN);
-
-        $this->assertDatabaseHas($permission->getTable(), ['id' => $permission->id]);
-    }
-
-    /** @test */
     public function 未授权用户不能更新权限()
     {
         $this->withExceptionHandling();
@@ -131,15 +117,18 @@ class PermissionTest extends AuthTestCase
     }
 
     /** @test */
-    public function 【删除权限】权限无法更新key()
+    public function 授权用户可以批量删除权限()
     {
         $this->signInSystemAdmin();
 
-        $permission = create(Permission::class, ['key' => Constant::SYSTEM_PERMISSION_DESTROY]);
+        $permissions = create(Permission::class, 5);
 
-        $this->deleteJson(route('system.permission.destroy', ['permission' => $permission->id]))
-            ->assertStatus(Response::HTTP_FORBIDDEN);
+        $this->deleteJson(route('system.permission.destroy', ['permission' => $permissions[0]->id]),
+            ['ids' => $permissions->pluck('id')->toArray()])
+            ->assertStatus(Response::HTTP_NO_CONTENT);
 
-        $this->assertDatabaseHas($permission->getTable(), ['id' => $permission->id]);
+        $permissions->each(function ($permission) {
+            $this->assertDatabaseMissing($permission->getTable(), ['id' => $permission->id]);
+        });
     }
 }

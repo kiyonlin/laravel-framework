@@ -76,8 +76,7 @@ class MemberScope extends TestCase
     /** @test */
     public function 会员用户登录时，有uid字段的记录才会添加uid筛选条件()
     {
-        $user = create(User::class);
-        $user->syncRoles(create(Role::class, ['key' => Constant::ROLE_MEMBER]));
+        $user = getMember();
 
         $this->signIn($user);
 
@@ -88,26 +87,6 @@ class MemberScope extends TestCase
 
         $sql = NonMemberModel::where('created_at', '>', now())->toSql();
         $this->assertEquals('select * from "non_member" where "created_at" > ?', $sql);
-    }
-
-    /**
-     * Get a database connection instance.
-     *
-     * @return \Illuminate\Database\Connection
-     */
-    protected function connection($connection = 'testing')
-    {
-        return Eloquent::getConnectionResolver()->connection($connection);
-    }
-
-    /**
-     * Get a schema builder instance.
-     *
-     * @return \Illuminate\Database\Schema\Builder
-     */
-    protected function schema($connection = 'testing')
-    {
-        return $this->connection($connection)->getSchemaBuilder();
     }
 
     protected function createSchema()
