@@ -4,14 +4,9 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Facade;
-use Kiyon\Laravel\Authentication\AuthenticationServiceProvider;
 use Kiyon\Laravel\Authentication\Model\User;
-use Kiyon\Laravel\Authorization\AuthorizationServiceProvider;
-use Kiyon\Laravel\Member\MemberServiceProvider;
+use Kiyon\Laravel\Foundation\KiyonLaravelServiceProvider;
 use Kiyon\Laravel\Foundation\Http\Kernel as HttpKernel;
-use Kiyon\Laravel\Foundation\QueryBuilderServiceProvider;
-use Kiyon\Laravel\Menu\MenuServiceProvider;
-use Kiyon\Laravel\Staff\StaffServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -39,12 +34,7 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
-            AuthenticationServiceProvider::class,
-            AuthorizationServiceProvider::class,
-            MenuServiceProvider::class,
-            QueryBuilderServiceProvider::class,
-            MemberServiceProvider::class,
-            StaffServiceProvider::class
+            KiyonLaravelServiceProvider::class
         ];
     }
 
