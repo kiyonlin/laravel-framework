@@ -2,7 +2,6 @@
 
 namespace Kiyon\Laravel\Authorization\Traits;
 
-use Illuminate\Database\Eloquent\Builder;
 use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Authorization\Model\Organization;
 use Kiyon\Laravel\Authorization\Model\Permission;

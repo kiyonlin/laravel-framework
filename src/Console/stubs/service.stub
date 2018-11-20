@@ -1,0 +1,17 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyRootNamespace\Contracts\DummyModelRepositoryContract;
+
+class DummyClass
+{
+
+    /** @var DummyModelRepositoryContract $repo */
+    public $repo;
+
+    public function __construct(DummyModelRepositoryContract $repo)
+    {
+        $this->repo = $repo;
+    }
+}

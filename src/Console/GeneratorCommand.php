@@ -178,8 +178,8 @@ abstract class GeneratorCommand extends Command
     protected function replaceNamespace(&$stub, $name)
     {
         $stub = str_replace(
-            ['DummyNamespace', 'DummyRootNamespace', 'NamespacedDummyUserModel'],
-            [$this->getNamespace($name), $this->rootNamespace(), $this->userProviderModel()],
+            ['DummyNamespace', 'DummyRootNamespace', 'DummyModel', 'DummyItem'],
+            [$this->getNamespace($name), $this->rootNamespace(), $this->getNameInput(), Str::camel($this->getNameInput())],
             $stub
         );
 

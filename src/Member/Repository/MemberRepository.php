@@ -8,7 +8,6 @@
 
 namespace Kiyon\Laravel\Member\Repository;
 
-use Illuminate\Database\Eloquent\Model;
 use Kiyon\Laravel\Authorization\Model\Role;
 use Kiyon\Laravel\Foundation\Repository\RestfulRepository;
 use Kiyon\Laravel\Member\Contracts\MemberRepositoryContract;

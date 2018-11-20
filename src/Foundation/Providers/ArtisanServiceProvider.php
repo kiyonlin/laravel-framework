@@ -4,6 +4,9 @@ namespace Kiyon\Laravel\Foundation\Providers;
 
 use Kiyon\Laravel\Console\ModControllerMakeCommand;
 use Kiyon\Laravel\Console\ModModelMakeCommand;
+use Kiyon\Laravel\Console\ModRepositoryContractMakeCommand;
+use Kiyon\Laravel\Console\ModRepositoryMakeCommand;
+use Kiyon\Laravel\Console\ModServiceMakeCommand;
 use Kiyon\Laravel\Support\ServiceProviders\ServiceProvider;
 
 class ArtisanServiceProvider extends ServiceProvider
@@ -30,8 +33,11 @@ class ArtisanServiceProvider extends ServiceProvider
      * @var array
      */
     protected $devCommands = [
-        'ModModelMake'      => 'command.mod.model.make',
-        'ModControllerMake' => 'command.mod.controller.make',
+        'ModModelMake'              => 'command.mod.model.make',
+        'ModControllerMake'         => 'command.mod.controller.make',
+        'ModRepositoryMake'         => 'command.mod.repository.make',
+        'ModRepositoryContractMake' => 'command.mod.repository.contract.make',
+        'ModServiceMake'            => 'command.mod.service.make',
     ];
 
     /**
@@ -82,6 +88,42 @@ class ArtisanServiceProvider extends ServiceProvider
     {
         $this->app->singleton('command.mod.controller.make', function ($app) {
             return new ModControllerMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerModRepositoryMakeCommand()
+    {
+        $this->app->singleton('command.mod.repository.make', function ($app) {
+            return new ModRepositoryMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerModRepositoryContractMakeCommand()
+    {
+        $this->app->singleton('command.mod.repository.contract.make', function ($app) {
+            return new ModRepositoryContractMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerModServiceMakeCommand()
+    {
+        $this->app->singleton('command.mod.service.make', function ($app) {
+            return new ModServiceMakeCommand($app['files']);
         });
     }
 

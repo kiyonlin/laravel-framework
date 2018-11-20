@@ -1,0 +1,25 @@
+<?php
+
+namespace DummyNamespace;
+
+use Kiyon\Laravel\Foundation\Repository\RestfulRepository;
+use DummyRootNamespace\Model\DummyModel;
+use DummyRootNamespace\Contracts\DummyModelRepositoryContract;
+
+class DummyClass implements DummyModelRepositoryContract
+{
+
+    use RestfulRepository;
+
+    /** @var DummyModel */
+    protected $model;
+
+    /**
+     * DummyModelRepository constructor.
+     * @param DummyModel $model
+     */
+    public function __construct(DummyModel $model)
+    {
+        $this->model = $model;
+    }
+}

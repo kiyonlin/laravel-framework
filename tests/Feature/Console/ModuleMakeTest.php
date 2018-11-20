@@ -70,4 +70,60 @@ class ModuleMakeTest extends TestCase
 
         $this->assertFileExists($controllerFile);
     }
+
+    /** @test */
+    public function 仓库创建命令()
+    {
+        $this->artisan('mod-make:repository', ['mod' => 'Module'])->run();
+
+        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/ModuleRepository.php';
+        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/ModuleRepositoryContract.php';
+
+        $this->assertFileExists($repositoryFile);
+        $this->assertFileExists($contractFile);
+
+        $this->artisan('mod-make:repository', ['mod' => 'Module', 'name' => 'Fake'])->run();
+
+        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/FakeRepository.php';
+        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/FakeRepositoryContract.php';
+
+        $this->assertFileExists($repositoryFile);
+        $this->assertFileExists($contractFile);
+    }
+
+    /** @test */
+    public function 空白仓库创建命令()
+    {
+        $this->artisan('mod-make:repository', ['mod' => 'Module', '--plain' => true])->run();
+
+        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/ModuleRepository.php';
+        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/ModuleRepositoryContract.php';
+
+        $this->assertFileExists($repositoryFile);
+        $this->assertFileNotExists($contractFile);
+
+        $this->artisan('mod-make:repository', ['mod' => 'Module', 'name' => 'Fake', '--plain' => true])->run();
+
+        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/FakeRepository.php';
+        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/FakeRepositoryContract.php';
+
+        $this->assertFileExists($repositoryFile);
+        $this->assertFileNotExists($contractFile);
+    }
+
+    /** @test */
+    public function 服务创建命令()
+    {
+        $this->artisan('mod-make:service', ['mod' => 'Module'])->run();
+
+        $serviceFile = $this->app->basePath() . '/app/Modules/Module/Service/ModuleService.php';
+
+        $this->assertFileExists($serviceFile);
+
+        $this->artisan('mod-make:service', ['mod' => 'Module', 'name' => 'Fake'])->run();
+
+        $serviceFile = $this->app->basePath() . '/app/Modules/Module/Service/FakeService.php';
+
+        $this->assertFileExists($serviceFile);
+    }
 }
