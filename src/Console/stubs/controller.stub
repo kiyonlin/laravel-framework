@@ -1,0 +1,79 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Http\Request;
+use Kiyon\Laravel\Foundation\Routing\Controller;
+use Kiyon\Laravel\DummyModule\Model\DummyModel;
+use Kiyon\Laravel\DummyModule\Service\DummyModelService;
+
+class DummyClass extends Controller
+{
+    /** @var DummyModelService */
+    protected $service;
+
+    public function __construct(DummyModelService $service)
+    {
+        $this->service = $service;
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        $DummyItems = $this->service->repo->all();
+
+        return $this->respond($DummyItems);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store()
+    {
+        $data = request()->all();
+
+        $DummyItem = $this->service->repo->create($data);
+
+        return $this->respondCreated($DummyItem);
+    }
+
+    /**
+     * @param DummyModel $DummyItem
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function edit(DummyModel $DummyItem)
+    {
+        $DummyItem = $this->service->repo->edit($DummyItem);
+
+        return $this->respond($DummyItem);
+    }
+
+    /**
+     * @param DummyModel $DummyItem
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(DummyModel $DummyItem)
+    {
+        $data = request()->all();
+
+        $DummyItem = $this->service->repo->update($DummyItem, $data);
+
+        return $this->respond($DummyItem);
+    }
+
+    /**
+     * @param DummyModel $DummyItem
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function destroy(DummyModel $DummyItem)
+    {
+        $data = request()->all();
+
+        $this->service->repo->destroy($DummyItem, $data);
+
+        return $this->respondNoContent();
+    }
+}

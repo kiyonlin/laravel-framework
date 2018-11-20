@@ -5,7 +5,7 @@ namespace Tests;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Facade;
 use Kiyon\Laravel\Authentication\Model\User;
-use Kiyon\Laravel\Foundation\KiyonLaravelServiceProvider;
+use Kiyon\Laravel\Foundation\Providers\KiyonLaravelServiceProvider;
 use Kiyon\Laravel\Foundation\Http\Kernel as HttpKernel;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 

@@ -1,0 +1,14 @@
+<?php
+
+namespace DummyNamespace;
+
+use Kiyon\Laravel\Foundation\Model\BaseModel;
+
+class DummyClass extends BaseModel
+{
+    protected $table = 'app_DummyTables';
+
+    protected $fillable = [
+
+    ];
+}

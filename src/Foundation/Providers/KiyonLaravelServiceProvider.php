@@ -6,7 +6,7 @@
  * Time: 11:36 AM
  */
 
-namespace Kiyon\Laravel\Foundation;
+namespace Kiyon\Laravel\Foundation\Providers;
 
 use Kiyon\Laravel\Authentication\AuthenticationServiceProvider;
 use Kiyon\Laravel\Authorization\AuthorizationServiceProvider;
@@ -24,7 +24,8 @@ class KiyonLaravelServiceProvider extends ServiceProvider
         MenuServiceProvider::class,
         QueryBuilderServiceProvider::class,
         MemberServiceProvider::class,
-        StaffServiceProvider::class
+        StaffServiceProvider::class,
+        ArtisanServiceProvider::class
     ];
 
     public function register()

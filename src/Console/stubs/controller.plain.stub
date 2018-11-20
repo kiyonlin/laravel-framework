@@ -1,0 +1,10 @@
+<?php
+
+namespace DummyNamespace;
+
+use Kiyon\Laravel\Foundation\Routing\Controller;
+
+class DummyClass extends Controller
+{
+    //
+}

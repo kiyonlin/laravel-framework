@@ -6,7 +6,7 @@
  * Time: 11:36 AM
  */
 
-namespace Kiyon\Laravel\Foundation;
+namespace Kiyon\Laravel\Foundation\Providers;
 
 use Spatie\QueryBuilder\QueryBuilderServiceProvider as SpatieQueryBuilderServiceProvider;
 
