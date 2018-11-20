@@ -49,7 +49,7 @@ trait AuthorizableRole
      *
      * @return void|bool
      */
-    public static function boot()
+    protected static function boot()
     {
         parent::boot();
 

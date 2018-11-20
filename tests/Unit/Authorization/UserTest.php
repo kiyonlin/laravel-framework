@@ -263,7 +263,7 @@ class UserTest extends TestCase
     /** @test */
     public function 系统管理员无视权限可以做任何操作()
     {
-        $user = getSystemAdmin();
+        $user = createSystemAdmin();
 
         /** @var UserService $service */
         $service = resolve(UserService::class);

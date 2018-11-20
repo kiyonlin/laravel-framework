@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 use Kiyon\Laravel\Support\Constant;
 
-class MemberScope implements Scope
+class UidScope implements Scope
 {
 
     public function apply(Builder $builder, Model $model)
@@ -32,7 +32,7 @@ class MemberScope implements Scope
     private function isMember($user)
     {
         return $user ?
-            $user->whereHas('roles', function ($query) {
+            $user->whereHas('roles', function (Builder $query) {
                 return $query->where('key', Constant::ROLE_MEMBER);
             })->exists()
             : false;

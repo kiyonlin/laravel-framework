@@ -131,3 +131,61 @@ if (! function_exists('logcli')) {
         return app('log')->driver('cli');
     }
 }
+
+if (! function_exists('createSystemAdmin')) {
+
+    /**
+     * create system admin in database
+     *
+     * @return mixed
+     */
+    function createSystemAdmin()
+    {
+        $arguments = array_merge([\Kiyon\Laravel\Authentication\Model\User::class], func_get_args());
+
+        $sysAdmin = create(...$arguments);
+
+        \Kiyon\Laravel\Authorization\Model\Role::systemAdminRole()->users()->attach($sysAdmin);
+        \Kiyon\Laravel\Authorization\Model\Role::staffRole()->users()->attach($sysAdmin);
+
+        return $sysAdmin;
+    }
+}
+
+if (! function_exists('createMember')) {
+
+    /**
+     * create Members in database
+     *
+     * @return mixed
+     */
+    function createMember()
+    {
+        $arguments = array_merge([\Kiyon\Laravel\Member\Model\Member::class], func_get_args());
+
+        $members = create(...$arguments);
+
+        \Kiyon\Laravel\Authorization\Model\Role::memberRole()->users()->attach($members);
+
+        return $members;
+    }
+}
+
+if (! function_exists('createStaff')) {
+
+    /**
+     * create Members in database
+     *
+     * @return mixed
+     */
+    function createStaff()
+    {
+        $arguments = array_merge([\Kiyon\Laravel\Staff\Model\Staff::class], func_get_args());
+
+        $staff = create(...$arguments);
+
+        \Kiyon\Laravel\Authorization\Model\Role::staffRole()->users()->attach($staff);
+
+        return $staff;
+    }
+}

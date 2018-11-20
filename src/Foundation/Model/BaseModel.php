@@ -10,7 +10,7 @@ namespace Kiyon\Laravel\Foundation\Model;
 
 
 use Illuminate\Database\Eloquent\Model;
-use Kiyon\Laravel\Foundation\Model\GlobalScopes\MemberScope;
+use Kiyon\Laravel\Foundation\Model\GlobalScopes\UidScope;
 use Kiyon\Laravel\Foundation\Model\LocalScopes\FilterScope;
 
 class BaseModel extends Model
@@ -55,6 +55,6 @@ class BaseModel extends Model
     {
         parent::boot();
 
-        static::addGlobalScope(new MemberScope);
+        static::addGlobalScope(new UidScope);
     }
 }

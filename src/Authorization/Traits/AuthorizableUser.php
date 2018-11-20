@@ -2,6 +2,7 @@
 
 namespace Kiyon\Laravel\Authorization\Traits;
 
+use Illuminate\Database\Eloquent\Builder;
 use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Authorization\Model\Organization;
 use Kiyon\Laravel\Authorization\Model\Permission;
@@ -20,7 +21,7 @@ trait AuthorizableUser
      */
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'sys_role_user');
+        return $this->belongsToMany(Role::class, 'sys_role_user', 'user_id');
     }
 
     /**
@@ -30,7 +31,7 @@ trait AuthorizableUser
      */
     public function organizations()
     {
-        return $this->belongsToMany(Organization::class, 'sys_organization_user');
+        return $this->belongsToMany(Organization::class, 'sys_organization_user', 'user_id');
     }
 
     /**
@@ -40,7 +41,7 @@ trait AuthorizableUser
      */
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class, 'sys_permission_user');
+        return $this->belongsToMany(Permission::class, 'sys_permission_user', 'user_id');
     }
 
     /**
@@ -50,9 +51,7 @@ trait AuthorizableUser
      */
     public function isMember()
     {
-        return $this->whereHas('roles', function ($query) {
-            return $query->where('key', Constant::ROLE_MEMBER);
-        })->exists();
+        return $this->roles->where('key', Constant::ROLE_MEMBER)->count() > 0;
     }
 
     /**
@@ -62,9 +61,17 @@ trait AuthorizableUser
      */
     public function isStaff()
     {
-        return $this->whereHas('roles', function ($query) {
-            return $query->where('key', Constant::ROLE_STAFF);
-        })->exists();
+        return $this->roles->where('key', Constant::ROLE_STAFF)->count() > 0;
+    }
+
+    /**
+     * 用户是否系统管理员
+     *
+     * @return bool
+     */
+    public function isSystemAdmin()
+    {
+        return $this->roles->where('key', Constant::ROLE_SYSTEM_ADMIN)->count() > 0;
     }
 
     /**
@@ -74,7 +81,7 @@ trait AuthorizableUser
      *
      * @return void|bool
      */
-    public static function boot()
+    protected static function boot()
     {
         parent::boot();
 

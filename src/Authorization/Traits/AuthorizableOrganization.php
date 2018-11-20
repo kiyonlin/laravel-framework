@@ -50,7 +50,7 @@ trait AuthorizableOrganization
      *
      * @return void|bool
      */
-    public static function boot()
+    protected static function boot()
     {
         parent::boot();
 

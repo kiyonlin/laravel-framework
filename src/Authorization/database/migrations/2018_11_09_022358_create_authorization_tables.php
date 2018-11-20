@@ -118,19 +118,23 @@ class CreateAuthorizationTables extends Migration
         Schema::dropIfExists('sys_permission_role');
     }
 
+    /**
+     * 设置初始化数据
+     */
     private function setupInitData()
     {
+        // 创建初始化角色
         foreach (Constant::INIT_ROLES as $role) {
             create(Role::class, ['key' => $role]);
         }
 
-        create(User::class, [
+        // 创建初始化管理员
+        createSystemAdmin([
             'username'     => 'kiyon',
             'display_name' => 'kiyon',
             'mobile'       => '13675822217',
             'email'        => 'kiyonlin@163.com',
             'password'     => 'admin.amyfair',
         ]);
-
     }
 }

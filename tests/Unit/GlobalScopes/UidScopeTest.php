@@ -11,14 +11,11 @@ namespace Tests\Unit\GlobalScopes;
 
 use Illuminate\Database\Schema\Blueprint;
 use Kiyon\Laravel\Authentication\Model\User;
-use Kiyon\Laravel\Authorization\Model\Role;
 use Kiyon\Laravel\Foundation\Model\BaseModel;
-use Illuminate\Database\Eloquent\Model as Eloquent;
-use Kiyon\Laravel\Support\Constant;
 use Tests\MigrationsForTest;
 use Tests\TestCase;
 
-class MemberScope extends TestCase
+class UidScopeTest extends TestCase
 {
 
     use MigrationsForTest;
@@ -76,7 +73,7 @@ class MemberScope extends TestCase
     /** @test */
     public function 会员用户登录时，有uid字段的记录才会添加uid筛选条件()
     {
-        $user = getMember();
+        $user = createMember();
 
         $this->signIn($user);
 
