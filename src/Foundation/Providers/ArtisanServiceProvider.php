@@ -3,10 +3,14 @@
 namespace Kiyon\Laravel\Foundation\Providers;
 
 use Kiyon\Laravel\Console\ModControllerMakeCommand;
+use Kiyon\Laravel\Console\ModFactoryMakeCommand;
+use Kiyon\Laravel\Console\ModMigrationMakeCommand;
 use Kiyon\Laravel\Console\ModModelMakeCommand;
 use Kiyon\Laravel\Console\ModRepositoryContractMakeCommand;
 use Kiyon\Laravel\Console\ModRepositoryMakeCommand;
+use Kiyon\Laravel\Console\ModRoutesMakeCommand;
 use Kiyon\Laravel\Console\ModServiceMakeCommand;
+use Kiyon\Laravel\Console\ModServiceProviderMakeCommand;
 use Kiyon\Laravel\Support\ServiceProviders\ServiceProvider;
 
 class ArtisanServiceProvider extends ServiceProvider
@@ -38,6 +42,10 @@ class ArtisanServiceProvider extends ServiceProvider
         'ModRepositoryMake'         => 'command.mod.repository.make',
         'ModRepositoryContractMake' => 'command.mod.repository.contract.make',
         'ModServiceMake'            => 'command.mod.service.make',
+        'ModServiceProviderMake'    => 'command.mod.service-provider.make',
+        'ModRoutesMake'             => 'command.mod.routes.make',
+        'ModMigrationMake'          => 'command.mod.migration.make',
+        'ModFactoryMake'            => 'command.mod.factory.make',
     ];
 
     /**
@@ -124,6 +132,54 @@ class ArtisanServiceProvider extends ServiceProvider
     {
         $this->app->singleton('command.mod.service.make', function ($app) {
             return new ModServiceMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerModServiceProviderMakeCommand()
+    {
+        $this->app->singleton('command.mod.service-provider.make', function ($app) {
+            return new ModServiceProviderMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerModRoutesMakeCommand()
+    {
+        $this->app->singleton('command.mod.routes.make', function ($app) {
+            return new ModRoutesMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerModMigrationMakeCommand()
+    {
+        $this->app->singleton('command.mod.migration.make', function ($app) {
+            return new ModMigrationMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerModFactoryMakeCommand()
+    {
+        $this->app->singleton('command.mod.factory.make', function ($app) {
+            return new ModFactoryMakeCommand($app['files']);
         });
     }
 

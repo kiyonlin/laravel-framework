@@ -1,16 +1,39 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
-| Load The Cached Routes
+| API Routes
 |--------------------------------------------------------------------------
 |
-| Here we will decode and unserialize the RouteCollection instance that
-| holds all of the route information for an application. This allows
-| us to instantaneously load the entire route map into the router.
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| is assigned the "api" middleware group. Enjoy building your API!
 |
 */
 
-app('router')->setRoutes(
-    unserialize(base64_decode('{{routes}}'))
-);
+// 用户授权相关
+Route::namespace('DummyNamespace\Controller')
+    ->middleware(['api', 'auth'])
+    ->group(function () {
+        Route::prefix('app/DummyItem')
+            ->name('app.DummyItem.')
+            ->group(function () {
+                Route::get('/', 'DummyModelController@index')
+                    ->middleware('ability:app.DummyItem.index')
+                    ->name('index');
+
+                Route::post('/', 'DummyModelController@store')
+                    ->middleware('ability:app.DummyItem.store')
+                    ->name('store');
+
+                Route::patch('/update/{DummyItem}', 'DummyModelController@update')
+                    ->middleware('ability:app.DummyItem.update')
+                    ->name('update');
+
+                Route::delete('/destroy/{DummyItem}', 'DummyModelController@destroy')
+                    ->middleware('ability:app.DummyItem.destroy')
+                    ->name('destroy');
+            });
+    });

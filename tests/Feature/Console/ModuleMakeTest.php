@@ -9,6 +9,7 @@
 namespace Tests\Feature\Console;
 
 
+use Carbon\Carbon;
 use Tests\TestCase;
 
 class ModuleMakeTest extends TestCase
@@ -125,5 +126,65 @@ class ModuleMakeTest extends TestCase
         $serviceFile = $this->app->basePath() . '/app/Modules/Module/Service/FakeService.php';
 
         $this->assertFileExists($serviceFile);
+    }
+
+    /** @test */
+    public function 服务提供者创建命令()
+    {
+        $this->artisan('mod-make:service-provider', ['mod' => 'Module'])->run();
+
+        $serviceProviderFile = $this->app->basePath() . '/app/Modules/Module/ModuleServiceProvider.php';
+
+        $this->assertFileExists($serviceProviderFile);
+
+        $this->artisan('mod-make:service-provider', ['mod' => 'Module', 'name' => 'Fake'])->run();
+
+        $serviceProviderFile = $this->app->basePath() . '/app/Modules/Module/FakeServiceProvider.php';
+
+        $this->assertFileExists($serviceProviderFile);
+    }
+
+    /** @test */
+    public function 服务提供者创建路由()
+    {
+        $this->artisan('mod-make:routes', ['mod' => 'Module'])->run();
+
+        $routesFile = $this->app->basePath() . '/app/Modules/Module/routes/api.php';
+
+        $this->assertFileExists($routesFile);
+    }
+
+    /** @test */
+    public function 服务提供者创建迁移文件()
+    {
+        Carbon::setTestNow('2018-11-21 08:57:22');
+
+        $this->artisan('mod-make:migration', ['mod' => 'Module'])->run();
+
+        $migrationFile = $this->app->basePath() . '/app/Modules/Module/database/migrations/2018_11_21_085722_create_app_modules_table.php';
+
+        $this->assertFileExists($migrationFile);
+
+        $this->artisan('mod-make:migration', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
+
+        $migrationFile = $this->app->basePath() . '/app/Modules/Module/database/migrations/2018_11_21_085722_create_app_fake_models_table.php';
+
+        $this->assertFileExists($migrationFile);
+    }
+
+    /** @test */
+    public function 服务提供者创建数据填充()
+    {
+        $this->artisan('mod-make:factory', ['mod' => 'Module'])->run();
+
+        $factoryFile = $this->app->basePath() . '/app/Modules/Module/database/factories/ModuleFactory.php';
+
+        $this->assertFileExists($factoryFile);
+
+        $this->artisan('mod-make:factory', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
+
+        $factoryFile = $this->app->basePath() . '/app/Modules/Module/database/factories/FakeModelFactory.php';
+
+        $this->assertFileExists($factoryFile);
     }
 }
