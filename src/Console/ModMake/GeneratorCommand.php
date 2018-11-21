@@ -1,11 +1,11 @@
 <?php
 
-namespace Kiyon\Laravel\Console;
+namespace Kiyon\Laravel\Console\ModMake;
 
 use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;
+use Kiyon\Laravel\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 abstract class GeneratorCommand extends Command
 {

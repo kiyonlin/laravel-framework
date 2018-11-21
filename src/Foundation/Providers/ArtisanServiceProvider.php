@@ -2,15 +2,15 @@
 
 namespace Kiyon\Laravel\Foundation\Providers;
 
-use Kiyon\Laravel\Console\ModControllerMakeCommand;
-use Kiyon\Laravel\Console\ModFactoryMakeCommand;
-use Kiyon\Laravel\Console\ModMigrationMakeCommand;
-use Kiyon\Laravel\Console\ModModelMakeCommand;
-use Kiyon\Laravel\Console\ModRepositoryContractMakeCommand;
-use Kiyon\Laravel\Console\ModRepositoryMakeCommand;
-use Kiyon\Laravel\Console\ModRoutesMakeCommand;
-use Kiyon\Laravel\Console\ModServiceMakeCommand;
-use Kiyon\Laravel\Console\ModServiceProviderMakeCommand;
+use Kiyon\Laravel\Console\ModMake\ModControllerMakeCommand;
+use Kiyon\Laravel\Console\ModMake\ModFactoryMakeCommand;
+use Kiyon\Laravel\Console\ModMake\ModMigrationMakeCommand;
+use Kiyon\Laravel\Console\ModMake\ModModelMakeCommand;
+use Kiyon\Laravel\Console\ModMake\ModRepositoryContractMakeCommand;
+use Kiyon\Laravel\Console\ModMake\ModRepositoryMakeCommand;
+use Kiyon\Laravel\Console\ModMake\ModRoutesMakeCommand;
+use Kiyon\Laravel\Console\ModMake\ModServiceMakeCommand;
+use Kiyon\Laravel\Console\ModMake\ModServiceProviderMakeCommand;
 use Kiyon\Laravel\Support\ServiceProviders\ServiceProvider;
 
 class ArtisanServiceProvider extends ServiceProvider

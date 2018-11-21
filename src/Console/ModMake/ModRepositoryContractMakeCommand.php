@@ -1,11 +1,11 @@
 <?php
 
-namespace Kiyon\Laravel\Console;
+namespace Kiyon\Laravel\Console\ModMake;
 
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class ModRoutesMakeCommand extends GeneratorCommand
+class ModRepositoryContractMakeCommand extends GeneratorCommand
 {
 
     /**
@@ -13,21 +13,21 @@ class ModRoutesMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'mod-make:routes';
+    protected $name = 'mod-make:repository-contract';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '创建系统模块路由';
+    protected $description = '创建系统模块仓库接口';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'routes';
+    protected $type = 'Contracts';
 
 
     /**
@@ -37,23 +37,20 @@ class ModRoutesMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__ . '/stubs/routes.stub';
+        return __DIR__ . '/stubs/repository.contract.stub';
     }
 
     /**
-     * {@inheritdoc}
+     * Get the destination class path.
+     *
+     * @param  string $name
+     * @return string
      */
-    protected function getPath($name)
+    public function getPath($name)
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
 
-        if ($this->argument('name')) {
-            $replaceName = trim($this->argument('name'));
-        } else {
-            $replaceName = 'api';
-        }
-
-        $name = Str::replaceFirst($this->getModuleInput(), $replaceName, $name);
+        $name .= 'RepositoryContract';
 
         return $this->laravel['path'] . '/Modules/' . $this->getModuleInput() . str_replace('\\', '/', $name) . '.php';
     }
@@ -66,7 +63,7 @@ class ModRoutesMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\\' . $this->type;
+        return $rootNamespace . '\\' .$this->type;
     }
 
     /**

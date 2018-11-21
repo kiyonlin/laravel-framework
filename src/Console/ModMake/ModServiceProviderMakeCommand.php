@@ -1,10 +1,10 @@
 <?php
 
-namespace Kiyon\Laravel\Console;
+namespace Kiyon\Laravel\Console\ModMake;
 
 use Symfony\Component\Console\Input\InputOption;
 
-class ModControllerMakeCommand extends GeneratorCommand
+class ModServiceProviderMakeCommand extends GeneratorCommand
 {
 
     /**
@@ -12,21 +12,21 @@ class ModControllerMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'mod-make:controller';
+    protected $name = 'mod-make:service-provider';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '创建系统模块控制器';
+    protected $description = '创建系统模块服务提供者';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Controller';
+    protected $type = 'ServiceProvider';
 
 
     /**
@@ -36,26 +36,7 @@ class ModControllerMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        if ($this->option('plain')) {
-            return __DIR__ . '/stubs/controller.plain.stub';
-        }
-
-        return __DIR__ . '/stubs/controller.stub';
-    }
-
-    /**
-     * Build the class with the given name.
-     *
-     * @param  string $name
-     * @return string
-     */
-    public function buildClass($name)
-    {
-        $stub = $this->files->get($this->getStub());
-
-        return $this->replaceNamespace($stub, $name)
-            ->replaceClass($stub, $name)
-            ->replaceTable($stub);
+        return __DIR__ . '/stubs/service-provider.stub';
     }
 
     /**
@@ -66,7 +47,7 @@ class ModControllerMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\\' . $this->type;
+        return $rootNamespace;
     }
 
     /**
@@ -78,7 +59,6 @@ class ModControllerMakeCommand extends GeneratorCommand
     {
         return [
             ['force', null, InputOption::VALUE_NONE, 'Create the class even if the model already exists'],
-            ['plain', 'p', InputOption::VALUE_NONE, 'Create the plain controller class'],
         ];
     }
 }

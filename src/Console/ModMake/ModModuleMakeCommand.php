@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiyon\Laravel\Console;
+namespace Kiyon\Laravel\Console\ModMake;
 
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
@@ -118,10 +118,10 @@ class ModModuleMakeCommand extends GeneratorCommand
     protected function getStub()
     {
         if ($this->option('pivot')) {
-            return __DIR__.'/stubs/pivot.model.stub';
+            return __DIR__ . '/stubs/pivot.model.stub';
         }
 
-        return __DIR__.'/stubs/model.stub';
+        return __DIR__ . '/stubs/model.stub';
     }
 
     /**

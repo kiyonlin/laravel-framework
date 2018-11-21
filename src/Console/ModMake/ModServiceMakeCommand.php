@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiyon\Laravel\Console;
+namespace Kiyon\Laravel\Console\ModMake;
 
 use Symfony\Component\Console\Input\InputOption;
 

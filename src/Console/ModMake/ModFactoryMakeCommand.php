@@ -1,12 +1,12 @@
 <?php
 
-namespace Kiyon\Laravel\Console;
+namespace Kiyon\Laravel\Console\ModMake;
 
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class ModMigrationMakeCommand extends GeneratorCommand
+class ModFactoryMakeCommand extends GeneratorCommand
 {
 
     /**
@@ -14,21 +14,21 @@ class ModMigrationMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'mod-make:migration';
+    protected $name = 'mod-make:factory';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '创建系统模块迁移文件';
+    protected $description = '创建系统模块数据填充';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Migration';
+    protected $type = 'Factory';
 
 
     /**
@@ -38,7 +38,7 @@ class ModMigrationMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__ . '/stubs/migration.create.stub';
+        return __DIR__ . '/stubs/factory.stub';
     }
 
     /**
@@ -46,28 +46,9 @@ class ModMigrationMakeCommand extends GeneratorCommand
      */
     protected function getPath($name)
     {
-        $name = '/database/migrations/' . $this->getPrefix() . '_create_app_' . Str::snake($this->getNameInput()) . 's_table';
+        $name = '/database/factories/' . $this->getNameInput() . $this->type;
 
         return $this->laravel['path'] . '/Modules/' . $this->getModuleInput() . str_replace('\\', '/', $name) . '.php';
-    }
-
-    protected function getPrefix()
-    {
-        return Carbon::now()->format('Y_m_d_His');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function buildClass($name)
-    {
-        $stub = $this->files->get($this->getStub());
-
-        $class = 'CreateApp' . $this->getNameInput() . 'sTable';
-
-        $stub = str_replace('DummyMigrationClass', $class, $stub);
-
-        return $this->replaceTable($stub);
     }
 
     /**

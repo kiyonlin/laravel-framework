@@ -1,10 +1,10 @@
 <?php
 
-namespace Kiyon\Laravel\Console;
+namespace Kiyon\Laravel\Console\ModMake;
 
 use Symfony\Component\Console\Input\InputOption;
 
-class ModModelMakeCommand extends GeneratorCommand
+class ModRepositoryMakeCommand extends GeneratorCommand
 {
 
     /**
@@ -12,21 +12,33 @@ class ModModelMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'mod-make:model';
+    protected $name = 'mod-make:repository';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '创建系统模块模型';
+    protected $description = '创建系统模块仓库';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Model';
+    protected $type = 'Repository';
+
+    public function handle()
+    {
+        parent::handle();
+
+        if (! $this->option('plain')) {
+            $this->call('mod-make:repository-contract', [
+                'mod'  => $this->argument('mod'),
+                'name' => $this->argument('name'),
+            ]);
+        }
+    }
 
 
     /**
@@ -36,7 +48,7 @@ class ModModelMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__ . '/stubs/model.stub';
+        return __DIR__ . '/stubs/repository.stub';
     }
 
     /**
@@ -47,7 +59,7 @@ class ModModelMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\\' .$this->type;
+        return $rootNamespace . '\\' . $this->type;
     }
 
     /**
@@ -59,6 +71,7 @@ class ModModelMakeCommand extends GeneratorCommand
     {
         return [
             ['force', null, InputOption::VALUE_NONE, 'Create the class even if the model already exists'],
+            ['plain', 'p', InputOption::VALUE_NONE, 'Create the contract class'],
         ];
     }
 }

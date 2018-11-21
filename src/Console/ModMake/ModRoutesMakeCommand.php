@@ -1,10 +1,11 @@
 <?php
 
-namespace Kiyon\Laravel\Console;
+namespace Kiyon\Laravel\Console\ModMake;
 
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class ModRepositoryMakeCommand extends GeneratorCommand
+class ModRoutesMakeCommand extends GeneratorCommand
 {
 
     /**
@@ -12,33 +13,21 @@ class ModRepositoryMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'mod-make:repository';
+    protected $name = 'mod-make:routes';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '创建系统模块仓库';
+    protected $description = '创建系统模块路由';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Repository';
-
-    public function handle()
-    {
-        parent::handle();
-
-        if (! $this->option('plain')) {
-            $this->call('mod-make:repository-contract', [
-                'mod'  => $this->argument('mod'),
-                'name' => $this->argument('name'),
-            ]);
-        }
-    }
+    protected $type = 'routes';
 
 
     /**
@@ -48,7 +37,25 @@ class ModRepositoryMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__ . '/stubs/repository.stub';
+        return __DIR__ . '/stubs/routes.stub';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getPath($name)
+    {
+        $name = Str::replaceFirst($this->rootNamespace(), '', $name);
+
+        if ($this->argument('name')) {
+            $replaceName = trim($this->argument('name'));
+        } else {
+            $replaceName = 'api';
+        }
+
+        $name = Str::replaceFirst($this->getModuleInput(), $replaceName, $name);
+
+        return $this->laravel['path'] . '/Modules/' . $this->getModuleInput() . str_replace('\\', '/', $name) . '.php';
     }
 
     /**
@@ -71,7 +78,6 @@ class ModRepositoryMakeCommand extends GeneratorCommand
     {
         return [
             ['force', null, InputOption::VALUE_NONE, 'Create the class even if the model already exists'],
-            ['plain', 'p', InputOption::VALUE_NONE, 'Create the contract class'],
         ];
     }
 }
