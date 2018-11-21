@@ -34,4 +34,16 @@ class KiyonLaravelServiceProvider extends ServiceProvider
             $this->app->register($provider);
         }
     }
+
+    /**
+     * Bootstrap the application events.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->publishes([
+            __DIR__ . '../../../phpunit.xml.dist' => base_path('phpunit.xml.dist'),
+        ]);
+    }
 }
