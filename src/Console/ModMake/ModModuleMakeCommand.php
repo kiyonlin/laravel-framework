@@ -3,10 +3,13 @@
 namespace Kiyon\Laravel\Console\ModMake;
 
 use Illuminate\Support\Str;
+use Kiyon\Laravel\Console\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class ModModuleMakeCommand extends GeneratorCommand
+class ModModuleMakeCommand extends Command
 {
+
     /**
      * The console command name.
      *
@@ -21,12 +24,11 @@ class ModModuleMakeCommand extends GeneratorCommand
      */
     protected $description = '创建系统模块';
 
-    /**
-     * The type of class being generated.
-     *
-     * @var string
-     */
-    protected $type = 'Module';
+    protected $makeOptions = [
+        'all', 'model', 'repository', 'request', 'controller', 'service', 'service-provider',
+        'routes', 'factory', 'migration', 'unit-test', 'feature-test',
+    ];
+
 
     /**
      * Execute the console command.
@@ -35,104 +37,41 @@ class ModModuleMakeCommand extends GeneratorCommand
      */
     public function handle()
     {
-        if (parent::handle() === false && ! $this->option('force')) {
-            return;
+        $this->output->title('开始创建应用模块');
+        $customerModule = $this->ask("自定义模块内容?(y/n)", 'n');
+        $customerModule = Str::substr(Str::lower($customerModule), 0, 1);
+
+        $choices = $this->makeOptions;
+
+        if ($customerModule != 'n') {
+            $choices = $this->choice('请选择需要创建的模块内容(可多选，使用逗号隔开)',
+                $this->makeOptions, null, 1, true);
         }
 
-        if ($this->option('all')) {
-            $this->input->setOption('factory', true);
-            $this->input->setOption('migration', true);
-            $this->input->setOption('controller', true);
-            $this->input->setOption('resource', true);
+        if (in_array('all', $choices)) {
+            $choices = array_except($this->makeOptions, '0');
         }
 
-        if ($this->option('factory')) {
-            $this->createFactory();
-        }
-
-        if ($this->option('migration')) {
-            $this->createMigration();
-        }
-
-        if ($this->option('controller') || $this->option('resource')) {
-            $this->createController();
+        foreach ($choices as $choice) {
+            $this->call("mod-make:{$choice}", [
+                'mod'     => $this->argument('mod'),
+                'name'    => $this->argument('name'),
+                '--force' => $this->option('force'),
+            ]);
         }
     }
 
     /**
-     * Create a model factory for the model.
+     * Get the console command arguments.
      *
-     * @return void
+     * @return array
      */
-    protected function createFactory()
+    protected function getArguments()
     {
-        $factory = Str::studly(class_basename($this->argument('name')));
-
-        $this->call('make:factory', [
-            'name' => "{$factory}Factory",
-            '--model' => $this->argument('name'),
-        ]);
-    }
-
-    /**
-     * Create a migration file for the model.
-     *
-     * @return void
-     */
-    protected function createMigration()
-    {
-        $table = Str::plural(Str::snake(class_basename($this->argument('name'))));
-
-        if ($this->option('pivot')) {
-            $table = Str::singular($table);
-        }
-
-        $this->call('make:migration', [
-            'name' => "create_{$table}_table",
-            '--create' => $table,
-        ]);
-    }
-
-    /**
-     * Create a controller for the model.
-     *
-     * @return void
-     */
-    protected function createController()
-    {
-        $controller = Str::studly(class_basename($this->argument('name')));
-
-        $modelName = $this->qualifyClass($this->getNameInput());
-
-        $this->call('make:controller', [
-            'name' => "{$controller}Controller",
-            '--model' => $this->option('resource') ? $modelName : null,
-        ]);
-    }
-
-    /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    protected function getStub()
-    {
-        if ($this->option('pivot')) {
-            return __DIR__ . '/stubs/pivot.model.stub';
-        }
-
-        return __DIR__ . '/stubs/model.stub';
-    }
-
-    /**
-     * Get the default namespace for the class.
-     *
-     * @param  string  $rootNamespace
-     * @return string
-     */
-    protected function getDefaultNamespace($rootNamespace)
-    {
-        return $rootNamespace;
+        return [
+            ['mod', InputArgument::REQUIRED, 'The name of the module'],
+            ['name', InputArgument::OPTIONAL, 'The name of the class'],
+        ];
     }
 
     /**
@@ -143,19 +82,7 @@ class ModModuleMakeCommand extends GeneratorCommand
     protected function getOptions()
     {
         return [
-            ['all', 'a', InputOption::VALUE_NONE, 'Generate a migration, factory, and resource controller for the model'],
-
-            ['controller', 'c', InputOption::VALUE_NONE, 'Create a new controller for the model'],
-
-            ['factory', 'f', InputOption::VALUE_NONE, 'Create a new factory for the model'],
-
             ['force', null, InputOption::VALUE_NONE, 'Create the class even if the model already exists'],
-
-            ['migration', 'm', InputOption::VALUE_NONE, 'Create a new migration file for the model'],
-
-            ['pivot', 'p', InputOption::VALUE_NONE, 'Indicates if the generated model should be a custom intermediate table model'],
-
-            ['resource', 'r', InputOption::VALUE_NONE, 'Indicates if the generated controller should be a resource controller'],
         ];
     }
 }

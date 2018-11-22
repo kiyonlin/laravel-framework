@@ -49,9 +49,9 @@ class ModuleMakeTest extends TestCase
 
         $this->assertFileExists($controllerFile);
 
-        $this->artisan('mod-make:controller', ['mod' => 'Module', 'name' => 'Fake', '-p' => true])->run();
+        $this->artisan('mod-make:controller', ['mod' => 'Module', 'name' => 'FakeModel', '-p' => true])->run();
 
-        $controllerFile = $this->app->basePath() . '/app/Modules/Module/Controller/FakeController.php';
+        $controllerFile = $this->app->basePath() . '/app/Modules/Module/Controller/FakeModelController.php';
 
         $this->assertFileExists($controllerFile);
     }
@@ -65,9 +65,9 @@ class ModuleMakeTest extends TestCase
 
         $this->assertFileExists($controllerFile);
 
-        $this->artisan('mod-make:controller', ['mod' => 'Module', 'name' => 'Fake'])->run();
+        $this->artisan('mod-make:controller', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
 
-        $controllerFile = $this->app->basePath() . '/app/Modules/Module/Controller/FakeController.php';
+        $controllerFile = $this->app->basePath() . '/app/Modules/Module/Controller/FakeModelController.php';
 
         $this->assertFileExists($controllerFile);
     }
@@ -83,10 +83,10 @@ class ModuleMakeTest extends TestCase
         $this->assertFileExists($repositoryFile);
         $this->assertFileExists($contractFile);
 
-        $this->artisan('mod-make:repository', ['mod' => 'Module', 'name' => 'Fake'])->run();
+        $this->artisan('mod-make:repository', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
 
-        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/FakeRepository.php';
-        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/FakeRepositoryContract.php';
+        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/FakeModelRepository.php';
+        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/FakeModelRepositoryContract.php';
 
         $this->assertFileExists($repositoryFile);
         $this->assertFileExists($contractFile);
@@ -103,10 +103,10 @@ class ModuleMakeTest extends TestCase
         $this->assertFileExists($repositoryFile);
         $this->assertFileNotExists($contractFile);
 
-        $this->artisan('mod-make:repository', ['mod' => 'Module', 'name' => 'Fake', '--plain' => true])->run();
+        $this->artisan('mod-make:repository', ['mod' => 'Module', 'name' => 'FakeModel', '--plain' => true])->run();
 
-        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/FakeRepository.php';
-        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/FakeRepositoryContract.php';
+        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/FakeModelRepository.php';
+        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/FakeModelRepositoryContract.php';
 
         $this->assertFileExists($repositoryFile);
         $this->assertFileNotExists($contractFile);
@@ -121,9 +121,9 @@ class ModuleMakeTest extends TestCase
 
         $this->assertFileExists($serviceFile);
 
-        $this->artisan('mod-make:service', ['mod' => 'Module', 'name' => 'Fake'])->run();
+        $this->artisan('mod-make:service', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
 
-        $serviceFile = $this->app->basePath() . '/app/Modules/Module/Service/FakeService.php';
+        $serviceFile = $this->app->basePath() . '/app/Modules/Module/Service/FakeModelService.php';
 
         $this->assertFileExists($serviceFile);
     }
@@ -137,15 +137,15 @@ class ModuleMakeTest extends TestCase
 
         $this->assertFileExists($serviceProviderFile);
 
-        $this->artisan('mod-make:service-provider', ['mod' => 'Module', 'name' => 'Fake'])->run();
+        $this->artisan('mod-make:service-provider', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
 
-        $serviceProviderFile = $this->app->basePath() . '/app/Modules/Module/FakeServiceProvider.php';
+        $serviceProviderFile = $this->app->basePath() . '/app/Modules/Module/FakeModelServiceProvider.php';
 
         $this->assertFileExists($serviceProviderFile);
     }
 
     /** @test */
-    public function 服务提供者创建路由()
+    public function 创建路由命令()
     {
         $this->artisan('mod-make:routes', ['mod' => 'Module'])->run();
 
@@ -155,7 +155,7 @@ class ModuleMakeTest extends TestCase
     }
 
     /** @test */
-    public function 服务提供者创建迁移文件()
+    public function 创建迁移文件命令()
     {
         Carbon::setTestNow('2018-11-21 08:57:22');
 
@@ -173,7 +173,7 @@ class ModuleMakeTest extends TestCase
     }
 
     /** @test */
-    public function 服务提供者创建数据填充()
+    public function 创建数据填充命令()
     {
         $this->artisan('mod-make:factory', ['mod' => 'Module'])->run();
 
@@ -186,5 +186,228 @@ class ModuleMakeTest extends TestCase
         $factoryFile = $this->app->basePath() . '/app/Modules/Module/database/factories/FakeModelFactory.php';
 
         $this->assertFileExists($factoryFile);
+    }
+
+    /** @test */
+    public function 创建请求验证命令()
+    {
+        $this->artisan('mod-make:request', ['mod' => 'Module'])->run();
+
+        $requestFile = $this->app->basePath() . '/app/Modules/Module/Request/ModuleRequest.php';
+
+        $this->assertFileExists($requestFile);
+
+        $this->artisan('mod-make:request', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
+
+        $requestFile = $this->app->basePath() . '/app/Modules/Module/Request/FakeModelRequest.php';
+
+        $this->assertFileExists($requestFile);
+    }
+
+    /** @test */
+    public function 创建单元测试命令()
+    {
+        $this->artisan('mod-make:unit-test', ['mod' => 'Module'])->run();
+
+        $unitTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Unit/ModuleTest.php';
+
+        $this->assertFileExists($unitTestFile);
+
+        $this->artisan('mod-make:unit-test', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
+
+        $unitTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Unit/FakeModelTest.php';
+
+        $this->assertFileExists($unitTestFile);
+    }
+
+    /** @test */
+    public function 创建功能测试命令()
+    {
+        $this->artisan('mod-make:feature-test', ['mod' => 'Module'])->run();
+
+        $featureTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Feature/ModuleTest.php';
+
+        $this->assertFileExists($featureTestFile);
+
+        $this->artisan('mod-make:feature-test', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
+
+        $featureTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Feature/FakeModelTest.php';
+
+        $this->assertFileExists($featureTestFile);
+    }
+
+    /** @test */
+    public function 创建模块命令()
+    {
+        Carbon::setTestNow('2018-11-21 08:57:22');
+
+        $this->artisan('mod-make:module', ['mod' => 'Module'])
+            ->expectsQuestion('自定义模块内容?(y/n)', 'n')
+            ->assertExitCode(0);
+
+        $modelFile = $this->app->basePath() . '/app/Modules/Module/Model/Module.php';
+        $this->assertFileExists($modelFile);
+
+        $controllerFile = $this->app->basePath() . '/app/Modules/Module/Controller/ModuleController.php';
+        $this->assertFileExists($controllerFile);
+
+        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/ModuleRepository.php';
+        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/ModuleRepositoryContract.php';
+        $this->assertFileExists($repositoryFile);
+        $this->assertFileExists($contractFile);
+
+        $serviceFile = $this->app->basePath() . '/app/Modules/Module/Service/ModuleService.php';
+        $this->assertFileExists($serviceFile);
+
+        $serviceProviderFile = $this->app->basePath() . '/app/Modules/Module/ModuleServiceProvider.php';
+        $this->assertFileExists($serviceProviderFile);
+
+        $routesFile = $this->app->basePath() . '/app/Modules/Module/routes/api.php';
+        $this->assertFileExists($routesFile);
+
+        $migrationFile = $this->app->basePath() . '/app/Modules/Module/database/migrations/2018_11_21_085722_create_app_modules_table.php';
+        $this->assertFileExists($migrationFile);
+
+        $factoryFile = $this->app->basePath() . '/app/Modules/Module/database/factories/ModuleFactory.php';
+        $this->assertFileExists($factoryFile);
+
+        $requestFile = $this->app->basePath() . '/app/Modules/Module/Request/ModuleRequest.php';
+        $this->assertFileExists($requestFile);
+
+        $unitTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Unit/ModuleTest.php';
+        $this->assertFileExists($unitTestFile);
+
+        $featureTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Feature/ModuleTest.php';
+        $this->assertFileExists($featureTestFile);
+
+        $this->artisan('mod-make:module', ['mod' => 'Module', 'name' => 'FakeModel'])
+            ->expectsQuestion('自定义模块内容?(y/n)', 'n')
+            ->assertExitCode(0);
+
+        $modelFile = $this->app->basePath() . '/app/Modules/Module/Model/FakeModel.php';
+        $this->assertFileExists($modelFile);
+
+        $controllerFile = $this->app->basePath() . '/app/Modules/Module/Controller/FakeModelController.php';
+        $this->assertFileExists($controllerFile);
+
+        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/FakeModelRepository.php';
+        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/FakeModelRepositoryContract.php';
+        $this->assertFileExists($repositoryFile);
+        $this->assertFileExists($contractFile);
+
+        $serviceFile = $this->app->basePath() . '/app/Modules/Module/Service/FakeModelService.php';
+        $this->assertFileExists($serviceFile);
+
+        $migrationFile = $this->app->basePath() . '/app/Modules/Module/database/migrations/2018_11_21_085722_create_app_fake_models_table.php';
+        $this->assertFileExists($migrationFile);
+
+        $factoryFile = $this->app->basePath() . '/app/Modules/Module/database/factories/FakeModelFactory.php';
+        $this->assertFileExists($factoryFile);
+
+        $requestFile = $this->app->basePath() . '/app/Modules/Module/Request/FakeModelRequest.php';
+        $this->assertFileExists($requestFile);
+
+        $unitTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Unit/FakeModelTest.php';
+        $this->assertFileExists($unitTestFile);
+
+        $featureTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Feature/FakeModelTest.php';
+        $this->assertFileExists($featureTestFile);
+    }
+
+    /** @test */
+    public function 选择创建模块所有内容命令()
+    {
+        Carbon::setTestNow('2018-11-21 08:57:22');
+
+        $this->artisan('mod-make:module', ['mod' => 'Module'])
+            ->expectsQuestion('自定义模块内容?(y/n)', 'y')
+            ->expectsQuestion('请选择需要创建的模块内容(可多选，使用逗号隔开)', [0])
+            ->assertExitCode(0);
+
+        $modelFile = $this->app->basePath() . '/app/Modules/Module/Model/Module.php';
+        $this->assertFileExists($modelFile);
+
+        $controllerFile = $this->app->basePath() . '/app/Modules/Module/Controller/ModuleController.php';
+        $this->assertFileExists($controllerFile);
+
+        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/ModuleRepository.php';
+        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/ModuleRepositoryContract.php';
+        $this->assertFileExists($repositoryFile);
+        $this->assertFileExists($contractFile);
+
+        $serviceFile = $this->app->basePath() . '/app/Modules/Module/Service/ModuleService.php';
+        $this->assertFileExists($serviceFile);
+
+        $serviceProviderFile = $this->app->basePath() . '/app/Modules/Module/ModuleServiceProvider.php';
+        $this->assertFileExists($serviceProviderFile);
+
+        $routesFile = $this->app->basePath() . '/app/Modules/Module/routes/api.php';
+        $this->assertFileExists($routesFile);
+
+        $migrationFile = $this->app->basePath() . '/app/Modules/Module/database/migrations/2018_11_21_085722_create_app_modules_table.php';
+        $this->assertFileExists($migrationFile);
+
+        $factoryFile = $this->app->basePath() . '/app/Modules/Module/database/factories/ModuleFactory.php';
+        $this->assertFileExists($factoryFile);
+
+        $requestFile = $this->app->basePath() . '/app/Modules/Module/Request/ModuleRequest.php';
+        $this->assertFileExists($requestFile);
+
+        $unitTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Unit/ModuleTest.php';
+        $this->assertFileExists($unitTestFile);
+
+        $featureTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Feature/ModuleTest.php';
+        $this->assertFileExists($featureTestFile);
+    }
+
+    /** @test */
+    public function 选择创建模块部分内容命令()
+    {
+        Carbon::setTestNow('2018-11-21 08:57:22');
+
+        $makeOptions = [
+            'all', 'model', 'repository', 'request', 'controller', 'service', 'service-provider',
+            'routes', 'factory', 'migration', 'unit-test', 'feature-test',
+        ];
+
+        $this->artisan('mod-make:module', ['mod' => 'Module'])
+            ->expectsQuestion('自定义模块内容?(y/n)', 'y')
+            ->expectsQuestion('请选择需要创建的模块内容(可多选，使用逗号隔开)', ['model', 'repository', 'request', 'controller', 'service'])
+            ->assertExitCode(0);
+
+        $modelFile = $this->app->basePath() . '/app/Modules/Module/Model/Module.php';
+        $this->assertFileExists($modelFile);
+
+        $controllerFile = $this->app->basePath() . '/app/Modules/Module/Controller/ModuleController.php';
+        $this->assertFileExists($controllerFile);
+
+        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/ModuleRepository.php';
+        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/ModuleRepositoryContract.php';
+        $this->assertFileExists($repositoryFile);
+        $this->assertFileExists($contractFile);
+
+        $serviceFile = $this->app->basePath() . '/app/Modules/Module/Service/ModuleService.php';
+        $this->assertFileExists($serviceFile);
+
+        $serviceProviderFile = $this->app->basePath() . '/app/Modules/Module/ModuleServiceProvider.php';
+        $this->assertFileNotExists($serviceProviderFile);
+
+        $routesFile = $this->app->basePath() . '/app/Modules/Module/routes/api.php';
+        $this->assertFileNotExists($routesFile);
+
+        $migrationFile = $this->app->basePath() . '/app/Modules/Module/database/migrations/2018_11_21_085722_create_app_modules_table.php';
+        $this->assertFileNotExists($migrationFile);
+
+        $factoryFile = $this->app->basePath() . '/app/Modules/Module/database/factories/ModuleFactory.php';
+        $this->assertFileNotExists($factoryFile);
+
+        $requestFile = $this->app->basePath() . '/app/Modules/Module/Request/ModuleRequest.php';
+        $this->assertFileExists($requestFile);
+
+        $unitTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Unit/ModuleTest.php';
+        $this->assertFileNotExists($unitTestFile);
+
+        $featureTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Feature/ModuleTest.php';
+        $this->assertFileNotExists($featureTestFile);
     }
 }

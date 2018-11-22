@@ -1,11 +1,12 @@
 <?php
 
-namespace DummyNamespace;
+namespace Kiyon\Laravel\Member\Request;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DummyClass extends FormRequest
+class MemberRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *

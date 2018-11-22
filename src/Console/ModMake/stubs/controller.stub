@@ -2,9 +2,9 @@
 
 namespace DummyNamespace;
 
-use Illuminate\Http\Request;
 use Kiyon\Laravel\Foundation\Routing\Controller;
 use DummyRootNamespace\Model\DummyModel;
+use DummyRootNamespace\Request\DummyModelRequest;
 use DummyRootNamespace\Service\DummyModelService;
 
 class DummyClass extends Controller
@@ -28,9 +28,10 @@ class DummyClass extends Controller
     }
 
     /**
+     * @param DummyModelRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store()
+    public function store(DummyModelRequest $request)
     {
         $data = request()->all();
 
@@ -52,9 +53,10 @@ class DummyClass extends Controller
 
     /**
      * @param DummyModel $DummyItem
+     * @param DummyModelRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(DummyModel $DummyItem)
+    public function update(DummyModel $DummyItem, DummyModelRequest $request)
     {
         $data = request()->all();
 

@@ -11,6 +11,7 @@ namespace Kiyon\Laravel\Member\Controller;
 
 use Kiyon\Laravel\Foundation\Routing\Controller;
 use Kiyon\Laravel\Member\Model\Member;
+use Kiyon\Laravel\Member\Request\MemberRequest;
 use Kiyon\Laravel\Member\Service\MemberService;
 
 class MemberController extends Controller
@@ -31,9 +32,10 @@ class MemberController extends Controller
     }
 
     /**
+     * @param MemberRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store()
+    public function store(MemberRequest $request)
     {
         $data = request()->all();
 
@@ -55,9 +57,10 @@ class MemberController extends Controller
 
     /**
      * @param Member $member
+     * @param MemberRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Member $member)
+    public function update(Member $member, MemberRequest $request)
     {
         $data = request()->all();
 

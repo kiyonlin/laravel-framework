@@ -4,13 +4,17 @@ namespace Kiyon\Laravel\Foundation\Providers;
 
 use Kiyon\Laravel\Console\ModMake\ModControllerMakeCommand;
 use Kiyon\Laravel\Console\ModMake\ModFactoryMakeCommand;
+use Kiyon\Laravel\Console\ModMake\ModFeatureTestMakeCommand;
 use Kiyon\Laravel\Console\ModMake\ModMigrationMakeCommand;
 use Kiyon\Laravel\Console\ModMake\ModModelMakeCommand;
+use Kiyon\Laravel\Console\ModMake\ModModuleMakeCommand;
 use Kiyon\Laravel\Console\ModMake\ModRepositoryContractMakeCommand;
 use Kiyon\Laravel\Console\ModMake\ModRepositoryMakeCommand;
+use Kiyon\Laravel\Console\ModMake\ModRequestMakeCommand;
 use Kiyon\Laravel\Console\ModMake\ModRoutesMakeCommand;
 use Kiyon\Laravel\Console\ModMake\ModServiceMakeCommand;
 use Kiyon\Laravel\Console\ModMake\ModServiceProviderMakeCommand;
+use Kiyon\Laravel\Console\ModMake\ModUnitTestMakeCommand;
 use Kiyon\Laravel\Support\ServiceProviders\ServiceProvider;
 
 class ArtisanServiceProvider extends ServiceProvider
@@ -37,6 +41,7 @@ class ArtisanServiceProvider extends ServiceProvider
      * @var array
      */
     protected $devCommands = [
+        'ModModuleMake'             => 'command.mod.module.make',
         'ModModelMake'              => 'command.mod.model.make',
         'ModControllerMake'         => 'command.mod.controller.make',
         'ModRepositoryMake'         => 'command.mod.repository.make',
@@ -46,6 +51,9 @@ class ArtisanServiceProvider extends ServiceProvider
         'ModRoutesMake'             => 'command.mod.routes.make',
         'ModMigrationMake'          => 'command.mod.migration.make',
         'ModFactoryMake'            => 'command.mod.factory.make',
+        'ModRequestMake'            => 'command.mod.request.make',
+        'ModUnitTestMake'           => 'command.mod.unit-test.make',
+        'ModFeatureTestMake'        => 'command.mod.feature-test.make',
     ];
 
     /**
@@ -73,6 +81,18 @@ class ArtisanServiceProvider extends ServiceProvider
         }
 
         $this->commands(array_values($commands));
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerModModuleMakeCommand()
+    {
+        $this->app->singleton('command.mod.module.make', function () {
+            return new ModModuleMakeCommand();
+        });
     }
 
     /**
@@ -180,6 +200,42 @@ class ArtisanServiceProvider extends ServiceProvider
     {
         $this->app->singleton('command.mod.factory.make', function ($app) {
             return new ModFactoryMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerModRequestMakeCommand()
+    {
+        $this->app->singleton('command.mod.request.make', function ($app) {
+            return new ModRequestMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerModUnitTestMakeCommand()
+    {
+        $this->app->singleton('command.mod.unit-test.make', function ($app) {
+            return new ModUnitTestMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerModFeatureTestMakeCommand()
+    {
+        $this->app->singleton('command.mod.feature-test.make', function ($app) {
+            return new ModFeatureTestMakeCommand($app['files']);
         });
     }
 

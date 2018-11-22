@@ -9,11 +9,10 @@
 namespace Kiyon\Laravel\Staff\Controller;
 
 
-use Illuminate\Database\Eloquent\Builder;
 use Kiyon\Laravel\Foundation\Routing\Controller;
+use Kiyon\Laravel\Staff\Request\StaffRequest;
 use Kiyon\Laravel\Staff\Model\Staff;
 use Kiyon\Laravel\Staff\Service\StaffService;
-use Kiyon\Laravel\Support\Constant;
 
 class StaffController extends Controller
 {
@@ -34,9 +33,10 @@ class StaffController extends Controller
     }
 
     /**
+     * @param StaffRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store()
+    public function store(StaffRequest $request)
     {
         $data = request()->all();
 
@@ -58,9 +58,10 @@ class StaffController extends Controller
 
     /**
      * @param Staff $staff
+     * @param StaffRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Staff $staff)
+    public function update(Staff $staff, StaffRequest $request)
     {
         $data = request()->all();
 

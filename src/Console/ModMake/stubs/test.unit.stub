@@ -1,0 +1,14 @@
+<?php
+
+namespace DummyNamespace;
+
+use Kiyon\Laravel\Foundation\Testing\TestCase;
+
+class DummyClass extends TestCase
+{
+    /** @test */
+    public function 测试用例()
+    {
+        $this->assertTrue(true);
+    }
+}
