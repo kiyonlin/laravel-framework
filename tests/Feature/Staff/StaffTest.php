@@ -68,6 +68,23 @@ class StaffTest extends AuthTestCase
     }
 
     /** @test */
+    public function 员工表单不合法时无法添加()
+    {
+        $this->withExceptionHandling();
+
+        $this->assertErrorsHas($this->storeStaff(['mobile' => null]), 'mobile');
+        $this->assertErrorsHas($this->storeStaff(['mobile' => '13675822217']), 'mobile');
+
+        $this->assertErrorsHas($this->storeStaff(['password' => null]), 'password');
+        $this->assertErrorsHas($this->storeStaff(['password' => str_random(51)]), 'password');
+
+        $this->assertErrorsHas($this->storeStaff(['display_name' => str_random(51)]), 'display_name');
+
+        $this->assertErrorsHas($this->storeStaff(['email' => str_random(11)]), 'email');
+        $this->assertErrorsHas($this->storeStaff(['email' => 'kiyonlin@163.com']), 'email');
+    }
+
+    /** @test */
     public function 未授权用户不能删除员工()
     {
         $this->withExceptionHandling();
@@ -120,6 +137,22 @@ class StaffTest extends AuthTestCase
     }
 
     /** @test */
+    public function 员工表单不合法时无法更新()
+    {
+        $this->withExceptionHandling();
+
+        $this->assertErrorsHas($this->updateStaff(['mobile' => null]), 'mobile');
+        $this->assertErrorsHas($this->updateStaff(['mobile' => '13675822217']), 'mobile');
+
+        $this->assertErrorsHas($this->updateStaff(['password' => str_random(51)]), 'password');
+
+        $this->assertErrorsHas($this->updateStaff(['display_name' => str_random(51)]), 'display_name');
+
+        $this->assertErrorsHas($this->updateStaff(['email' => str_random(11)]), 'email');
+        $this->assertErrorsHas($this->updateStaff(['email' => 'kiyonlin@163.com']), 'email');
+    }
+
+    /** @test */
     public function 授权用户可以批量删除员工()
     {
         $this->signInSystemAdmin();
@@ -144,5 +177,37 @@ class StaffTest extends AuthTestCase
 
         $this->deleteJson(route('system.staff.destroy', ['staff' => $staff->id]))
             ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * 添加记录辅助函数
+     *
+     * @param array $override
+     * @return array
+     */
+    protected function storeStaff(array $override = [])
+    {
+        $this->signInSystemAdmin();
+
+        $staff = raw(Staff::class, $override);
+
+        return $this->postJson(route('system.staff.store'), $staff)
+            ->json();
+    }
+
+    /**
+     * 更新记录辅助函数
+     *
+     * @param array $update
+     * @return array
+     */
+    protected function updateStaff(array $update)
+    {
+        $this->signInSystemAdmin();
+
+        $staff = createStaff();
+
+        return $this->patchJson(route('system.staff.update', ['staff' => $staff->id]), $update)
+            ->json();
     }
 }

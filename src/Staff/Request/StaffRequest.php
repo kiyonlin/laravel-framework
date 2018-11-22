@@ -44,7 +44,11 @@ class StaffRequest extends FormRequest
     private function storeRules()
     {
         return [
-
+            'username'     => 'sometimes|max:50|alpha_dash|unique:sys_users',
+            'display_name' => 'sometimes|nullable|string|max:50',
+            'mobile'       => 'required|min:8|unique:sys_users',
+            'email'        => 'sometimes|email|unique:sys_users',
+            'password'     => 'required|max:50',
         ];
     }
 
@@ -56,7 +60,11 @@ class StaffRequest extends FormRequest
     private function updateRules()
     {
         return [
-
+            'username'     => 'sometimes|string|unique:sys_users',
+            'display_name' => 'sometimes|string|max:50',
+            'mobile'       => 'sometimes|min:8|unique:sys_users',
+            'email'        => 'sometimes|email|unique:sys_users',
+            'password'     => 'sometimes|max:50',
         ];
     }
 

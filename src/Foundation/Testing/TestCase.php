@@ -116,4 +116,16 @@ abstract class TestCase extends BaseTestCase
 
         return $content;
     }
+
+    /**
+     * 断言辅助，判断验证结果是否包含错误
+     *
+     * @param array $resp
+     * @param string $key
+     * @return void
+     */
+    protected function assertErrorsHas($resp, $key)
+    {
+        $this->assertArrayHasKey($key, array_get($resp, "errors", []), "{$key} field does not in errors.");
+    }
 }

@@ -9,118 +9,166 @@ use DummyRootNamespace\Model\DummyModel;
 class DummyClass extends AuthTestCase
 {
     /** @test */
-        public function 未授权用户不能查看DummyItem列表()
-        {
-            $this->withExceptionHandling();
+    public function 未授权用户不能查看DummyItem列表()
+    {
+        $this->withExceptionHandling();
 
-            $this->getJson(route('app.DummyItem.index'))
-                ->assertStatus(Response::HTTP_FORBIDDEN);
-        }
+        $this->getJson(route('app.DummyItem.index'))
+            ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
 
-        /** @test */
-        public function 授权用户可以查看DummyItem列表()
-        {
-            $this->signInSystemAdmin();
+    /** @test */
+    public function 授权用户可以查看DummyItem列表()
+    {
+        $this->signInSystemAdmin();
 
-            create(DummyModel::class, 5);
+        create(DummyModel::class, 5);
 
-            $resp = $this->getJson(route('app.DummyItem.index'))
-                ->assertStatus(Response::HTTP_OK)
-                ->json();
+        $resp = $this->getJson(route('app.DummyItem.index'))
+            ->assertStatus(Response::HTTP_OK)
+            ->json();
 
-            $this->assertCount(5, $resp);
-        }
+        $this->assertCount(5, $resp);
+    }
 
-        /** @test */
-        public function 未授权用户不能添加DummyItem()
-        {
-            $this->withExceptionHandling();
+    /** @test */
+    public function 未授权用户不能添加DummyItem()
+    {
+        $this->withExceptionHandling();
 
-            $DummyItem = raw(DummyModel::class);
+        $DummyItem = raw(DummyModel::class);
 
-            $this->postJson(route('app.DummyItem.store'), $DummyItem)
-                ->assertStatus(Response::HTTP_FORBIDDEN);
-        }
+        $this->postJson(route('app.DummyItem.store'), $DummyItem)
+            ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
 
-        /** @test */
-        public function 授权用户可以添加DummyItem()
-        {
-            $this->signInSystemAdmin();
+    /** @test */
+    public function 授权用户可以添加DummyItem()
+    {
+        $this->signInSystemAdmin();
 
-            $DummyItem = raw(DummyModel::class);
+        $DummyItem = raw(DummyModel::class);
 
-            $resp = $this->postJson(route('app.DummyItem.store'), $DummyItem)
-                ->assertStatus(Response::HTTP_CREATED)
-                ->json();
+        $resp = $this->postJson(route('app.DummyItem.store'), $DummyItem)
+            ->assertStatus(Response::HTTP_CREATED)
+            ->json();
 
-            $this->assertEquals($DummyItem['mobile'], array_get($resp, 'id'));
-        }
+        $this->assertEquals($DummyItem['mobile'], array_get($resp, 'id'));
+    }
 
-        /** @test */
-        public function 未授权用户不能删除DummyItem()
-        {
-            $this->withExceptionHandling();
+    /** @test */
+    public function DummyItem表单不合法时无法添加()
+    {
+        $this->withExceptionHandling();
 
-            $DummyItem = create(DummyModel::class);
+        $this->assertErrorsHas($this->storeDummyModel(['field' => null]), 'field');
+    }
 
-            $this->deleteJson(route('app.DummyItem.destroy', ['DummyItem' => $DummyItem->id]))
-                ->assertStatus(Response::HTTP_FORBIDDEN);
-        }
+    /** @test */
+    public function 未授权用户不能删除DummyItem()
+    {
+        $this->withExceptionHandling();
 
-        /** @test */
-        public function 授权用户可以删除DummyItem()
-        {
-            $this->signInSystemAdmin();
+        $DummyItem = create(DummyModel::class);
 
-            $DummyItem = create(DummyModel::class);
+        $this->deleteJson(route('app.DummyItem.destroy', ['DummyItem' => $DummyItem->id]))
+            ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
 
-            $this->deleteJson(route('app.DummyItem.destroy', ['DummyItem' => $DummyItem->id]))
-                ->assertStatus(Response::HTTP_NO_CONTENT);
+    /** @test */
+    public function 授权用户可以删除DummyItem()
+    {
+        $this->signInSystemAdmin();
 
+        $DummyItem = create(DummyModel::class);
+
+        $this->deleteJson(route('app.DummyItem.destroy', ['DummyItem' => $DummyItem->id]))
+            ->assertStatus(Response::HTTP_NO_CONTENT);
+
+        $this->assertDatabaseMissing($DummyItem->getTable(), ['id' => $DummyItem->id]);
+    }
+
+    /** @test */
+    public function 未授权用户不能更新DummyItem()
+    {
+        $this->withExceptionHandling();
+
+        $DummyItem = create(DummyModel::class);
+
+        $update = ['key' => 'updated_key'];
+
+        $this->patchJson(route('app.DummyItem.update', ['DummyItem' => $DummyItem->id]), $update)
+            ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    /** @test */
+    public function 授权用户可以更新DummyItem()
+    {
+        $this->signInSystemAdmin();
+
+        $DummyItem = create(DummyModel::class);
+
+        $update = ['key' => 'updated_key'];
+
+        $this->patchJson(route('app.DummyItem.update', ['DummyItem' => $DummyItem->id]), $update)
+            ->assertStatus(Response::HTTP_OK);
+
+        $this->assertDatabaseHas($DummyItem->getTable(), array_merge(['id' => $DummyItem->id], $update));
+    }
+
+    /** @test */
+    public function DummyItem表单不合法时无法更新()
+    {
+        $this->withExceptionHandling();
+
+        $this->assertErrorsHas($this->updateDummyModel(['field' => null]), 'field');
+    }
+
+    /** @test */
+    public function 授权用户可以批量删除DummyItem()
+    {
+        $this->signInSystemAdmin();
+
+        $DummyItems = create(DummyModel::class, 5);
+
+        $this->deleteJson(route('app.DummyItem.destroy', ['DummyItem' => $DummyItems[0]->id]),
+            ['ids' => $DummyItems->pluck('id')->toArray()])
+            ->assertStatus(Response::HTTP_NO_CONTENT);
+
+        $DummyItems->each(function ($DummyItem) {
             $this->assertDatabaseMissing($DummyItem->getTable(), ['id' => $DummyItem->id]);
-        }
+        });
+    }
 
-        /** @test */
-        public function 未授权用户不能更新DummyItem()
-        {
-            $this->withExceptionHandling();
+    /**
+     * 添加记录辅助函数
+     *
+     * @param array $override
+     * @return array
+     */
+    protected function storeDummyModel(array $override = [])
+    {
+        $this->signInSystemAdmin();
 
-            $DummyItem = create(DummyModel::class);
+        $DummyItem = raw(DummyModel::class, $override);
 
-            $update = ['key' => 'updated_key'];
+        return $this->postJson(route('app.DummyItem.store'), $DummyItem)
+            ->json();
+    }
 
-            $this->patchJson(route('app.DummyItem.update', ['DummyItem' => $DummyItem->id]), $update)
-                ->assertStatus(Response::HTTP_FORBIDDEN);
-        }
+    /**
+     * 更新记录辅助函数
+     *
+     * @param array $update
+     * @return array
+     */
+    protected function updateDummyModel(array $update)
+    {
+        $this->signInSystemAdmin();
 
-        /** @test */
-        public function 授权用户可以更新DummyItem()
-        {
-            $this->signInSystemAdmin();
+        $DummyItem = create(DummyModel::class);
 
-            $DummyItem = create(DummyModel::class);
-
-            $update = ['key' => 'updated_key'];
-
-            $this->patchJson(route('app.DummyItem.update', ['DummyItem' => $DummyItem->id]), $update)
-                ->assertStatus(Response::HTTP_OK);
-
-            $this->assertDatabaseHas($DummyItem->getTable(), array_merge(['id' => $DummyItem->id], $update));
-        }
-
-        /** @test */
-        public function 授权用户可以批量删除DummyItem()
-        {
-            $this->signInSystemAdmin();
-
-            $DummyItems = create(DummyModel::class, 5);
-
-            $this->deleteJson(route('app.DummyItem.destroy', ['DummyItem' => $DummyItems[0]->id]),
-                ['ids' => $DummyItems->pluck('id')->toArray()])
-                ->assertStatus(Response::HTTP_NO_CONTENT);
-
-            $DummyItems->each(function ($DummyItem) {
-                $this->assertDatabaseMissing($DummyItem->getTable(), ['id' => $DummyItem->id]);
-            });
-        }
+        return $this->patchJson(route('app.DummyItem.update', ['DummyItem' => $DummyItem->id]), $update)
+            ->json();
+    }
 }

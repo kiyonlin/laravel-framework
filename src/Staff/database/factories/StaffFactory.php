@@ -4,7 +4,7 @@ use Faker\Generator as Faker;
 
 $factory->define(\Kiyon\Laravel\Staff\Model\Staff::class, function (Faker $faker) {
     return [
-        'username'       => $faker->unique()->name,
+        'username'       => $faker->unique()->md5,
         'display_name'   => $faker->name,
         'mobile'         => $faker->unique()->phoneNumber,
         'email'          => $faker->unique()->email,
