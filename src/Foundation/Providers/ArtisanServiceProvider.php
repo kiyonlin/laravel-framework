@@ -15,6 +15,7 @@ use Kiyon\Laravel\Console\ModMake\ModRoutesMakeCommand;
 use Kiyon\Laravel\Console\ModMake\ModServiceMakeCommand;
 use Kiyon\Laravel\Console\ModMake\ModServiceProviderMakeCommand;
 use Kiyon\Laravel\Console\ModMake\ModUnitTestMakeCommand;
+use Kiyon\Laravel\Console\PermissionAndMenuGeneratorCommand;
 use Kiyon\Laravel\Support\ServiceProviders\ServiceProvider;
 
 class ArtisanServiceProvider extends ServiceProvider
@@ -54,6 +55,8 @@ class ArtisanServiceProvider extends ServiceProvider
         'ModRequestMake'            => 'command.mod.request.make',
         'ModUnitTestMake'           => 'command.mod.unit-test.make',
         'ModFeatureTestMake'        => 'command.mod.feature-test.make',
+
+        'PermissionAndMenuGenerator' => 'command.permission-and-menu.generator',
     ];
 
     /**
@@ -236,6 +239,18 @@ class ArtisanServiceProvider extends ServiceProvider
     {
         $this->app->singleton('command.mod.feature-test.make', function ($app) {
             return new ModFeatureTestMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerPermissionAndMenuGeneratorCommand()
+    {
+        $this->app->singleton('command.permission-and-menu.generator', function ($app) {
+            return new PermissionAndMenuGeneratorCommand($app['router']);
         });
     }
 

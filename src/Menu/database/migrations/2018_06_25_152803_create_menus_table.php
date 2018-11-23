@@ -41,6 +41,8 @@ class CreateMenusTable extends Migration
             $table->boolean('shortcut_root')->default(false)->comment('快捷菜单根节点');
 
             $table->timestamps();
+
+            $table->unique(['parent_id', 'key']);
         });
     }
 
