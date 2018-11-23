@@ -9,6 +9,7 @@
 namespace Kiyon\Laravel\Contracts\Repository;
 
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 interface RestfulRepositoryContract
@@ -19,7 +20,7 @@ interface RestfulRepositoryContract
      *
      * @return mixed
      */
-    public function all();
+    public function all(Builder $builder = null);
 
     /**
      * show item info to edit

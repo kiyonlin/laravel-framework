@@ -9,17 +9,21 @@
 namespace Kiyon\Laravel\Foundation\Repository;
 
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 trait RestfulRepository
 {
 
     /**
+     * @param Builder|null $builder
      * @return \Illuminate\Database\Eloquent\Collection|Model[]|mixed
      */
-    public function all()
+    public function all(Builder $builder = null)
     {
-        $queryBuilder = $this->model->filter();
+        $builder = $builder ?: $this->model;
+
+        $queryBuilder = $builder->filter();
 
         if (request()->has('page') && request()->has('perPage')) {
             $result = $queryBuilder->paginate(request('perPage', ['*'], 'page', request('page')));

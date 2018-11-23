@@ -14,6 +14,7 @@ use Illuminate\Support\Collection;
 use Kiyon\Laravel\Authorization\Model\Permission;
 use Kiyon\Laravel\Menu\Model\Menu;
 use Kiyon\Laravel\Menu\Service\MenuService;
+use Kiyon\Laravel\Support\Constant;
 use Tests\TestCase;
 
 class MenuTest extends TestCase
@@ -52,22 +53,22 @@ class MenuTest extends TestCase
     }
 
     /** @test */
-    public function 根据权限获取NgZorro格式的菜单树()
+    public function 根据权限获取NgZorro格式的侧边菜单树()
     {
         $this->signIn();
         $user = auth()->user();
 
         $menuTree = [];
 
-        $menus = create(Menu::class, 3);
+        $menus = create(Menu::class, ['type' => Constant::MENU_SIDE_NAV], 3);
         $user->attachPermissions(create(Permission::class, ['key' => $menus[0]->key]));
 
         $menuTree[] = $menus[0]->toArray() + ['isLeaf' => true];
 
-        $parentMenu = create(Menu::class);
+        $parentMenu = create(Menu::class, ['type' => Constant::MENU_SIDE_NAV]);
         $user->attachPermissions($parentPermission = create(Permission::class, ['key' => $parentMenu->key]));
 
-        $subMenus = create(Menu::class, ['parent_id' => $parentMenu->id], 2);
+        $subMenus = create(Menu::class, ['parent_id' => $parentMenu->id, 'type' => Constant::MENU_SIDE_NAV], 2);
         $user->attachPermissions(create(Permission::class, ['key' => $subMenus[0]->key, 'parent_id' => $parentPermission->id]));
 
         $subNode = [];
@@ -79,7 +80,38 @@ class MenuTest extends TestCase
         /** @var MenuService $service */
         $service = app(MenuService::class);
 
-        $actualMenuTree = $service->getNgZorroMenuTree();
+        $actualMenuTree = $service->getNgZorroSideNavMenuTree();
+
+        $this->assertEquals($menuTree, $actualMenuTree);
+    }
+
+    /** @test */
+    public function 根据权限获取NgZorro格式的顶部菜单树()
+    {
+        $menuTree = [];
+
+        $menus = create(Menu::class, ['type' => Constant::MENU_TOP_NAV], 3);
+
+        foreach ($menus as $menu) {
+            $menuTree[] = $menu->toArray() + ['isLeaf' => true];
+        }
+
+        $parentMenu = create(Menu::class, ['type' => Constant::MENU_TOP_NAV]);
+
+        $subMenus = create(Menu::class, ['parent_id' => $parentMenu->id, 'type' => Constant::MENU_TOP_NAV], 2);
+
+        $subNode = [];
+
+        foreach ($subMenus as $menu) {
+            $subNode[] = $menu->toArray() + ['isLeaf' => true];
+        }
+
+        $menuTree[] = $parentMenu->toArray() + ['children' => $subNode];
+
+        /** @var MenuService $service */
+        $service = app(MenuService::class);
+
+        $actualMenuTree = $service->getNgZorroTopNavMenuTree();
 
         $this->assertEquals($menuTree, $actualMenuTree);
     }

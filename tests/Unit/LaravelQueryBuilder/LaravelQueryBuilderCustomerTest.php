@@ -210,9 +210,7 @@ class TestQueryBuilderController extends Controller
 
     public function index()
     {
-        $data = request()->all();
-
-        $queryBuilder = $this->service->repo->all($data);
+        $queryBuilder = $this->service->repo->all();
 
         return $this->respond($queryBuilder);
     }

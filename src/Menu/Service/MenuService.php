@@ -24,26 +24,39 @@ class MenuService
     }
 
     /**
-     * 获取 NgZorro 用户菜单树
+     * 获取 NgZorro 用户侧边菜单树
      *
      * @return array
      */
-    public function getNgZorroMenuTree()
+    public function getNgZorroSideNavMenuTree()
     {
-        $menus = $this->repo->all();
+        $menus = $this->repo->sideNav();
 
         return $this->generateNgZorroMenuTree($menus);
+    }
+
+    /**
+     * 获取 NgZorro 用户顶部菜单树
+     *
+     * @return array
+     */
+    public function getNgZorroTopNavMenuTree()
+    {
+        $menus = $this->repo->topNav();
+
+        return $this->generateNgZorroMenuTree($menus, false);
     }
 
     /**
      * 生成 NgZorro 结构的菜单树
      *
      * @param Collection $menus
+     * @param bool $withPermission
      * @param int $parent_id
      * @return array
      */
     private function generateNgZorroMenuTree(
-        Collection $menus, $parent_id = Constant::MENU_ROOT_ID)
+        Collection $menus, $withPermission = true, $parent_id = Constant::MENU_ROOT_ID)
     {
         $root = [];
 
@@ -51,12 +64,12 @@ class MenuService
             $child = $menu->toArray();
 
             if (count($this->subMenus($menus, $currentId = $menu->id))) {
-                $child['children'] = $this->generateNgZorroMenuTree($menus, $currentId);
+                $child['children'] = $this->generateNgZorroMenuTree($menus, $withPermission, $currentId);
             } else {
                 $child['isLeaf'] = true;
             }
 
-            if ($this->userService->can(auth()->user(), $menu->uniqueKey)) {
+            if (! $withPermission || $this->userService->can(auth()->user(), $menu->uniqueKey)) {
                 $root[] = $child;
             }
         }
