@@ -8,6 +8,7 @@
 
 namespace Kiyon\Laravel\Authentication\Service;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Kiyon\Laravel\Authentication\Contracts\UserRepositoryContract;
 use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Support\Constant;
@@ -34,7 +35,7 @@ class UserService
     /**
      * 获取用户所有的能力
      *
-     * @param User $user
+     * @param Authenticatable $user
      * @return array
      */
     public function getAllAbilities(User $user)
@@ -47,7 +48,7 @@ class UserService
     /**
      * 判断用户是否有能力
      *
-     * @param User $user
+     * @param Authenticatable $user
      * @param array|string $abilities
      * @return bool
      */

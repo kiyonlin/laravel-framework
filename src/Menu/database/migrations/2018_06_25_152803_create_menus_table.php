@@ -19,15 +19,15 @@ class CreateMenusTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('parent_id')->default(0)->comment('父菜单id');
 
-            $table->string('text')->comment('展示文本');
-            $table->string('i18n')->nullable()->comment('i18n主键');
+            $table->string('key')->comment('菜单标示');
+            $table->string('display_name')->comment('展示文字');
             $table->enum('type', [Constant::MENU_SIDE_NAV, Constant::MENU_TOP_NAV])->default(Constant::MENU_SIDE_NAV)->comment('菜单类型，侧边栏菜单或者顶部菜单');
-            $table->boolean('group')->nullable()->comment('是否菜单组');
+            $table->boolean('group')->default(false)->comment('是否菜单组');
 
             $table->string('link')->default('-')->comment('路由');
             $table->boolean('link_exact')->default(false)->comment('路由是否精准匹配，默认：`false`');
             $table->string('external_link')->nullable()->comment('外部链接');
-            $table->enum('target', ['_blank', '_self', '_parent', '_top'])->nullable()->comment('链接打开方式');
+            $table->enum('target', ['_blank', '_self', '_parent', '_top'])->nullable()->comment('外部链接打开方式');
 
             $table->string('icon')->nullable()->comment('图标');
             $table->unsignedInteger('badge')->nullable()->comment('徽标数，展示的数字。');

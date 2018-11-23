@@ -1,17 +1,17 @@
 <?php
 
 use Faker\Generator as Faker;
-use Kiyon\Laravel\Menu\Menu;
+use Kiyon\Laravel\Menu\Model\Menu;
 use Kiyon\Laravel\Support\Constant;
 
 $factory->define(Menu::class, function (Faker $faker) {
     return [
         'parent_id' => 0,
 
-        'text'  => $faker->word,
-        'i18n'  => $faker->word,
-        'type'  => Constant::MENU_SIDE_NAV,
-        'group' => false,
+        'key'          => $faker->word,
+        'display_name' => $faker->word,
+        'type'         => $faker->randomElement(Constant::MENU_TYPE),
+        'group'        => false,
 
         'link'          => '-',
         'link_exact'    => false,

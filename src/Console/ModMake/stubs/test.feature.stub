@@ -53,7 +53,7 @@ class DummyClass extends AuthTestCase
             ->assertStatus(Response::HTTP_CREATED)
             ->json();
 
-        $this->assertEquals($DummyItem['mobile'], array_get($resp, 'id'));
+        $this->assertEquals($DummyItem['field'], array_get($resp, 'id'));
     }
 
     /** @test */

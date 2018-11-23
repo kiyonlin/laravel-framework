@@ -27,6 +27,13 @@ class Constant
         self::ROLE_STAFF
     ];
 
+    const MENU_ROOT_ID = 0;
+
     const MENU_SIDE_NAV = 'side_nav';
     const MENU_TOP_NAV = 'top_nav';
+
+    const MENU_TYPE = [
+        self::MENU_SIDE_NAV,
+        self::MENU_TOP_NAV
+    ];
 }
