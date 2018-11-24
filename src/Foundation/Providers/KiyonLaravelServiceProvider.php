@@ -43,7 +43,7 @@ class KiyonLaravelServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '../../../phpunit.xml.dist' => base_path('phpunit.xml.dist'),
+            __DIR__ . '../../../Override/' => base_path(''),
         ]);
     }
 }
