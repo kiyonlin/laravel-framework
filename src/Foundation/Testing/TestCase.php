@@ -10,6 +10,7 @@ namespace Kiyon\Laravel\Foundation\Testing;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Kiyon\Laravel\Authentication\Model\User;
@@ -17,7 +18,7 @@ use Kiyon\Laravel\Authentication\Model\User;
 abstract class TestCase extends BaseTestCase
 {
 
-    use RefreshDatabase, WithMock, CreatesApplication;
+    use RefreshDatabase, CreatesApplication, WithMock, WithFaker;
 
     protected function setUp()
     {
