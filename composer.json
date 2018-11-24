@@ -40,7 +40,12 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "5.7.1-dev"
+      "dev-master": "5.7-dev"
+    },
+    "laravel": {
+      "providers": [
+        "Kiyon\\Laravel\\Foundation\\Providers\\KiyonLaravelServiceProvider"
+      ]
     }
   },
   "config": {
