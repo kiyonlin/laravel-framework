@@ -33,9 +33,9 @@ class ModuleMakeTest extends TestCase
 
         $this->assertFileExists($modelFile);
 
-        $this->artisan('mod-make:model', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
+        $this->artisan('mod-make:model', ['mod' => 'Module', 'name' => 'Apply'])->run();
 
-        $modelFile = $this->app->basePath() . '/app/Modules/Module/Model/FakeModel.php';
+        $modelFile = $this->app->basePath() . '/app/Modules/Module/Model/Apply.php';
 
         $this->assertFileExists($modelFile);
     }
@@ -49,9 +49,9 @@ class ModuleMakeTest extends TestCase
 
         $this->assertFileExists($controllerFile);
 
-        $this->artisan('mod-make:controller', ['mod' => 'Module', 'name' => 'FakeModel', '-p' => true])->run();
+        $this->artisan('mod-make:controller', ['mod' => 'Module', 'name' => 'Apply', '-p' => true])->run();
 
-        $controllerFile = $this->app->basePath() . '/app/Modules/Module/Controller/FakeModelController.php';
+        $controllerFile = $this->app->basePath() . '/app/Modules/Module/Controller/ApplyController.php';
 
         $this->assertFileExists($controllerFile);
     }
@@ -65,9 +65,9 @@ class ModuleMakeTest extends TestCase
 
         $this->assertFileExists($controllerFile);
 
-        $this->artisan('mod-make:controller', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
+        $this->artisan('mod-make:controller', ['mod' => 'Module', 'name' => 'Apply'])->run();
 
-        $controllerFile = $this->app->basePath() . '/app/Modules/Module/Controller/FakeModelController.php';
+        $controllerFile = $this->app->basePath() . '/app/Modules/Module/Controller/ApplyController.php';
 
         $this->assertFileExists($controllerFile);
     }
@@ -83,10 +83,10 @@ class ModuleMakeTest extends TestCase
         $this->assertFileExists($repositoryFile);
         $this->assertFileExists($contractFile);
 
-        $this->artisan('mod-make:repository', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
+        $this->artisan('mod-make:repository', ['mod' => 'Module', 'name' => 'Apply'])->run();
 
-        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/FakeModelRepository.php';
-        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/FakeModelRepositoryContract.php';
+        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/ApplyRepository.php';
+        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/ApplyRepositoryContract.php';
 
         $this->assertFileExists($repositoryFile);
         $this->assertFileExists($contractFile);
@@ -103,10 +103,10 @@ class ModuleMakeTest extends TestCase
         $this->assertFileExists($repositoryFile);
         $this->assertFileNotExists($contractFile);
 
-        $this->artisan('mod-make:repository', ['mod' => 'Module', 'name' => 'FakeModel', '--plain' => true])->run();
+        $this->artisan('mod-make:repository', ['mod' => 'Module', 'name' => 'Apply', '--plain' => true])->run();
 
-        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/FakeModelRepository.php';
-        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/FakeModelRepositoryContract.php';
+        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/ApplyRepository.php';
+        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/ApplyRepositoryContract.php';
 
         $this->assertFileExists($repositoryFile);
         $this->assertFileNotExists($contractFile);
@@ -121,9 +121,9 @@ class ModuleMakeTest extends TestCase
 
         $this->assertFileExists($serviceFile);
 
-        $this->artisan('mod-make:service', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
+        $this->artisan('mod-make:service', ['mod' => 'Module', 'name' => 'Apply'])->run();
 
-        $serviceFile = $this->app->basePath() . '/app/Modules/Module/Service/FakeModelService.php';
+        $serviceFile = $this->app->basePath() . '/app/Modules/Module/Service/ApplyService.php';
 
         $this->assertFileExists($serviceFile);
     }
@@ -137,9 +137,9 @@ class ModuleMakeTest extends TestCase
 
         $this->assertFileExists($serviceProviderFile);
 
-        $this->artisan('mod-make:service-provider', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
+        $this->artisan('mod-make:service-provider', ['mod' => 'Module', 'name' => 'Apply'])->run();
 
-        $serviceProviderFile = $this->app->basePath() . '/app/Modules/Module/FakeModelServiceProvider.php';
+        $serviceProviderFile = $this->app->basePath() . '/app/Modules/Module/ApplyServiceProvider.php';
 
         $this->assertFileExists($serviceProviderFile);
     }
@@ -165,9 +165,9 @@ class ModuleMakeTest extends TestCase
 
         $this->assertFileExists($migrationFile);
 
-        $this->artisan('mod-make:migration', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
+        $this->artisan('mod-make:migration', ['mod' => 'Module', 'name' => 'Apply'])->run();
 
-        $migrationFile = $this->app->basePath() . '/app/Modules/Module/database/migrations/2018_11_21_085722_create_app_fake_models_table.php';
+        $migrationFile = $this->app->basePath() . '/app/Modules/Module/database/migrations/2018_11_21_085722_create_app_applies_table.php';
 
         $this->assertFileExists($migrationFile);
     }
@@ -181,9 +181,9 @@ class ModuleMakeTest extends TestCase
 
         $this->assertFileExists($factoryFile);
 
-        $this->artisan('mod-make:factory', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
+        $this->artisan('mod-make:factory', ['mod' => 'Module', 'name' => 'Apply'])->run();
 
-        $factoryFile = $this->app->basePath() . '/app/Modules/Module/database/factories/FakeModelFactory.php';
+        $factoryFile = $this->app->basePath() . '/app/Modules/Module/database/factories/ApplyFactory.php';
 
         $this->assertFileExists($factoryFile);
     }
@@ -197,9 +197,9 @@ class ModuleMakeTest extends TestCase
 
         $this->assertFileExists($requestFile);
 
-        $this->artisan('mod-make:request', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
+        $this->artisan('mod-make:request', ['mod' => 'Module', 'name' => 'Apply'])->run();
 
-        $requestFile = $this->app->basePath() . '/app/Modules/Module/Request/FakeModelRequest.php';
+        $requestFile = $this->app->basePath() . '/app/Modules/Module/Request/ApplyRequest.php';
 
         $this->assertFileExists($requestFile);
     }
@@ -213,9 +213,9 @@ class ModuleMakeTest extends TestCase
 
         $this->assertFileExists($unitTestFile);
 
-        $this->artisan('mod-make:unit-test', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
+        $this->artisan('mod-make:unit-test', ['mod' => 'Module', 'name' => 'Apply'])->run();
 
-        $unitTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Unit/FakeModelTest.php';
+        $unitTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Unit/ApplyTest.php';
 
         $this->assertFileExists($unitTestFile);
     }
@@ -229,9 +229,9 @@ class ModuleMakeTest extends TestCase
 
         $this->assertFileExists($featureTestFile);
 
-        $this->artisan('mod-make:feature-test', ['mod' => 'Module', 'name' => 'FakeModel'])->run();
+        $this->artisan('mod-make:feature-test', ['mod' => 'Module', 'name' => 'Apply'])->run();
 
-        $featureTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Feature/FakeModelTest.php';
+        $featureTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Feature/ApplyTest.php';
 
         $this->assertFileExists($featureTestFile);
     }
@@ -280,37 +280,37 @@ class ModuleMakeTest extends TestCase
         $featureTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Feature/ModuleTest.php';
         $this->assertFileExists($featureTestFile);
 
-        $this->artisan('mod-make:module', ['mod' => 'Module', 'name' => 'FakeModel'])
+        $this->artisan('mod-make:module', ['mod' => 'Module', 'name' => 'Apply'])
             ->expectsQuestion('自定义模块内容?(y/n)', 'n')
             ->assertExitCode(0);
 
-        $modelFile = $this->app->basePath() . '/app/Modules/Module/Model/FakeModel.php';
+        $modelFile = $this->app->basePath() . '/app/Modules/Module/Model/Apply.php';
         $this->assertFileExists($modelFile);
 
-        $controllerFile = $this->app->basePath() . '/app/Modules/Module/Controller/FakeModelController.php';
+        $controllerFile = $this->app->basePath() . '/app/Modules/Module/Controller/ApplyController.php';
         $this->assertFileExists($controllerFile);
 
-        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/FakeModelRepository.php';
-        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/FakeModelRepositoryContract.php';
+        $repositoryFile = $this->app->basePath() . '/app/Modules/Module/Repository/ApplyRepository.php';
+        $contractFile = $this->app->basePath() . '/app/Modules/Module/Contracts/ApplyRepositoryContract.php';
         $this->assertFileExists($repositoryFile);
         $this->assertFileExists($contractFile);
 
-        $serviceFile = $this->app->basePath() . '/app/Modules/Module/Service/FakeModelService.php';
+        $serviceFile = $this->app->basePath() . '/app/Modules/Module/Service/ApplyService.php';
         $this->assertFileExists($serviceFile);
 
-        $migrationFile = $this->app->basePath() . '/app/Modules/Module/database/migrations/2018_11_21_085722_create_app_fake_models_table.php';
+        $migrationFile = $this->app->basePath() . '/app/Modules/Module/database/migrations/2018_11_21_085722_create_app_applies_table.php';
         $this->assertFileExists($migrationFile);
 
-        $factoryFile = $this->app->basePath() . '/app/Modules/Module/database/factories/FakeModelFactory.php';
+        $factoryFile = $this->app->basePath() . '/app/Modules/Module/database/factories/ApplyFactory.php';
         $this->assertFileExists($factoryFile);
 
-        $requestFile = $this->app->basePath() . '/app/Modules/Module/Request/FakeModelRequest.php';
+        $requestFile = $this->app->basePath() . '/app/Modules/Module/Request/ApplyRequest.php';
         $this->assertFileExists($requestFile);
 
-        $unitTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Unit/FakeModelTest.php';
+        $unitTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Unit/ApplyTest.php';
         $this->assertFileExists($unitTestFile);
 
-        $featureTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Feature/FakeModelTest.php';
+        $featureTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Feature/ApplyTest.php';
         $this->assertFileExists($featureTestFile);
     }
 

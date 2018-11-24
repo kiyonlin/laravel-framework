@@ -22,9 +22,9 @@ class DummyClass extends Controller
      */
     public function index()
     {
-        $DummyItems = $this->service->repo->all();
+        $DummyItemPlural = $this->service->repo->all();
 
-        return $this->respond($DummyItems);
+        return $this->respond($DummyItemPlural);
     }
 
     /**

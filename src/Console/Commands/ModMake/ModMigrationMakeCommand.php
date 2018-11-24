@@ -46,7 +46,7 @@ class ModMigrationMakeCommand extends GeneratorCommand
      */
     protected function getPath($name)
     {
-        $name = '/database/migrations/' . $this->getPrefix() . '_create_app_' . Str::snake($this->getNameInput()) . 's_table';
+        $name = '/database/migrations/' . $this->getPrefix() . '_create_app_' . Str::snake(Str::plural($this->getNameInput())) . '_table';
 
         return $this->laravel['path'] . '/Modules/' . $this->getModuleInput() . str_replace('\\', '/', $name) . '.php';
     }
@@ -63,7 +63,7 @@ class ModMigrationMakeCommand extends GeneratorCommand
     {
         $stub = $this->files->get($this->getStub());
 
-        $class = 'CreateApp' . $this->getNameInput() . 'sTable';
+        $class = 'CreateApp' . Str::plural($this->getNameInput()) . 'Table';
 
         $stub = str_replace('DummyMigrationClass', $class, $stub);
 
