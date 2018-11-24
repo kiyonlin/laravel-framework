@@ -1,10 +1,10 @@
 <?php
 
-namespace Kiyon\Laravel\Console\ModMake;
+namespace Kiyon\Laravel\Console\Commands\ModMake;
 
 use Symfony\Component\Console\Input\InputOption;
 
-class ModFeatureTestMakeCommand extends GeneratorCommand
+class ModUnitTestMakeCommand extends GeneratorCommand
 {
 
     /**
@@ -12,14 +12,14 @@ class ModFeatureTestMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'mod-make:feature-test';
+    protected $name = 'mod-make:unit-test';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '创建系统模块功能测试';
+    protected $description = '创建系统模块单元测试';
 
     /**
      * The type of class being generated.
@@ -36,7 +36,7 @@ class ModFeatureTestMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__ . '/stubs/test.feature.stub';
+        return __DIR__ . '/stubs/test.unit.stub';
     }
 
     /**
@@ -44,7 +44,7 @@ class ModFeatureTestMakeCommand extends GeneratorCommand
      */
     protected function getPath($name)
     {
-        $name = '/Test/Feature/' . $this->getNameInput() . $this->type;
+        $name = '/Test/Unit/' . $this->getNameInput() . $this->type;
 
         return $this->laravel['path'] . '/Modules/' . $this->getModuleInput() . str_replace('\\', '/', $name) . '.php';
     }
@@ -57,7 +57,7 @@ class ModFeatureTestMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\\' . $this->type . '\\Feature';
+        return $rootNamespace . '\\' . $this->type . '\\Unit';
     }
 
     /**

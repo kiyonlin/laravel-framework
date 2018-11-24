@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiyon\Laravel\Console\ModMake;
+namespace Kiyon\Laravel\Console\Commands\ModMake;
 
 use Illuminate\Support\Str;
 use Illuminate\Filesystem\Filesystem;

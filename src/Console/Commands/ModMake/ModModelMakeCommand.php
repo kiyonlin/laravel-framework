@@ -1,10 +1,10 @@
 <?php
 
-namespace Kiyon\Laravel\Console\ModMake;
+namespace Kiyon\Laravel\Console\Commands\ModMake;
 
 use Symfony\Component\Console\Input\InputOption;
 
-class ModServiceProviderMakeCommand extends GeneratorCommand
+class ModModelMakeCommand extends GeneratorCommand
 {
 
     /**
@@ -12,21 +12,21 @@ class ModServiceProviderMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'mod-make:service-provider';
+    protected $name = 'mod-make:model';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '创建系统模块服务提供者';
+    protected $description = '创建系统模块模型';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'ServiceProvider';
+    protected $type = 'Model';
 
 
     /**
@@ -36,7 +36,7 @@ class ModServiceProviderMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__ . '/stubs/service-provider.stub';
+        return __DIR__ . '/stubs/model.stub';
     }
 
     /**
@@ -47,7 +47,7 @@ class ModServiceProviderMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace;
+        return $rootNamespace . '\\' .$this->type;
     }
 
     /**

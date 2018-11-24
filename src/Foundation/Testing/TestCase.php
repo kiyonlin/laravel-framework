@@ -8,44 +8,22 @@
 
 namespace Kiyon\Laravel\Foundation\Testing;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Kiyon\Laravel\Authentication\Model\User;
-use Illuminate\Contracts\Console\Kernel;
 
 abstract class TestCase extends BaseTestCase
 {
 
-    use RefreshDatabase, WithMock;
+    use RefreshDatabase, WithMock, CreatesApplication;
 
     protected function setUp()
     {
-        // 使用测试环境时，强制删除config缓存
-        $files = new Filesystem();
-        if ($files->exists($configConfigPath = __DIR__ . '/../bootstrap/cache/config.php')) {
-            $files->delete($configConfigPath);
-        }
-
         parent::setUp();
 
         $this->withoutExceptionHandling();
-    }
-
-    /**
-     * Creates the application.
-     *
-     * @return \Illuminate\Foundation\Application
-     */
-    public function createApplication()
-    {
-        $app = require __DIR__.'/../bootstrap/app.php';
-
-        $app->make(Kernel::class)->bootstrap();
-
-        return $app;
     }
 
     /**

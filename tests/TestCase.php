@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Facade;
 use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Foundation\Providers\KiyonLaravelServiceProvider;
 use Kiyon\Laravel\Foundation\Http\Kernel as HttpKernel;
+use Kiyon\Laravel\Console\Kernel as ConsoleKernel;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -78,6 +79,17 @@ abstract class TestCase extends BaseTestCase
     protected function resolveApplicationHttpKernel($app)
     {
         $app->singleton('Illuminate\Contracts\Http\Kernel', HttpKernel::class);
+    }
+
+    /**
+     * Resolve application Console Kernel implementation.
+     *
+     * @param  \Illuminate\Foundation\Application $app
+     * @return void
+     */
+    protected function resolveApplicationConsoleKernel($app)
+    {
+        $app->singleton('Illuminate\Contracts\Console\Kernel', ConsoleKernel::class);
     }
 
     /**

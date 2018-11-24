@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiyon\Laravel\Console;
+namespace Kiyon\Laravel\Console\Commands;
 
 use Closure;
 use Illuminate\Routing\Route;
@@ -8,6 +8,7 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Kiyon\Laravel\Authorization\Model\Permission;
+use Kiyon\Laravel\Console\Command;
 use Kiyon\Laravel\Menu\Model\Menu;
 use Kiyon\Laravel\Support\Constant;
 

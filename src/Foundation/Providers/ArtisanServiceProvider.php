@@ -2,20 +2,20 @@
 
 namespace Kiyon\Laravel\Foundation\Providers;
 
-use Kiyon\Laravel\Console\ModMake\ModControllerMakeCommand;
-use Kiyon\Laravel\Console\ModMake\ModFactoryMakeCommand;
-use Kiyon\Laravel\Console\ModMake\ModFeatureTestMakeCommand;
-use Kiyon\Laravel\Console\ModMake\ModMigrationMakeCommand;
-use Kiyon\Laravel\Console\ModMake\ModModelMakeCommand;
-use Kiyon\Laravel\Console\ModMake\ModModuleMakeCommand;
-use Kiyon\Laravel\Console\ModMake\ModRepositoryContractMakeCommand;
-use Kiyon\Laravel\Console\ModMake\ModRepositoryMakeCommand;
-use Kiyon\Laravel\Console\ModMake\ModRequestMakeCommand;
-use Kiyon\Laravel\Console\ModMake\ModRoutesMakeCommand;
-use Kiyon\Laravel\Console\ModMake\ModServiceMakeCommand;
-use Kiyon\Laravel\Console\ModMake\ModServiceProviderMakeCommand;
-use Kiyon\Laravel\Console\ModMake\ModUnitTestMakeCommand;
-use Kiyon\Laravel\Console\PermissionAndMenuGeneratorCommand;
+use Kiyon\Laravel\Console\Commands\ModMake\ModControllerMakeCommand;
+use Kiyon\Laravel\Console\Commands\ModMake\ModFactoryMakeCommand;
+use Kiyon\Laravel\Console\Commands\ModMake\ModFeatureTestMakeCommand;
+use Kiyon\Laravel\Console\Commands\ModMake\ModMigrationMakeCommand;
+use Kiyon\Laravel\Console\Commands\ModMake\ModModelMakeCommand;
+use Kiyon\Laravel\Console\Commands\ModMake\ModModuleMakeCommand;
+use Kiyon\Laravel\Console\Commands\ModMake\ModRepositoryContractMakeCommand;
+use Kiyon\Laravel\Console\Commands\ModMake\ModRepositoryMakeCommand;
+use Kiyon\Laravel\Console\Commands\ModMake\ModRequestMakeCommand;
+use Kiyon\Laravel\Console\Commands\ModMake\ModRoutesMakeCommand;
+use Kiyon\Laravel\Console\Commands\ModMake\ModServiceMakeCommand;
+use Kiyon\Laravel\Console\Commands\ModMake\ModServiceProviderMakeCommand;
+use Kiyon\Laravel\Console\Commands\ModMake\ModUnitTestMakeCommand;
+use Kiyon\Laravel\Console\Commands\PermissionAndMenuGeneratorCommand;
 use Kiyon\Laravel\Support\ServiceProviders\ServiceProvider;
 
 class ArtisanServiceProvider extends ServiceProvider

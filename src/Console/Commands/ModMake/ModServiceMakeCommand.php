@@ -1,11 +1,10 @@
 <?php
 
-namespace Kiyon\Laravel\Console\ModMake;
+namespace Kiyon\Laravel\Console\Commands\ModMake;
 
-use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class ModRepositoryContractMakeCommand extends GeneratorCommand
+class ModServiceMakeCommand extends GeneratorCommand
 {
 
     /**
@@ -13,21 +12,21 @@ class ModRepositoryContractMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'mod-make:repository-contract';
+    protected $name = 'mod-make:service';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '创建系统模块仓库接口';
+    protected $description = '创建系统模块服务';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Contracts';
+    protected $type = 'Service';
 
 
     /**
@@ -37,22 +36,7 @@ class ModRepositoryContractMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__ . '/stubs/repository.contract.stub';
-    }
-
-    /**
-     * Get the destination class path.
-     *
-     * @param  string $name
-     * @return string
-     */
-    public function getPath($name)
-    {
-        $name = Str::replaceFirst($this->rootNamespace(), '', $name);
-
-        $name .= 'RepositoryContract';
-
-        return $this->laravel['path'] . '/Modules/' . $this->getModuleInput() . str_replace('\\', '/', $name) . '.php';
+        return __DIR__ . '/stubs/service.stub';
     }
 
     /**
@@ -63,7 +47,7 @@ class ModRepositoryContractMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\\' .$this->type;
+        return $rootNamespace . '\\' . $this->type;
     }
 
     /**

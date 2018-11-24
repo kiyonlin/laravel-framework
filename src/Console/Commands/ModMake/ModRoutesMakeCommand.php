@@ -1,12 +1,11 @@
 <?php
 
-namespace Kiyon\Laravel\Console\ModMake;
+namespace Kiyon\Laravel\Console\Commands\ModMake;
 
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class ModMigrationMakeCommand extends GeneratorCommand
+class ModRoutesMakeCommand extends GeneratorCommand
 {
 
     /**
@@ -14,21 +13,21 @@ class ModMigrationMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'mod-make:migration';
+    protected $name = 'mod-make:routes';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '创建系统模块迁移文件';
+    protected $description = '创建系统模块路由';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Migration';
+    protected $type = 'routes';
 
 
     /**
@@ -38,7 +37,7 @@ class ModMigrationMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__ . '/stubs/migration.create.stub';
+        return __DIR__ . '/stubs/routes.stub';
     }
 
     /**
@@ -46,28 +45,17 @@ class ModMigrationMakeCommand extends GeneratorCommand
      */
     protected function getPath($name)
     {
-        $name = '/database/migrations/' . $this->getPrefix() . '_create_app_' . Str::snake($this->getNameInput()) . 's_table';
+        $name = Str::replaceFirst($this->rootNamespace(), '', $name);
+
+        if ($this->argument('name')) {
+            $replaceName = trim($this->argument('name'));
+        } else {
+            $replaceName = 'api';
+        }
+
+        $name = Str::replaceFirst($this->getModuleInput(), $replaceName, $name);
 
         return $this->laravel['path'] . '/Modules/' . $this->getModuleInput() . str_replace('\\', '/', $name) . '.php';
-    }
-
-    protected function getPrefix()
-    {
-        return Carbon::now()->format('Y_m_d_His');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function buildClass($name)
-    {
-        $stub = $this->files->get($this->getStub());
-
-        $class = 'CreateApp' . $this->getNameInput() . 'sTable';
-
-        $stub = str_replace('DummyMigrationClass', $class, $stub);
-
-        return $this->replaceTable($stub);
     }
 
     /**
