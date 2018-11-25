@@ -2,18 +2,23 @@
 
 namespace DummyNamespace;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Kiyon\Laravel\Foundation\Resource\BaseResource;
 
-class DummyClass extends JsonResource
+class DummyClass extends BaseResource
 {
     /**
-     * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * {@inheritdoc}
      */
-    public function toArray($request)
+    public function itemArray($request)
     {
-        return parent::toArray($request);
+        return parent::itemArray($request);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function collectionArray($request)
+    {
+        return parent::itemArray($request);
     }
 }

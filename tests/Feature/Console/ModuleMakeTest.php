@@ -237,6 +237,22 @@ class ModuleMakeTest extends TestCase
     }
 
     /** @test */
+    public function 创建资源命令()
+    {
+        $this->artisan('mod-make:resource', ['mod' => 'Module'])->run();
+
+        $resourceFile = $this->app->basePath() . '/app/Modules/Module/Resource/ModuleResource.php';
+
+        $this->assertFileExists($resourceFile);
+
+        $this->artisan('mod-make:resource', ['mod' => 'Module', 'name' => 'Apply'])->run();
+
+        $resourceFile = $this->app->basePath() . '/app/Modules/Module/Resource/ApplyResource.php';
+
+        $this->assertFileExists($resourceFile);
+    }
+
+    /** @test */
     public function 创建模块命令()
     {
         Carbon::setTestNow('2018-11-21 08:57:22');
@@ -280,6 +296,9 @@ class ModuleMakeTest extends TestCase
         $featureTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Feature/ModuleTest.php';
         $this->assertFileExists($featureTestFile);
 
+        $resourceFile = $this->app->basePath() . '/app/Modules/Module/Resource/ModuleResource.php';
+        $this->assertFileExists($resourceFile);
+
         $this->artisan('mod-make:module', ['mod' => 'Module', 'name' => 'Apply'])
             ->expectsQuestion('自定义模块内容?(y/n)', 'n')
             ->assertExitCode(0);
@@ -312,6 +331,9 @@ class ModuleMakeTest extends TestCase
 
         $featureTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Feature/ApplyTest.php';
         $this->assertFileExists($featureTestFile);
+
+        $resourceFile = $this->app->basePath() . '/app/Modules/Module/Resource/ApplyResource.php';
+        $this->assertFileExists($resourceFile);
     }
 
     /** @test */
@@ -358,6 +380,9 @@ class ModuleMakeTest extends TestCase
 
         $featureTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Feature/ModuleTest.php';
         $this->assertFileExists($featureTestFile);
+
+        $resourceFile = $this->app->basePath() . '/app/Modules/Module/Resource/ModuleResource.php';
+        $this->assertFileExists($resourceFile);
     }
 
     /** @test */
@@ -367,12 +392,12 @@ class ModuleMakeTest extends TestCase
 
         $makeOptions = [
             'all', 'model', 'repository', 'request', 'controller', 'service', 'service-provider',
-            'routes', 'factory', 'migration', 'unit-test', 'feature-test',
+            'routes', 'factory', 'migration', 'unit-test', 'feature-test', 'resource'
         ];
 
         $this->artisan('mod-make:module', ['mod' => 'Module'])
             ->expectsQuestion('自定义模块内容?(y/n)', 'y')
-            ->expectsQuestion('请选择需要创建的模块内容(可多选，使用逗号隔开)', ['model', 'repository', 'request', 'controller', 'service'])
+            ->expectsQuestion('请选择需要创建的模块内容(可多选，使用逗号隔开)', ['model', 'repository', 'request', 'controller', 'service', 'resource'])
             ->assertExitCode(0);
 
         $modelFile = $this->app->basePath() . '/app/Modules/Module/Model/Module.php';
@@ -409,5 +434,8 @@ class ModuleMakeTest extends TestCase
 
         $featureTestFile = $this->app->basePath() . '/app/Modules/Module/Test/Feature/ModuleTest.php';
         $this->assertFileNotExists($featureTestFile);
+
+        $resourceFile = $this->app->basePath() . '/app/Modules/Module/Resource/ModuleResource.php';
+        $this->assertFileExists($resourceFile);
     }
 }

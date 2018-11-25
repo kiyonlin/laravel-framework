@@ -26,7 +26,7 @@ class ModModuleMakeCommand extends Command
 
     protected $makeOptions = [
         'all', 'model', 'repository', 'request', 'controller', 'service', 'service-provider',
-        'routes', 'factory', 'migration', 'unit-test', 'feature-test',
+        'routes', 'factory', 'migration', 'unit-test', 'feature-test', 'resource'
     ];
 
 

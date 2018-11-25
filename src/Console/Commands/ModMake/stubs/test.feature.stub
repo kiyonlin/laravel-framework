@@ -53,7 +53,7 @@ class DummyClass extends AuthTestCase
             ->assertStatus(Response::HTTP_CREATED)
             ->json();
 
-        $this->assertEquals($DummyItem['field'], array_get($resp, 'id'));
+        $this->assertEquals($DummyItem, array_only($resp, array_keys($DummyItem)));
     }
 
     /** @test */
@@ -62,6 +62,31 @@ class DummyClass extends AuthTestCase
         $this->withExceptionHandling();
 
         $this->assertErrorsHas($this->storeDummyModel(['field' => null]), 'field');
+    }
+
+    /** @test */
+    public function 未授权用户不能查看DummyItem()
+    {
+        $this->withExceptionHandling();
+
+        $DummyItem = create(DummyModel::class);
+
+        $this->getJson(route('app.DummyItem.show', ['DummyItem' => $DummyItem->id]))
+            ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    /** @test */
+    public function 授权用户可以查看DummyItem()
+    {
+        $this->signInSystemAdmin();
+
+        $DummyItem = create(DummyModel::class);
+
+        $resp = $this->getJson(route('app.DummyItem.show', ['DummyItem' => $DummyItem->id]))
+            ->assertStatus(Response::HTTP_OK)
+            ->json();
+
+        $this->assertEquals($DummyItem->toArray(), array_only($resp, array_keys($DummyItem->toArray())));
     }
 
     /** @test */

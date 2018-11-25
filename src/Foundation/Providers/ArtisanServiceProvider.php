@@ -11,6 +11,7 @@ use Kiyon\Laravel\Console\Commands\ModMake\ModModuleMakeCommand;
 use Kiyon\Laravel\Console\Commands\ModMake\ModRepositoryContractMakeCommand;
 use Kiyon\Laravel\Console\Commands\ModMake\ModRepositoryMakeCommand;
 use Kiyon\Laravel\Console\Commands\ModMake\ModRequestMakeCommand;
+use Kiyon\Laravel\Console\Commands\ModMake\ModResourceMakeCommand;
 use Kiyon\Laravel\Console\Commands\ModMake\ModRoutesMakeCommand;
 use Kiyon\Laravel\Console\Commands\ModMake\ModServiceMakeCommand;
 use Kiyon\Laravel\Console\Commands\ModMake\ModServiceProviderMakeCommand;
@@ -55,6 +56,7 @@ class ArtisanServiceProvider extends ServiceProvider
         'ModRequestMake'            => 'command.mod.request.make',
         'ModUnitTestMake'           => 'command.mod.unit-test.make',
         'ModFeatureTestMake'        => 'command.mod.feature-test.make',
+        'ModResourceMake'           => 'command.mod.resource.make',
 
         'PermissionAndMenuGenerator' => 'command.permission-and-menu.generator',
     ];
@@ -239,6 +241,18 @@ class ArtisanServiceProvider extends ServiceProvider
     {
         $this->app->singleton('command.mod.feature-test.make', function ($app) {
             return new ModFeatureTestMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     *
+     * @return void
+     */
+    protected function registerModResourceMakeCommand()
+    {
+        $this->app->singleton('command.mod.resource.make', function ($app) {
+            return new ModResourceMakeCommand($app['files']);
         });
     }
 

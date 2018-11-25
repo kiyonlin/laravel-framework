@@ -28,6 +28,10 @@ Route::namespace('DummyRootNamespace\Controller')
                     ->middleware('ability:app.DummyItem.store')
                     ->name('store');
 
+                Route::get('/show/{DummyItem}', 'DummyModelController@show')
+                    ->middleware('ability:app.DummyItem.show')
+                    ->name('show');
+
                 Route::patch('/update/{DummyItem}', 'DummyModelController@update')
                     ->middleware('ability:app.DummyItem.update')
                     ->name('update');

@@ -4,6 +4,7 @@ namespace DummyNamespace;
 
 use Kiyon\Laravel\Foundation\Routing\Controller;
 use DummyRootNamespace\Model\DummyModel;
+use DummyRootNamespace\Resource\DummyModelResource;
 use DummyRootNamespace\Request\DummyModelRequest;
 use DummyRootNamespace\Service\DummyModelService;
 
@@ -18,18 +19,18 @@ class DummyClass extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
         $DummyItemPlural = $this->service->repo->all();
 
-        return $this->respond($DummyItemPlural);
+        return DummyModelResource::collection($DummyItemPlural);
     }
 
     /**
      * @param DummyModelRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return DummyModelResource
      */
     public function store(DummyModelRequest $request)
     {
@@ -37,24 +38,24 @@ class DummyClass extends Controller
 
         $DummyItem = $this->service->repo->create($data);
 
-        return $this->respondCreated($DummyItem);
+        return new DummyModelResource($DummyItem);
     }
 
     /**
      * @param DummyModel $DummyItem
-     * @return \Illuminate\Http\JsonResponse
+     * @return DummyModelResource
      */
-    public function edit(DummyModel $DummyItem)
+    public function show(DummyModel $DummyItem)
     {
-        $DummyItem = $this->service->repo->edit($DummyItem);
+        $DummyItem = $this->service->repo->show($DummyItem);
 
-        return $this->respond($DummyItem);
+        return new DummyModelResource($DummyItem);
     }
 
     /**
      * @param DummyModel $DummyItem
      * @param DummyModelRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return DummyModelResource
      */
     public function update(DummyModel $DummyItem, DummyModelRequest $request)
     {
@@ -62,7 +63,7 @@ class DummyClass extends Controller
 
         $DummyItem = $this->service->repo->update($DummyItem, $data);
 
-        return $this->respond($DummyItem);
+        return new DummyModelResource($DummyItem);
     }
 
     /**
