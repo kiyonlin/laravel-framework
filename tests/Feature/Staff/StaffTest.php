@@ -63,7 +63,7 @@ class StaffTest extends AuthTestCase
             ->assertStatus(Response::HTTP_CREATED)
             ->json();
 
-        $this->assertEquals($staff['mobile'], array_get($resp, 'mobile'));
+        $this->assertEquals($staff['email'], array_get($resp, 'email'));
         $this->assertEquals(Constant::ROLE_STAFF, array_get($resp, 'roles.0.key'));
     }
 
@@ -106,6 +106,33 @@ class StaffTest extends AuthTestCase
             ->assertStatus(Response::HTTP_NO_CONTENT);
 
         $this->assertDatabaseMissing($staff->getTable(), ['id' => $staff->id]);
+    }
+
+
+    /** @test */
+    public function 未授权用户不能查看员工()
+    {
+        $this->withExceptionHandling();
+
+        $staff = createStaff();
+
+        $this->getJson(route('system.staff.show', ['staff' => $staff->id]))
+            ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    /** @test */
+    public function 授权用户可以查看员工()
+    {
+        $this->signInSystemAdmin();
+
+        $staff = createStaff();
+
+        $resp = $this->getJson(route('system.staff.show', ['staff' => $staff->id]))
+            ->assertStatus(Response::HTTP_OK)
+            ->json();
+
+        $this->assertEquals($staff['email'], array_get($resp, 'email'));
+        $this->assertEquals(Constant::ROLE_STAFF, array_get($resp, 'roles.0.key'));
     }
 
     /** @test */

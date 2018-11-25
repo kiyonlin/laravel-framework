@@ -12,10 +12,12 @@ namespace Kiyon\Laravel\Member\Controller;
 use Kiyon\Laravel\Foundation\Routing\Controller;
 use Kiyon\Laravel\Member\Model\Member;
 use Kiyon\Laravel\Member\Request\MemberRequest;
+use Kiyon\Laravel\Member\Resource\MemberResource;
 use Kiyon\Laravel\Member\Service\MemberService;
 
 class MemberController extends Controller
 {
+
     /** @var MemberService */
     protected $service;
 
@@ -24,16 +26,19 @@ class MemberController extends Controller
         $this->service = $service;
     }
 
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function index()
     {
         $members = $this->service->repo->all();
 
-        return $this->respond($members);
+        return MemberResource::collection($members);
     }
 
     /**
      * @param MemberRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return MemberResource
      */
     public function store(MemberRequest $request)
     {
@@ -41,24 +46,24 @@ class MemberController extends Controller
 
         $member = $this->service->repo->create($data);
 
-        return $this->respondCreated($member->load('roles'));
+        return new MemberResource($member);
     }
 
     /**
      * @param Member $member
-     * @return \Illuminate\Http\JsonResponse
+     * @return MemberResource
      */
-    public function edit(Member $member)
+    public function show(Member $member)
     {
-        $member = $this->service->repo->edit($member);
+        $member = $this->service->repo->show($member);
 
-        return $this->respond($member);
+        return new MemberResource($member);
     }
 
     /**
      * @param Member $member
      * @param MemberRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return MemberResource
      */
     public function update(Member $member, MemberRequest $request)
     {
@@ -66,7 +71,7 @@ class MemberController extends Controller
 
         $member = $this->service->repo->update($member, $data);
 
-        return $this->respond($member);
+        return new MemberResource($member);
     }
 
     /**

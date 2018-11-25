@@ -8,6 +8,7 @@
 
 namespace Kiyon\Laravel\Foundation\Providers;
 
+use Illuminate\Http\Resources\Json\Resource;
 use Kiyon\Laravel\Authentication\AuthenticationServiceProvider;
 use Kiyon\Laravel\Authorization\AuthorizationServiceProvider;
 use Kiyon\Laravel\Member\MemberServiceProvider;
@@ -45,5 +46,7 @@ class KiyonLaravelServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '../../../Override/' => base_path(''),
         ]);
+
+        Resource::withoutWrapping();
     }
 }

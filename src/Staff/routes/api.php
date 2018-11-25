@@ -28,6 +28,10 @@ Route::namespace('Kiyon\Laravel\Staff\Controller')
                     ->middleware('ability:system.staff.store')
                     ->name('store');
 
+                Route::get('/show/{staff}', 'StaffController@show')
+                    ->middleware('ability:system.staff.show')
+                    ->name('show');
+
                 Route::patch('/update/{staff}', 'StaffController@update')
                     ->middleware('ability:system.staff.update')
                     ->name('update');

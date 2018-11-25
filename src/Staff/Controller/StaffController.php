@@ -12,6 +12,7 @@ namespace Kiyon\Laravel\Staff\Controller;
 use Kiyon\Laravel\Foundation\Routing\Controller;
 use Kiyon\Laravel\Staff\Request\StaffRequest;
 use Kiyon\Laravel\Staff\Model\Staff;
+use Kiyon\Laravel\Staff\Resource\StaffResource;
 use Kiyon\Laravel\Staff\Service\StaffService;
 
 class StaffController extends Controller
@@ -25,16 +26,19 @@ class StaffController extends Controller
         $this->service = $service;
     }
 
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function index()
     {
         $staffs = $this->service->repo->all();
 
-        return $this->respond($staffs);
+        return StaffResource::collection($staffs);
     }
 
     /**
      * @param StaffRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return StaffResource
      */
     public function store(StaffRequest $request)
     {
@@ -42,24 +46,24 @@ class StaffController extends Controller
 
         $staff = $this->service->repo->create($data);
 
-        return $this->respondCreated($staff->load('roles'));
+        return new StaffResource($staff);
     }
 
     /**
      * @param Staff $staff
-     * @return \Illuminate\Http\JsonResponse
+     * @return StaffResource
      */
-    public function edit(Staff $staff)
+    public function show(Staff $staff)
     {
-        $staff = $this->service->repo->edit($staff);
+        $staff = $this->service->repo->show($staff);
 
-        return $this->respond($staff);
+        return new StaffResource($staff);
     }
 
     /**
      * @param Staff $staff
      * @param StaffRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return StaffResource
      */
     public function update(Staff $staff, StaffRequest $request)
     {
@@ -67,7 +71,7 @@ class StaffController extends Controller
 
         $staff = $this->service->repo->update($staff, $data);
 
-        return $this->respond($staff);
+        return new StaffResource($staff);
     }
 
     /**

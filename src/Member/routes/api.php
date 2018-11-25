@@ -28,6 +28,10 @@ Route::namespace('Kiyon\Laravel\Member\Controller')
                     ->middleware('ability:system.member.store')
                     ->name('store');
 
+                Route::get('/show/{member}', 'MemberController@show')
+                    ->middleware('ability:system.member.show')
+                    ->name('show');
+
                 Route::patch('/update/{member}', 'MemberController@update')
                     ->middleware('ability:system.member.update')
                     ->name('update');

@@ -60,7 +60,7 @@ trait RestfulRepository
      * @param Model $item
      * @return Model|mixed
      */
-    public function edit(Model $item)
+    public function show(Model $item)
     {
         return $item;
     }

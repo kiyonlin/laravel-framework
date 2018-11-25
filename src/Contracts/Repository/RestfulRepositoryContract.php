@@ -28,7 +28,7 @@ interface RestfulRepositoryContract
      * @param Model $item
      * @return mixed
      */
-    public function edit(Model $item);
+    public function show(Model $item);
 
     /**
      * create an item

@@ -62,7 +62,33 @@ class MemberTest extends AuthTestCase
             ->assertStatus(Response::HTTP_CREATED)
             ->json();
 
-        $this->assertEquals($member['mobile'], array_get($resp, 'mobile'));
+        $this->assertEquals($member['email'], array_get($resp, 'email'));
+        $this->assertEquals(Constant::ROLE_MEMBER, array_get($resp, 'roles.0.key'));
+    }
+
+    /** @test */
+    public function 未授权用户不能查看会员()
+    {
+        $this->withExceptionHandling();
+
+        $member = createMember();
+
+        $this->getJson(route('system.member.show', ['member' => $member->id]))
+            ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    /** @test */
+    public function 授权用户可以查看会员()
+    {
+        $this->signInSystemAdmin();
+
+        $member = createMember();
+
+        $resp = $this->getJson(route('system.member.show', ['member' => $member->id]))
+            ->assertStatus(Response::HTTP_OK)
+            ->json();
+
+        $this->assertEquals($member['email'], array_get($resp, 'email'));
         $this->assertEquals(Constant::ROLE_MEMBER, array_get($resp, 'roles.0.key'));
     }
 
