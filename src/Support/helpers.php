@@ -1,10 +1,10 @@
 <?php
-if (! function_exists('create')) {
+if (!function_exists('create')) {
 
     /**
      * create models in database
      *
-     * @return mixed
+     * @return Illuminate\Database\Eloquent\Model | Illuminate\Database\Eloquent\Collection
      */
     function create()
     {
@@ -40,11 +40,11 @@ if (! function_exists('create')) {
     }
 }
 
-if (! function_exists('make')) {
+if (!function_exists('make')) {
 
     /**
      * make models
-     * @return mixed
+     * @return Illuminate\Database\Eloquent\Model | Illuminate\Database\Eloquent\Collection
      */
     function make()
     {
@@ -80,11 +80,11 @@ if (! function_exists('make')) {
     }
 }
 
-if (! function_exists('raw')) {
+if (!function_exists('raw')) {
 
     /**
      * make raw data based on models
-     * @return mixed
+     * @return array
      */
     function raw()
     {
@@ -120,7 +120,7 @@ if (! function_exists('raw')) {
     }
 }
 
-if (! function_exists('logcli')) {
+if (!function_exists('logcli')) {
     /**
      * Get a log driver instance.
      *
@@ -132,16 +132,20 @@ if (! function_exists('logcli')) {
     }
 }
 
-if (! function_exists('createSystemAdmin')) {
+if (!function_exists('createSystemAdmin')) {
 
     /**
      * create system admin in database
      *
-     * @return mixed
+     * @return Illuminate\Database\Eloquent\Model | Illuminate\Database\Eloquent\Collection
      */
     function createSystemAdmin()
     {
-        $arguments = array_merge([\Kiyon\Laravel\Authentication\Model\User::class], func_get_args());
+        $arguments = func_get_args();
+
+        if (empty($arguments) || isset($arguments[0]) && !is_string($arguments[0])) {
+            $arguments = array_merge([\Kiyon\Laravel\Staff\Model\Staff::class], func_get_args());
+        }
 
         $sysAdmin = create(...$arguments);
 
@@ -152,16 +156,20 @@ if (! function_exists('createSystemAdmin')) {
     }
 }
 
-if (! function_exists('createMember')) {
+if (!function_exists('createMember')) {
 
     /**
      * create Members in database
      *
-     * @return mixed
+     * @return Illuminate\Database\Eloquent\Model | Illuminate\Database\Eloquent\Collection
      */
     function createMember()
     {
-        $arguments = array_merge([\Kiyon\Laravel\Member\Model\Member::class], func_get_args());
+        $arguments = func_get_args();
+
+        if (empty($arguments) || isset($arguments[0]) && !is_string($arguments[0])) {
+            $arguments = array_merge([\Kiyon\Laravel\Member\Model\Member::class], func_get_args());
+        }
 
         $members = create(...$arguments);
 
@@ -171,16 +179,20 @@ if (! function_exists('createMember')) {
     }
 }
 
-if (! function_exists('createStaff')) {
+if (!function_exists('createStaff')) {
 
     /**
-     * create Members in database
+     * create Staff in database
      *
-     * @return mixed
+     * @return Illuminate\Database\Eloquent\Model | Illuminate\Database\Eloquent\Collection
      */
     function createStaff()
     {
-        $arguments = array_merge([\Kiyon\Laravel\Staff\Model\Staff::class], func_get_args());
+        $arguments = func_get_args();
+
+        if (empty($arguments) || isset($arguments[0]) && !is_string($arguments[0])) {
+            $arguments = array_merge([\Kiyon\Laravel\Staff\Model\Staff::class], func_get_args());
+        }
 
         $staff = create(...$arguments);
 
