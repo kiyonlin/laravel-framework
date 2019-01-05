@@ -13,14 +13,9 @@ class MenuService
     /** @var MenuRepositoryContract $repo */
     public $repo;
 
-    /** @var UserService $userService */
-    public $userService;
-
-    public function __construct(MenuRepositoryContract $repo, UserService $userService)
+    public function __construct(MenuRepositoryContract $repo)
     {
         $this->repo = $repo;
-
-        $this->userService = $userService;
     }
 
     /**
@@ -69,7 +64,7 @@ class MenuService
                 $child['isLeaf'] = true;
             }
 
-            if (! $withPermission || $this->userService->can(auth()->user(), $menu->uniqueKey)) {
+            if (! $withPermission || can(auth()->user(), $menu->uniqueKey)) {
                 $root[] = $child;
             }
         }
