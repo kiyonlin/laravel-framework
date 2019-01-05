@@ -43,7 +43,7 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * 登录用户
+     * 登录管理员用户
      *
      * @return $this
      */
@@ -71,27 +71,6 @@ abstract class TestCase extends BaseTestCase
         $content = Storage::disk('logs')->get('test.log');
 
         Storage::disk('logs')->delete('test.log');
-
-        return $content;
-    }
-
-    /**
-     * 从日志获取任务执行中response的内容
-     *
-     * @param callable $cb
-     * @return string
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     */
-    public function getResponseContentFromLog(callable $cb)
-    {
-        // 临时添加job日志输出到指定文件
-        config(['myams.run_log_report.cli.LOCAL_FILE.list.999' => 'storage/logs/test']);
-
-        $cb && $cb();
-
-        $content = Storage::disk('logs')->get('test');
-
-        Storage::disk('logs')->delete('test');
 
         return $content;
     }

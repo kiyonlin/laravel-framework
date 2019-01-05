@@ -12,7 +12,7 @@ namespace Tests\Unit\GlobalScopes;
 use Illuminate\Database\Schema\Blueprint;
 use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Foundation\Model\BaseModel;
-use Tests\MigrationsForTest;
+use Kiyon\Laravel\Foundation\Testing\MigrationsForTest;
 use Tests\TestCase;
 
 class UidScopeTest extends TestCase

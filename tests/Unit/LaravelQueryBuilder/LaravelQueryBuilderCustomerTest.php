@@ -15,7 +15,7 @@ use Kiyon\Laravel\Contracts\Repository\RestfulRepositoryContract;
 use Kiyon\Laravel\Foundation\Model\BaseModel;
 use Kiyon\Laravel\Foundation\Repository\RestfulRepository;
 use Kiyon\Laravel\Foundation\Routing\Controller;
-use Tests\MigrationsForTest;
+use Kiyon\Laravel\Foundation\Testing\MigrationsForTest;
 use Tests\TestCase;
 
 class LaravelQueryBuilderCustomerTest extends TestCase

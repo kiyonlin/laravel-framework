@@ -15,21 +15,6 @@ trait WithMock
 {
 
     /**
-     *  初始化mock
-     *
-     * @param $interface
-     * @param $class
-     * @return Mockery\MockInterface
-     */
-    public function mockClass($interface, $class)
-    {
-        $mock = Mockery::mock($class);
-        $this->app->instance($interface, $mock);
-
-        return $mock;
-    }
-
-    /**
      * @param string $namespace
      * @param string $function
      * @return Mockery\Expectation

@@ -6,7 +6,7 @@
  * Time: 10:44 AM
  */
 
-namespace Tests;
+namespace Kiyon\Laravel\Foundation\Testing;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
