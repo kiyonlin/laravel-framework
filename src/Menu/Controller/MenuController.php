@@ -22,7 +22,7 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $menus = $this->service->repo->all();
+        $menus = $this->service->all();
 
         return $this->respond($menus);
     }
@@ -35,7 +35,7 @@ class MenuController extends Controller
     {
         $data = request()->all();
 
-        $menu = $this->service->repo->create($data);
+        $menu = $this->service->create($data);
 
         return $this->respondCreated($menu);
     }
@@ -46,7 +46,7 @@ class MenuController extends Controller
      */
     public function edit(Menu $menu)
     {
-        $menu = $this->service->repo->edit($menu);
+        $menu = $this->service->edit($menu);
 
         return $this->respond($menu);
     }
@@ -60,7 +60,7 @@ class MenuController extends Controller
     {
         $data = request()->all();
 
-        $menu = $this->service->repo->update($menu, $data);
+        $menu = $this->service->update($menu, $data);
 
         return $this->respond($menu);
     }
@@ -74,7 +74,7 @@ class MenuController extends Controller
     {
         $data = request()->all();
 
-        $this->service->repo->destroy($menu, $data);
+        $this->service->destroy($menu, $data);
 
         return $this->respondNoContent();
     }

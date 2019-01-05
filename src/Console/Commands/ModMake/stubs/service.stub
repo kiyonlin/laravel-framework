@@ -3,12 +3,15 @@
 namespace DummyNamespace;
 
 use DummyRootNamespace\Contracts\DummyModelRepositoryContract;
+use Kiyon\Laravel\Foundation\Service\RestfulService;
 
 class DummyClass
 {
 
+    use RestfulService;
+
     /** @var DummyModelRepositoryContract $repo */
-    public $repo;
+    protected $repo;
 
     public function __construct(DummyModelRepositoryContract $repo)
     {

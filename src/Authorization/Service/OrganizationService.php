@@ -10,12 +10,15 @@ namespace Kiyon\Laravel\Authorization\Service;
 
 
 use Kiyon\Laravel\Authorization\Contracts\OrganizationRepositoryContract;
+use Kiyon\Laravel\Foundation\Service\RestfulService;
 
 class OrganizationService
 {
 
+    use RestfulService;
+
     /** @var OrganizationRepositoryContract $repo */
-    public $repo;
+    protected $repo;
 
     public function __construct(OrganizationRepositoryContract $repo)
     {

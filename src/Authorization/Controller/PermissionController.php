@@ -26,7 +26,7 @@ class PermissionController extends Controller
 
     public function index()
     {
-        $permissions = $this->service->repo->all();
+        $permissions = $this->service->all();
 
         return $this->respond($permissions);
     }
@@ -38,7 +38,7 @@ class PermissionController extends Controller
     {
         $data = request()->all();
 
-        $permission = $this->service->repo->create($data);
+        $permission = $this->service->create($data);
 
         return $this->respondCreated($permission);
     }
@@ -49,7 +49,7 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission)
     {
-        $permission = $this->service->repo->edit($permission);
+        $permission = $this->service->edit($permission);
 
         return $this->respond($permission);
     }
@@ -62,7 +62,7 @@ class PermissionController extends Controller
     {
         $data = request()->all();
 
-        $permission = $this->service->repo->update($permission, $data);
+        $permission = $this->service->update($permission, $data);
 
         return $this->respond($permission);
     }
@@ -76,7 +76,7 @@ class PermissionController extends Controller
     {
         $data = request()->all();
 
-        $this->service->repo->destroy($permission, $data);
+        $this->service->destroy($permission, $data);
 
         return $this->respondNoContent();
     }

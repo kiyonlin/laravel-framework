@@ -27,7 +27,7 @@ class RoleController extends Controller
 
     public function index()
     {
-        $roles = $this->service->repo->all();
+        $roles = $this->service->all();
 
         return $this->respond($roles);
     }
@@ -39,7 +39,7 @@ class RoleController extends Controller
     {
         $data = request()->all();
 
-        $role = $this->service->repo->create($data);
+        $role = $this->service->create($data);
 
         return $this->respondCreated($role);
     }
@@ -50,7 +50,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        $role = $this->service->repo->edit($role);
+        $role = $this->service->edit($role);
 
         return $this->respond($role);
     }
@@ -69,7 +69,7 @@ class RoleController extends Controller
             return $this->respondForbidden();
         }
 
-        $role = $this->service->repo->update($role, $data);
+        $role = $this->service->update($role, $data);
 
         return $this->respond($role);
     }
@@ -87,7 +87,7 @@ class RoleController extends Controller
 
         $data = request()->all();
 
-        $this->service->repo->destroy($role, $data);
+        $this->service->destroy($role, $data);
 
         return $this->respondNoContent();
     }

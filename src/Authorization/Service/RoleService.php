@@ -10,12 +10,15 @@ namespace Kiyon\Laravel\Authorization\Service;
 
 
 use Kiyon\Laravel\Authorization\Contracts\RoleRepositoryContract;
+use Kiyon\Laravel\Foundation\Service\RestfulService;
 
 class RoleService
 {
 
+    use RestfulService;
+
     /** @var RoleRepositoryContract $repo */
-    public $repo;
+    protected $repo;
 
     public function __construct(RoleRepositoryContract $repo)
     {

@@ -31,7 +31,7 @@ class MemberController extends Controller
      */
     public function index()
     {
-        $members = $this->service->repo->all();
+        $members = $this->service->all();
 
         return MemberResource::collection($members);
     }
@@ -44,7 +44,7 @@ class MemberController extends Controller
     {
         $data = request()->all();
 
-        $member = $this->service->repo->create($data);
+        $member = $this->service->create($data);
 
         return new MemberResource($member);
     }
@@ -55,7 +55,7 @@ class MemberController extends Controller
      */
     public function show(Member $member)
     {
-        $member = $this->service->repo->show($member);
+        $member = $this->service->show($member);
 
         return new MemberResource($member);
     }
@@ -69,7 +69,7 @@ class MemberController extends Controller
     {
         $data = request()->all();
 
-        $member = $this->service->repo->update($member, $data);
+        $member = $this->service->update($member, $data);
 
         return new MemberResource($member);
     }
@@ -83,7 +83,7 @@ class MemberController extends Controller
     {
         $data = request()->all();
 
-        $this->service->repo->destroy($member, $data);
+        $this->service->destroy($member, $data);
 
         return $this->respondNoContent();
     }

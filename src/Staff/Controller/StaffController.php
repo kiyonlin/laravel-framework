@@ -31,7 +31,7 @@ class StaffController extends Controller
      */
     public function index()
     {
-        $staffs = $this->service->repo->all();
+        $staffs = $this->service->all();
 
         return StaffResource::collection($staffs);
     }
@@ -44,7 +44,7 @@ class StaffController extends Controller
     {
         $data = request()->all();
 
-        $staff = $this->service->repo->create($data);
+        $staff = $this->service->create($data);
 
         return new StaffResource($staff);
     }
@@ -55,7 +55,7 @@ class StaffController extends Controller
      */
     public function show(Staff $staff)
     {
-        $staff = $this->service->repo->show($staff);
+        $staff = $this->service->show($staff);
 
         return new StaffResource($staff);
     }
@@ -69,7 +69,7 @@ class StaffController extends Controller
     {
         $data = request()->all();
 
-        $staff = $this->service->repo->update($staff, $data);
+        $staff = $this->service->update($staff, $data);
 
         return new StaffResource($staff);
     }
@@ -87,7 +87,7 @@ class StaffController extends Controller
 
         $data = request()->all();
 
-        $this->service->repo->destroy($staff, $data);
+        $this->service->destroy($staff, $data);
 
         return $this->respondNoContent();
     }

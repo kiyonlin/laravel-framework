@@ -4,14 +4,16 @@ namespace Kiyon\Laravel\Menu\Service;
 
 use Illuminate\Support\Collection;
 use Kiyon\Laravel\Authentication\Service\UserService;
+use Kiyon\Laravel\Foundation\Service\RestfulService;
 use Kiyon\Laravel\Menu\Contracts\MenuRepositoryContract;
 use Kiyon\Laravel\Support\Constant;
 
 class MenuService
 {
+    use RestfulService;
 
     /** @var MenuRepositoryContract $repo */
-    public $repo;
+    protected $repo;
 
     public function __construct(MenuRepositoryContract $repo)
     {

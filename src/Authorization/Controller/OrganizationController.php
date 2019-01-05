@@ -26,7 +26,7 @@ class OrganizationController extends Controller
 
     public function index()
     {
-        $organizations = $this->service->repo->all();
+        $organizations = $this->service->all();
 
         return $this->respond($organizations);
     }
@@ -38,7 +38,7 @@ class OrganizationController extends Controller
     {
         $data = request()->all();
 
-        $organization = $this->service->repo->create($data);
+        $organization = $this->service->create($data);
 
         return $this->respondCreated($organization);
     }
@@ -49,7 +49,7 @@ class OrganizationController extends Controller
      */
     public function edit(Organization $organization)
     {
-        $organization = $this->service->repo->edit($organization);
+        $organization = $this->service->edit($organization);
 
         return $this->respond($organization);
     }
@@ -62,7 +62,7 @@ class OrganizationController extends Controller
     {
         $data = request()->all();
 
-        $organization = $this->service->repo->update($organization, $data);
+        $organization = $this->service->update($organization, $data);
 
         return $this->respond($organization);
     }
@@ -76,7 +76,7 @@ class OrganizationController extends Controller
     {
         $data = request()->all();
 
-        $this->service->repo->destroy($organization, $data);
+        $this->service->destroy($organization, $data);
 
         return $this->respondNoContent();
     }

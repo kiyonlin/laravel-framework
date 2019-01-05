@@ -9,13 +9,15 @@
 namespace Kiyon\Laravel\Member\Service;
 
 
+use Kiyon\Laravel\Foundation\Service\RestfulService;
 use Kiyon\Laravel\Member\Contracts\MemberRepositoryContract;
 
 class MemberService
 {
+    use RestfulService;
 
     /** @var MemberRepositoryContract $repo */
-    public $repo;
+    protected $repo;
 
     public function __construct(MemberRepositoryContract $repo)
     {

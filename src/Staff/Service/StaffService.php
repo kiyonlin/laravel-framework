@@ -9,13 +9,15 @@
 namespace Kiyon\Laravel\Staff\Service;
 
 
+use Kiyon\Laravel\Foundation\Service\RestfulService;
 use Kiyon\Laravel\Staff\Contracts\StaffRepositoryContract;
 
 class StaffService
 {
+    use RestfulService;
 
     /** @var StaffRepositoryContract $repo */
-    public $repo;
+    protected $repo;
 
     public function __construct(StaffRepositoryContract $repo)
     {
