@@ -23,7 +23,7 @@ class DummyClass extends Controller
      */
     public function index()
     {
-        $DummyItemPlural = $this->service->repo->all();
+        $DummyItemPlural = $this->service->all();
 
         return DummyModelResource::collection($DummyItemPlural);
     }
@@ -36,7 +36,7 @@ class DummyClass extends Controller
     {
         $data = request()->all();
 
-        $DummyItem = $this->service->repo->create($data);
+        $DummyItem = $this->service->create($data);
 
         return new DummyModelResource($DummyItem);
     }
@@ -47,7 +47,7 @@ class DummyClass extends Controller
      */
     public function show(DummyModel $DummyItem)
     {
-        $DummyItem = $this->service->repo->show($DummyItem);
+        $DummyItem = $this->service->show($DummyItem);
 
         return new DummyModelResource($DummyItem);
     }
@@ -61,7 +61,7 @@ class DummyClass extends Controller
     {
         $data = request()->all();
 
-        $DummyItem = $this->service->repo->update($DummyItem, $data);
+        $DummyItem = $this->service->update($DummyItem, $data);
 
         return new DummyModelResource($DummyItem);
     }
@@ -75,7 +75,7 @@ class DummyClass extends Controller
     {
         $data = request()->all();
 
-        $this->service->repo->destroy($DummyItem, $data);
+        $this->service->destroy($DummyItem, $data);
 
         return $this->respondNoContent();
     }
