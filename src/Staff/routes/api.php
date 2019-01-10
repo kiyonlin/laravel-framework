@@ -15,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 // 用户授权相关
 Route::namespace('Kiyon\Laravel\Staff\Controller')
+    ->prefix(config('app.api_version'))
     ->middleware(['api', 'auth'])
     ->group(function () {
-        Route::prefix('system/staff')
+        Route::prefix('staff')
             ->name('system.staff.')
             ->group(function () {
                 Route::get('/', 'StaffController@index')

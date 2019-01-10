@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 // 用户认证相关
 Route::namespace('Kiyon\Laravel\Authentication\Controller')
     ->middleware('api')
-    ->prefix('auth')
+    ->prefix(config('app.api_version') . '/auth')
     ->name('auth.')
     ->group(function () {
         Route::post('/login', 'AuthController@login')

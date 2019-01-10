@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 // 用户授权相关
 Route::namespace('Kiyon\Laravel\Authorization\Controller')
+    ->prefix(config('app.api_version'))
     ->middleware(['api', 'auth'])
     ->group(function () {
         Route::prefix('authorization')
@@ -24,7 +25,7 @@ Route::namespace('Kiyon\Laravel\Authorization\Controller')
                     ->name('abilities');
             });
 
-        Route::prefix('system/permission')
+        Route::prefix('permission')
             ->name('system.permission.')
             ->group(function () {
                 Route::get('/', 'PermissionController@index')
@@ -44,7 +45,7 @@ Route::namespace('Kiyon\Laravel\Authorization\Controller')
                     ->name('destroy');
             });
 
-        Route::prefix('system/role')
+        Route::prefix('role')
             ->name('system.role.')
             ->group(function () {
                 Route::get('/', 'RoleController@index')
@@ -64,7 +65,7 @@ Route::namespace('Kiyon\Laravel\Authorization\Controller')
                     ->name('destroy');
             });
 
-        Route::prefix('system/organization')
+        Route::prefix('organization')
             ->name('system.organization.')
             ->group(function () {
                 Route::get('/', 'OrganizationController@index')

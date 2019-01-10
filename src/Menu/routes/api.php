@@ -15,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 // 用户授权相关
 Route::namespace('Kiyon\Laravel\Menu\Controller')
+    ->prefix(config('app.api_version'))
     ->middleware(['api', 'auth'])
     ->group(function () {
-        Route::prefix('system/menu')
+        Route::prefix('menu')
             ->name('system.menu.')
             ->group(function () {
                 Route::get('/', 'MenuController@index')

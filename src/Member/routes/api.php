@@ -15,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 // 用户授权相关
 Route::namespace('Kiyon\Laravel\Member\Controller')
+    ->prefix(config('app.api_version'))
     ->middleware(['api', 'auth'])
     ->group(function () {
-        Route::prefix('system/member')
+        Route::prefix('member')
             ->name('system.member.')
             ->group(function () {
                 Route::get('/', 'MemberController@index')

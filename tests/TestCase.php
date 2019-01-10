@@ -58,6 +58,7 @@ abstract class TestCase extends BaseTestCase
         $app['config']->set('app.timezone', 'RPC');
         $app['config']->set('app.locale', 'zh_CN');
         $app['config']->set('app.faker_locale', 'zh_CN');
+        $app['config']->set('app.api_version', 'v1');
 
         $app['config']->set('auth.defaults.guard', 'api');
         $app['config']->set('auth.guards.api.driver', 'jwt');
