@@ -22,19 +22,6 @@ class BaseResource extends Resource
     public static $collection = false;
 
     /**
-     * Create a new resource instance.
-     *
-     * @param  mixed $resource
-     * @return void
-     */
-    public function __construct($resource)
-    {
-        parent::__construct($resource);
-
-        static::$collection = false;
-    }
-
-    /**
      * @param mixed $resource
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
@@ -54,7 +41,9 @@ class BaseResource extends Resource
     public function toArray($request)
     {
         if (static::$collection) {
-            return $this->collectionArray($request);
+            return tap($this->collectionArray($request), function () {
+                static::$collection = false;
+            });
         } else {
             return $this->itemArray($request);
         }
