@@ -15,11 +15,11 @@ class BaseResource extends Resource
 {
 
     /**
-     * The collection array that should be applied.
+     * The collection array count that should be applied.
      *
-     * @var boolean
+     * @var int
      */
-    public static $collection = false;
+    public static $count = 0;
 
     /**
      * @param mixed $resource
@@ -27,7 +27,7 @@ class BaseResource extends Resource
      */
     public static function collection($resource)
     {
-        static::$collection = true;
+        static::$count = $resource->count();
 
         return parent::collection($resource);
     }
@@ -40,12 +40,11 @@ class BaseResource extends Resource
      */
     public function toArray($request)
     {
-        if (static::$collection) {
-            return tap($this->collectionArray($request), function () {
-                static::$collection = false;
-            });
-        } else {
+        if (static::$count == 0) {
             return $this->itemArray($request);
+        } else {
+            static::$count--;
+            return $this->collectionArray($request);
         }
     }
 
