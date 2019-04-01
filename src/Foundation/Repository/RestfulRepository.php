@@ -25,8 +25,8 @@ trait RestfulRepository
 
         $queryBuilder = $builder->filter();
 
-        if (request()->has('page') && request()->has('perPage')) {
-            $result = $queryBuilder->paginate(request('perPage', ['*'], 'page', request('page')));
+        if (request()->has('page') && request()->has('pageSize')) {
+            $result = $queryBuilder->paginate(request('pageSize'), ['*'], 'page', request('page'));
         } else {
             $result = $queryBuilder->get();
         }

@@ -119,9 +119,9 @@ class LaravelQueryBuilderCustomerTest extends TestCase
     }
 
     /** @test */
-    public function 根据page和perPage参数进行分页控制()
+    public function 根据page和pageSize参数进行分页控制()
     {
-        $resp = $this->getJson('test-query-builder?page=1&perPage=15')->json();
+        $resp = $this->getJson('test-query-builder?page=1&pageSize=15')->json();
         $this->assertEquals(1, $resp['current_page']);
         $this->assertEquals(2, $resp['total']);
         $this->assertArrayHasKey('data', $resp);
