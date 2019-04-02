@@ -85,7 +85,7 @@ class CreateAuthorizationTables extends Migration
             $table->unsignedInteger('permission_id');
             $table->text('entities')->nullable();
 
-            $table->primary(['organization_id', 'permission_id']);
+            $table->primary(['organization_id', 'permission_id'], 'sys_org_perm_org_id_perm_id_primary');
         });
 
         // Create table for associating roles to permissions (Many-to-Many)
@@ -130,11 +130,11 @@ class CreateAuthorizationTables extends Migration
 
         // 创建初始化管理员
         createSystemAdmin([
-            'username'     => 'kiyon',
+            'username' => 'kiyon',
             'display_name' => 'kiyon',
-            'mobile'       => '13675822217',
-            'email'        => 'kiyonlin@163.com',
-            'password'     => 'admin.amyfair',
+            'mobile' => '13675822217',
+            'email' => 'kiyonlin@163.com',
+            'password' => 'admin.amyfair',
         ]);
     }
 }
