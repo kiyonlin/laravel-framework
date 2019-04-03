@@ -278,6 +278,26 @@ class UserTest extends TestCase
         $this->assertTrue($cannotDoExist);
     }
 
+    /** @test */
+    public function 由配置文件可以禁用权限()
+    {
+        config(['app.enable_permission' => false]);
+
+        $user = createMember();
+
+        /** @var UserService $service */
+        $service = resolve(UserService::class);
+
+        $canDoUser = $service->can($user, 'user');
+        $this->assertTrue($canDoUser);
+
+        $canDoRole = $service->can($user, 'role');
+        $this->assertTrue($canDoRole);
+
+        $cannotDoExist = $service->can($user, 'not exist');
+        $this->assertTrue($cannotDoExist);
+    }
+
     /**
      * @param User $user
      * @return Collection

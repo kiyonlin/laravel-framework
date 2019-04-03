@@ -54,6 +54,11 @@ class UserService
      */
     public function can(User $user, $abilities)
     {
+        // 可以由配置文件控制是否禁用权限
+        if (config('app.enable_permission', true) === false) {
+            return true;
+        }
+
         $roles = $user->roles->pluck('key')->toArray();
         if (in_array(Constant::ROLE_SYSTEM_ADMIN, $roles)) {
             return true;
@@ -61,8 +66,8 @@ class UserService
 
         $ownAbilities = $this->getAllAbilities($user);
 
-        foreach ((array) $abilities as $ability) {
-            if (! in_array($ability, $ownAbilities)) {
+        foreach ((array)$abilities as $ability) {
+            if (!in_array($ability, $ownAbilities)) {
                 return false;
             }
         }

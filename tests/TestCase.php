@@ -60,6 +60,8 @@ abstract class TestCase extends BaseTestCase
         $app['config']->set('app.faker_locale', 'zh_CN');
         $app['config']->set('app.api_version', 'v1');
 
+        $app['config']->set('app.enable_permission', 'true');
+
         $app['config']->set('auth.defaults.guard', 'api');
         $app['config']->set('auth.guards.api.driver', 'jwt');
         $app['config']->set('auth.providers.users.model', User::class);
