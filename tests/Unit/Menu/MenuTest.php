@@ -93,7 +93,7 @@ class MenuTest extends TestCase
         $menus = create(Menu::class, ['type' => Constant::MENU_TOP_NAV], 3);
 
         foreach ($menus as $menu) {
-            $menuTree[] = $menu->toArray() + ['isLeaf' => true];
+            $menuTree[] = formatMenu($menu->toArray() + ['isLeaf' => true, 'level' => 1]);
         }
 
         $parentMenu = create(Menu::class, ['type' => Constant::MENU_TOP_NAV]);
@@ -103,10 +103,10 @@ class MenuTest extends TestCase
         $subNode = [];
 
         foreach ($subMenus as $menu) {
-            $subNode[] = $menu->toArray() + ['isLeaf' => true];
+            $subNode[] = formatMenu($menu->toArray() + ['isLeaf' => true, 'level' => 2]);
         }
 
-        $menuTree[] = $parentMenu->toArray() + ['children' => $subNode];
+        $menuTree[] = formatMenu($parentMenu->toArray() + ['children' => $subNode, 'level' => 1]);
 
         /** @var MenuService $service */
         $service = app(MenuService::class);
