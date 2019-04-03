@@ -124,9 +124,9 @@ class CreateAuthorizationTables extends Migration
     private function setupInitData()
     {
         // 创建初始化角色
-        foreach (Constant::INIT_ROLES as $role) {
-            create(Role::class, ['key' => $role]);
-        }
+        create(Role::class, ['key' => Constant::ROLE_SYSTEM_ADMIN, 'display_name' => '系统管理员', 'description' => '']);
+        create(Role::class, ['key' => Constant::ROLE_MEMBER, 'display_name' => '会员', 'description' => '']);
+        create(Role::class, ['key' => Constant::ROLE_STAFF, 'display_name' => '员工', 'description' => '']);
 
         // 创建初始化管理员
         createSystemAdmin([
