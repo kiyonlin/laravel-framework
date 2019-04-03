@@ -52,7 +52,7 @@ trait RestfulResponse
      * @param array $header
      * @return \Illuminate\Http\JsonResponse
      */
-    public function respondCreated($data, $header = [])
+    public function respondCreated($data = [], $header = [])
     {
         return $this->setStatusCode(SymfonyResponse::HTTP_CREATED)
             ->respond($data, $header);
@@ -65,7 +65,7 @@ trait RestfulResponse
      * @param array $header
      * @return \Illuminate\Http\JsonResponse
      */
-    public function respondAccepted($data, $header = [])
+    public function respondAccepted($data = [], $header = [])
     {
         return $this->setStatusCode(SymfonyResponse::HTTP_ACCEPTED)
             ->respond($data, $header);
