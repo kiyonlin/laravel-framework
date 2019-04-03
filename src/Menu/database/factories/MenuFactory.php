@@ -8,7 +8,7 @@ $factory->define(Menu::class, function (Faker $faker) {
     return [
         'parent_id' => 0,
 
-        'key'          => $faker->word,
+        'key'          => $faker->unique()->word,
         'display_name' => $faker->word,
         'type'         => $faker->randomElement(Constant::MENU_TYPE),
         'group'        => false,
