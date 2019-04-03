@@ -50,24 +50,27 @@ class MenuService
      * @param Collection $menus
      * @param bool $withPermission
      * @param int $parent_id
+     * @param int $level 可用于控制缩进
      * @return array
      */
     private function generateNgZorroMenuTree(
-        Collection $menus, $withPermission = true, $parent_id = Constant::MENU_ROOT_ID)
+        Collection $menus, $withPermission = true, $parent_id = Constant::MENU_ROOT_ID, $level = 1)
     {
         $root = [];
 
         foreach ($this->subMenus($menus, $parent_id) as $menu) {
-            $child = $menu->toArray();
+            if (!$withPermission || can(auth()->user(), $menu->uniqueKey)) {
+                $child = $menu->toArray();
 
-            if (count($this->subMenus($menus, $currentId = $menu->id))) {
-                $child['children'] = $this->generateNgZorroMenuTree($menus, $withPermission, $currentId);
-            } else {
-                $child['isLeaf'] = true;
-            }
+                $child['level'] = $level;
 
-            if (! $withPermission || can(auth()->user(), $menu->uniqueKey)) {
-                $root[] = $child;
+                if (count($this->subMenus($menus, $currentId = $menu->id))) {
+                    $child['children'] = $this->generateNgZorroMenuTree($menus, $withPermission, $currentId, $level + 1);
+                } else {
+                    $child['isLeaf'] = true;
+                }
+
+                $root[] = formatMenu($child);
             }
         }
 

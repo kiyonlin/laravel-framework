@@ -32,6 +32,8 @@ class Menu extends BaseModel
     ];
 
     /**
+     * 所有子菜单
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function subMenus()
@@ -39,6 +41,11 @@ class Menu extends BaseModel
         return $this->hasMany(Menu::class, 'parent_id');
     }
 
+    /**
+     * 父菜单信息
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function parentMenu()
     {
         return $this->belongsTo(Menu::class, 'parent_id');
@@ -61,7 +68,7 @@ class Menu extends BaseModel
     protected function getUniqueKey()
     {
         if ($this->parentMenu) {
-            return $this->parentmenu->uniqueKey . '.' . $this->attributes['key'];
+            return $this->parentMenu->uniqueKey . '.' . $this->attributes['key'];
         }
 
         return $this->attributes['key'];

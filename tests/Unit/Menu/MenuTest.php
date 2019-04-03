@@ -63,7 +63,7 @@ class MenuTest extends TestCase
         $menus = create(Menu::class, ['type' => Constant::MENU_SIDE_NAV], 3);
         $user->attachPermissions(create(Permission::class, ['key' => $menus[0]->key]));
 
-        $menuTree[] = $menus[0]->toArray() + ['isLeaf' => true];
+        $menuTree[] = formatMenu($menus[0]->toArray() + ['isLeaf' => true, 'level' => 1]);
 
         $parentMenu = create(Menu::class, ['type' => Constant::MENU_SIDE_NAV]);
         $user->attachPermissions($parentPermission = create(Permission::class, ['key' => $parentMenu->key]));
@@ -73,9 +73,9 @@ class MenuTest extends TestCase
 
         $subNode = [];
 
-        $subNode[] = $subMenus[0]->toArray() + ['isLeaf' => true];
+        $subNode[] = formatMenu($subMenus[0]->toArray() + ['isLeaf' => true, 'level' => 2]);
 
-        $menuTree[] = $parentMenu->toArray() + ['children' => $subNode];
+        $menuTree[] = formatMenu($parentMenu->toArray() + ['children' => $subNode, 'level' => 1]);
 
         /** @var MenuService $service */
         $service = app(MenuService::class);
