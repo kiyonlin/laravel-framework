@@ -36,11 +36,11 @@ Route::namespace('Kiyon\Laravel\Authorization\Controller')
                     ->middleware('ability:system.permission.store')
                     ->name('store');
 
-                Route::patch('/update/{permission}', 'PermissionController@update')
+                Route::patch('/{permission}', 'PermissionController@update')
                     ->middleware('ability:system.permission.update')
                     ->name('update');
 
-                Route::delete('/destroy/{permission}', 'PermissionController@destroy')
+                Route::delete('/{permission}', 'PermissionController@destroy')
                     ->middleware('ability:system.permission.destroy')
                     ->name('destroy');
             });
@@ -56,11 +56,11 @@ Route::namespace('Kiyon\Laravel\Authorization\Controller')
                     ->middleware('ability:system.role.store')
                     ->name('store');
 
-                Route::patch('/update/{role}', 'RoleController@update')
+                Route::patch('/{role}', 'RoleController@update')
                     ->middleware('ability:system.role.update')
                     ->name('update');
 
-                Route::delete('/destroy/{role}', 'RoleController@destroy')
+                Route::delete('/{role}', 'RoleController@destroy')
                     ->middleware('ability:system.role.destroy')
                     ->name('destroy');
             });
@@ -76,11 +76,11 @@ Route::namespace('Kiyon\Laravel\Authorization\Controller')
                     ->middleware('ability:system.organization.store')
                     ->name('store');
 
-                Route::patch('/update/{organization}', 'OrganizationController@update')
+                Route::patch('/{organization}', 'OrganizationController@update')
                     ->middleware('ability:system.organization.update')
                     ->name('update');
 
-                Route::delete('/destroy/{organization}', 'OrganizationController@destroy')
+                Route::delete('/{organization}', 'OrganizationController@destroy')
                     ->middleware('ability:system.organization.destroy')
                     ->name('destroy');
             });

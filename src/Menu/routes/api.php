@@ -29,11 +29,11 @@ Route::namespace('Kiyon\Laravel\Menu\Controller')
                     ->middleware('ability:system.menu.store')
                     ->name('store');
 
-                Route::patch('/update/{menu}', 'MenuController@update')
+                Route::patch('/{menu}', 'MenuController@update')
                     ->middleware('ability:system.menu.update')
                     ->name('update');
 
-                Route::delete('/destroy/{menu}', 'MenuController@destroy')
+                Route::delete('/{menu}', 'MenuController@destroy')
                     ->middleware('ability:system.menu.destroy')
                     ->name('destroy');
             });

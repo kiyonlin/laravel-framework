@@ -29,15 +29,15 @@ Route::namespace('DummyRootNamespace\Controller')
                     ->middleware('ability:app.DummyItem.store')
                     ->name('store');
 
-                Route::get('/show/{DummyItem}', 'DummyModelController@show')
+                Route::get('/{DummyItem}', 'DummyModelController@show')
                     ->middleware('ability:app.DummyItem.show')
                     ->name('show');
 
-                Route::patch('/update/{DummyItem}', 'DummyModelController@update')
+                Route::patch('/{DummyItem}', 'DummyModelController@update')
                     ->middleware('ability:app.DummyItem.update')
                     ->name('update');
 
-                Route::delete('/destroy/{DummyItem}', 'DummyModelController@destroy')
+                Route::delete('/{DummyItem}', 'DummyModelController@destroy')
                     ->middleware('ability:app.DummyItem.destroy')
                     ->name('destroy');
             });

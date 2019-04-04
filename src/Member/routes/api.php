@@ -29,15 +29,15 @@ Route::namespace('Kiyon\Laravel\Member\Controller')
                     ->middleware('ability:system.member.store')
                     ->name('store');
 
-                Route::get('/show/{member}', 'MemberController@show')
+                Route::get('/{member}', 'MemberController@show')
                     ->middleware('ability:system.member.show')
                     ->name('show');
 
-                Route::patch('/update/{member}', 'MemberController@update')
+                Route::patch('/{member}', 'MemberController@update')
                     ->middleware('ability:system.member.update')
                     ->name('update');
 
-                Route::delete('/destroy/{member}', 'MemberController@destroy')
+                Route::delete('/{member}', 'MemberController@destroy')
                     ->middleware('ability:system.member.destroy')
                     ->name('destroy');
             });
