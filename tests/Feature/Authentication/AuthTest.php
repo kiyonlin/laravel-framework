@@ -15,6 +15,20 @@ class AuthTest extends TestCase
 {
 
     /** @test */
+    public function 用户登录需要用户名和密码()
+    {
+        $this->withExceptionHandling();
+
+        $this->assertErrorsHas(
+            $this->postJson(route('auth.login'), ['username' => ''])->json(),
+            'username');
+
+        $this->assertErrorsHas(
+            $this->postJson(route('auth.login'), ['password' => ''])->json(),
+            'password');
+    }
+
+    /** @test */
     public function 用户登录失败()
     {
         $this->withExceptionHandling();

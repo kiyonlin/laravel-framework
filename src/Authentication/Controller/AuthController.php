@@ -10,6 +10,7 @@ namespace Kiyon\Laravel\Authentication\Controller;
 
 
 use Illuminate\Auth\AuthenticationException;
+use Kiyon\Laravel\Authentication\Request\AuthRequest;
 use Kiyon\Laravel\Foundation\Routing\Controller;
 
 class AuthController extends Controller
@@ -21,7 +22,7 @@ class AuthController extends Controller
      * @return mixed
      * @throws AuthenticationException
      */
-    public function login()
+    public function login(AuthRequest $request)
     {
         $credentials = request()->all();
 
