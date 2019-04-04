@@ -61,6 +61,7 @@ class AuthTest extends TestCase
             ->json();
 
         $this->assertArrayHasKey('token', $resp);
+        $this->assertArrayHasKey('expiredAt', $resp);
     }
 
     /** @test */
@@ -74,6 +75,7 @@ class AuthTest extends TestCase
             ->json();
 
         $this->assertArrayHasKey('token', $resp);
+        $this->assertArrayHasKey('expiredAt', $resp);
     }
 
     /** @test */
@@ -87,6 +89,7 @@ class AuthTest extends TestCase
             ->json();
 
         $this->assertArrayHasKey('token', $resp);
+        $this->assertArrayHasKey('expiredAt', $resp);
     }
 
     /** @test */

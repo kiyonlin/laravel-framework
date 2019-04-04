@@ -9,9 +9,9 @@
 namespace Kiyon\Laravel\Authentication\Controller;
 
 
-use Illuminate\Auth\AuthenticationException;
 use Kiyon\Laravel\Authentication\Request\AuthRequest;
 use Kiyon\Laravel\Foundation\Routing\Controller;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -19,8 +19,8 @@ class AuthController extends Controller
     /**
      * 用户登录
      *
-     * @return mixed
-     * @throws AuthenticationException
+     * @param AuthRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function login(AuthRequest $request)
     {
@@ -31,10 +31,13 @@ class AuthController extends Controller
                 return $this->respondLocked();
             }
 
-            return $this->respond(compact('token'));
+            return $this->respond([
+                'token' => $token,
+                'expiredAt' => auth()->getPayload()['exp']
+            ]);
         }
 
-        throw new AuthenticationException();
+        return $this->respondUnauthorised();
     }
 
     /**
@@ -76,14 +79,14 @@ class AuthController extends Controller
      * 根据凭证尝试根据手机号、邮箱、用户名登录
      *
      * @param $credentials
-     * @return bool
+     * @return bool | string
      */
     protected function attemptLogin($credentials)
     {
         foreach (['mobile', 'email', 'username'] as $username) {
             if ($token = auth()->attempt([
                 "{$username}" => $credentials['username'],
-                'password'    => $credentials['password'],
+                'password' => $credentials['password'],
             ])) {
                 return $token;
             }
