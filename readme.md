@@ -60,4 +60,4 @@
 
 #### 分页
 
-`test-query-builder?page=1&perPage=15`
+`test-query-builder?page=1&pageSize=15`
