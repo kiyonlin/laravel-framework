@@ -63,7 +63,7 @@ class MenuTest extends TestCase
         $menus = create(Menu::class, ['type' => Constant::MENU_SIDE_NAV], 3);
         $user->attachPermissions(create(Permission::class, ['key' => $menus[0]->key]));
 
-        $menuTree[] = formatMenu($menus[0]->toArray() + ['isLeaf' => true, 'level' => 1]);
+        $menuTree[] = formatMenu(array_merge($menus[0]->toArray(), ['link' => '/-']) + ['isLeaf' => true, 'level' => 1]);
 
         $parentMenu = create(Menu::class, ['type' => Constant::MENU_SIDE_NAV]);
         $user->attachPermissions($parentPermission = create(Permission::class, ['key' => $parentMenu->key]));
@@ -73,9 +73,9 @@ class MenuTest extends TestCase
 
         $subNode = [];
 
-        $subNode[] = formatMenu($subMenus[0]->toArray() + ['isLeaf' => true, 'level' => 2]);
+        $subNode[] = formatMenu(array_merge($subMenus[0]->toArray(), ['link' => '/-/-']) + ['isLeaf' => true, 'level' => 2]);
 
-        $menuTree[] = formatMenu($parentMenu->toArray() + ['children' => $subNode, 'level' => 1]);
+        $menuTree[] = formatMenu(array_merge($parentMenu->toArray(), ['link' => '/-']) + ['children' => $subNode, 'level' => 1]);
 
         /** @var MenuService $service */
         $service = app(MenuService::class);
@@ -93,7 +93,7 @@ class MenuTest extends TestCase
         $menus = create(Menu::class, ['type' => Constant::MENU_TOP_NAV], 3);
 
         foreach ($menus as $menu) {
-            $menuTree[] = formatMenu($menu->toArray() + ['isLeaf' => true, 'level' => 1]);
+            $menuTree[] = formatMenu(array_merge($menu->toArray(), ['link' => '/-']) + ['isLeaf' => true, 'level' => 1]);
         }
 
         $parentMenu = create(Menu::class, ['type' => Constant::MENU_TOP_NAV]);
@@ -103,10 +103,10 @@ class MenuTest extends TestCase
         $subNode = [];
 
         foreach ($subMenus as $menu) {
-            $subNode[] = formatMenu($menu->toArray() + ['isLeaf' => true, 'level' => 2]);
+            $subNode[] = formatMenu(array_merge($menu->toArray(), ['link' => '/-/-']) + ['isLeaf' => true, 'level' => 2]);
         }
 
-        $menuTree[] = formatMenu($parentMenu->toArray() + ['children' => $subNode, 'level' => 1]);
+        $menuTree[] = formatMenu(array_merge($parentMenu->toArray(), ['link' => '/-']) + ['children' => $subNode, 'level' => 1]);
 
         /** @var MenuService $service */
         $service = app(MenuService::class);
