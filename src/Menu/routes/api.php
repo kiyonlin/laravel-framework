@@ -29,6 +29,10 @@ Route::namespace('Kiyon\Laravel\Menu\Controller')
                     ->middleware('ability:system.menu.store')
                     ->name('store');
 
+                Route::get('/{menu}', 'MenuController@update')
+                    ->middleware('ability:system.menu.show')
+                    ->name('show');
+
                 Route::patch('/{menu}', 'MenuController@update')
                     ->middleware('ability:system.menu.update')
                     ->name('update');

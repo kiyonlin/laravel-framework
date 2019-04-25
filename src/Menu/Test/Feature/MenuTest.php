@@ -121,6 +121,33 @@ class MenuTest extends AuthTestCase
     }
 
     /** @test */
+    public function 未授权用户不能查看menu()
+    {
+        $this->withExceptionHandling();
+
+        $menu = create(Menu::class);
+
+        $this->getJson(route('system.menu.show', ['menu' => $menu->id]))
+            ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    /** @test */
+    public function 授权用户可以查看menu()
+    {
+        $this->signInSystemAdmin();
+
+        /** @var Menu $menu */
+        $menu = create(Menu::class);
+
+        $resp = $this->getJson(route('system.menu.show', ['menu' => $menu->id]))
+            ->assertStatus(Response::HTTP_OK)
+            ->json();
+
+        $fields = ['key', 'display_name', 'type', 'link', 'icon', 'uniqueKey', 'parent_menu'];
+        $this->assertEquals(array_only($menu->toArray(), $fields), array_only($resp, $fields));
+    }
+
+    /** @test */
     public function 未授权用户不能更新menu()
     {
         $this->withExceptionHandling();
@@ -204,6 +231,7 @@ class MenuTest extends AuthTestCase
      * 添加记录辅助函数
      *
      * @param array $override
+     *
      * @return array
      */
     protected function storeMenu(array $override = [])
@@ -220,6 +248,7 @@ class MenuTest extends AuthTestCase
      * 更新记录辅助函数
      *
      * @param array $update
+     *
      * @return array
      */
     protected function updateMenu(array $update)

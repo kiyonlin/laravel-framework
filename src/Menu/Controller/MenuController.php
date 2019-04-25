@@ -6,6 +6,7 @@ use Kiyon\Laravel\Foundation\Routing\Controller;
 use Kiyon\Laravel\Menu\Model\Menu;
 use Kiyon\Laravel\Menu\Request\MenuRequest;
 use Kiyon\Laravel\Menu\Service\MenuService;
+use Kiyon\Laravel\Menu\Resource\MenuResource;
 
 class MenuController extends Controller
 {
@@ -18,13 +19,13 @@ class MenuController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
         $menus = $this->service->all();
 
-        return $this->respond($menus);
+        return MenuResource::collection($menus);
     }
 
     /**
@@ -42,19 +43,32 @@ class MenuController extends Controller
 
     /**
      * @param Menu $menu
-     * @return \Illuminate\Http\JsonResponse
+     * @return MenuResource
+     */
+    public function show(Menu $menu)
+    {
+        $menu = $this->service->show($menu);
+
+        return new MenuResource($menu);
+    }
+
+    /**
+     * @param Menu $menu
+     *
+     * @return MenuResource
      */
     public function edit(Menu $menu)
     {
         $menu = $this->service->edit($menu);
 
-        return $this->respond($menu);
+        return new MenuResource($menu);
     }
 
     /**
-     * @param Menu $menu
+     * @param Menu        $menu
      * @param MenuRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @return MenuResource
      */
     public function update(Menu $menu, MenuRequest $request)
     {
@@ -62,7 +76,7 @@ class MenuController extends Controller
 
         $menu = $this->service->update($menu, $data);
 
-        return $this->respond($menu);
+        return new MenuResource($menu);
     }
 
     /**
