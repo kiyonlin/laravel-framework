@@ -12,6 +12,7 @@ $factory->define(Menu::class, function (Faker $faker) {
         'display_name' => $faker->word,
         'type'         => $faker->randomElement(Constant::MENU_TYPE),
         'group'        => false,
+        'sort'         => 0,
 
         'link'          => '-',
         'link_exact'    => false,

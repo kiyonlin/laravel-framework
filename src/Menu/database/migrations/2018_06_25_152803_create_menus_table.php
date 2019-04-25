@@ -23,6 +23,7 @@ class CreateMenusTable extends Migration
             $table->string('display_name')->comment('展示文字');
             $table->enum('type', [Constant::MENU_SIDE_NAV, Constant::MENU_TOP_NAV])->default(Constant::MENU_SIDE_NAV)->comment('菜单类型，侧边栏菜单或者顶部菜单');
             $table->boolean('group')->default(false)->comment('是否菜单组');
+            $table->unsignedInteger('sort')->default(0)->comment('菜单排序');
 
             $table->string('link')->default('-')->comment('路由');
             $table->boolean('link_exact')->default(false)->comment('路由是否精准匹配，默认：`false`');

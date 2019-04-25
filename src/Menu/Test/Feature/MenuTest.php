@@ -143,7 +143,7 @@ class MenuTest extends AuthTestCase
             ->assertStatus(Response::HTTP_OK)
             ->json();
 
-        $fields = ['key', 'display_name', 'type', 'link', 'icon', 'uniqueKey', 'parent_menu'];
+        $fields = ['key', 'display_name', 'type', 'link', 'icon', 'uniqueKey', 'parent_menu', 'sort'];
         $this->assertEquals(array_only($menu->toArray(), $fields), array_only($resp, $fields));
     }
 

@@ -34,6 +34,7 @@ class MenuResource extends BaseResource
             'type'         => $this->type,
             'link'         => $this->link,
             'icon'         => $this->icon,
+            'sort'         => $this->sort,
         ];
     }
 }

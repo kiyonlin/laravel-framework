@@ -13,7 +13,7 @@ class Menu extends BaseModel
     protected $fillable = [
         'key', 'display_name', 'type', 'group', 'link', 'link_exact', 'external_link', 'target',
         'icon', 'badge', 'badge_dot', 'badge_status', 'hide', 'hide_in_breadcrumb',
-        'shortcut', 'shortcut_root', 'parent_id'
+        'shortcut', 'shortcut_root', 'parent_id', 'sort'
     ];
 
     protected $casts = [
