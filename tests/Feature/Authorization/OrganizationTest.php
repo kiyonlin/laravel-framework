@@ -89,6 +89,33 @@ class OrganizationTest extends AuthTestCase
     }
 
     /** @test */
+    public function 未授权用户不能查看组织()
+    {
+        $this->withExceptionHandling();
+
+        $organization = create(Organization::class);
+
+        $this->getJson(route('system.organization.show', ['organization' => $organization->id]))
+            ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    /** @test */
+    public function 授权用户可以查看组织()
+    {
+        $this->signInSystemAdmin();
+
+        /** @var Organization $organization */
+        $organization = create(Organization::class);
+
+        $resp = $this->getJson(route('system.organization.show', ['organization' => $organization->id]))
+            ->assertStatus(Response::HTTP_OK)
+            ->json();
+
+        $fields = ['key', 'display_name', 'description'];
+        $this->assertEquals(array_only($organization->toArray(), $fields), array_only($resp, $fields));
+    }
+
+    /** @test */
     public function 未授权用户不能更新组织()
     {
         $this->withExceptionHandling();

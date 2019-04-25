@@ -53,18 +53,6 @@ class MenuController extends Controller
     }
 
     /**
-     * @param Menu $menu
-     *
-     * @return MenuResource
-     */
-    public function edit(Menu $menu)
-    {
-        $menu = $this->service->edit($menu);
-
-        return new MenuResource($menu);
-    }
-
-    /**
      * @param Menu        $menu
      * @param MenuRequest $request
      *

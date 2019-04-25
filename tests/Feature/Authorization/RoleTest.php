@@ -114,6 +114,33 @@ class RoleTest extends AuthTestCase
     }
 
     /** @test */
+    public function 未授权用户不能查看角色()
+    {
+        $this->withExceptionHandling();
+
+        $role = create(Role::class);
+
+        $this->getJson(route('system.role.show', ['role' => $role->id]))
+            ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    /** @test */
+    public function 授权用户可以查看角色()
+    {
+        $this->signInSystemAdmin();
+
+        /** @var Role $role */
+        $role = create(Role::class);
+
+        $resp = $this->getJson(route('system.role.show', ['role' => $role->id]))
+            ->assertStatus(Response::HTTP_OK)
+            ->json();
+
+        $fields = ['key', 'display_name', 'description'];
+        $this->assertEquals(array_only($role->toArray(), $fields), array_only($resp, $fields));
+    }
+
+    /** @test */
     public function 未授权用户不能更新角色()
     {
         $this->withExceptionHandling();

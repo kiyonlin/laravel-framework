@@ -10,6 +10,7 @@ namespace Kiyon\Laravel\Authorization\Controller;
 
 
 use Kiyon\Laravel\Authorization\Model\Permission;
+use Kiyon\Laravel\Authorization\Resource\PermissionResource;
 use Kiyon\Laravel\Authorization\Service\PermissionService;
 use Kiyon\Laravel\Foundation\Routing\Controller;
 
@@ -45,18 +46,20 @@ class PermissionController extends Controller
 
     /**
      * @param Permission $permission
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @return PermissionResource
      */
-    public function edit(Permission $permission)
+    public function show(Permission $permission)
     {
-        $permission = $this->service->edit($permission);
+        $permission = $this->service->show($permission);
 
-        return $this->respond($permission);
+        return new PermissionResource($permission);
     }
 
     /**
      * @param Permission $permission
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @return PermissionResource
      */
     public function update(Permission $permission)
     {
@@ -64,11 +67,12 @@ class PermissionController extends Controller
 
         $permission = $this->service->update($permission, $data);
 
-        return $this->respond($permission);
+        return new PermissionResource($permission);
     }
 
     /**
      * @param Permission $permission
+     *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */

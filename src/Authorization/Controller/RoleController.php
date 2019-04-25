@@ -10,6 +10,7 @@ namespace Kiyon\Laravel\Authorization\Controller;
 
 
 use Kiyon\Laravel\Authorization\Model\Role;
+use Kiyon\Laravel\Authorization\Resource\RoleResource;
 use Kiyon\Laravel\Authorization\Service\RoleService;
 use Kiyon\Laravel\Foundation\Routing\Controller;
 use Kiyon\Laravel\Support\Constant;
@@ -46,18 +47,20 @@ class RoleController extends Controller
 
     /**
      * @param Role $role
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @return RoleResource
      */
-    public function edit(Role $role)
+    public function show(Role $role)
     {
-        $role = $this->service->edit($role);
+        $role = $this->service->show($role);
 
-        return $this->respond($role);
+        return new RoleResource($role);
     }
 
     /**
      * @param Role $role
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @return RoleResource | \Illuminate\Http\JsonResponse
      */
     public function update(Role $role)
     {
@@ -71,11 +74,12 @@ class RoleController extends Controller
 
         $role = $this->service->update($role, $data);
 
-        return $this->respond($role);
+        return new RoleResource($role);
     }
 
     /**
      * @param Role $role
+     *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */

@@ -10,6 +10,7 @@ namespace Kiyon\Laravel\Authorization\Controller;
 
 
 use Kiyon\Laravel\Authorization\Model\Organization;
+use Kiyon\Laravel\Authorization\Resource\OrganizationResource;
 use Kiyon\Laravel\Authorization\Service\OrganizationService;
 use Kiyon\Laravel\Foundation\Routing\Controller;
 
@@ -45,18 +46,20 @@ class OrganizationController extends Controller
 
     /**
      * @param Organization $organization
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @return OrganizationResource
      */
-    public function edit(Organization $organization)
+    public function show(Organization $organization)
     {
-        $organization = $this->service->edit($organization);
+        $organization = $this->service->show($organization);
 
-        return $this->respond($organization);
+        return new OrganizationResource($organization);
     }
 
     /**
      * @param Organization $organization
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @return OrganizationResource
      */
     public function update(Organization $organization)
     {
@@ -64,11 +67,12 @@ class OrganizationController extends Controller
 
         $organization = $this->service->update($organization, $data);
 
-        return $this->respond($organization);
+        return new OrganizationResource($organization);
     }
 
     /**
      * @param Organization $organization
+     *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */

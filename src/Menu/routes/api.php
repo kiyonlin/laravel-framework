@@ -29,7 +29,7 @@ Route::namespace('Kiyon\Laravel\Menu\Controller')
                     ->middleware('ability:system.menu.store')
                     ->name('store');
 
-                Route::get('/{menu}', 'MenuController@update')
+                Route::get('/{menu}', 'MenuController@show')
                     ->middleware('ability:system.menu.show')
                     ->name('show');
 

@@ -32,6 +32,10 @@ Route::namespace('Kiyon\Laravel\Authorization\Controller')
                     ->middleware('ability:system.permission.index')
                     ->name('index');
 
+                Route::get('/{permission}', 'PermissionController@show')
+                    ->middleware('ability:system.permission.show')
+                    ->name('show');
+
                 Route::post('/', 'PermissionController@store')
                     ->middleware('ability:system.permission.store')
                     ->name('store');
@@ -52,6 +56,10 @@ Route::namespace('Kiyon\Laravel\Authorization\Controller')
                     ->middleware('ability:system.role.index')
                     ->name('index');
 
+                Route::get('/{role}', 'RoleController@show')
+                    ->middleware('ability:system.role.show')
+                    ->name('show');
+
                 Route::post('/', 'RoleController@store')
                     ->middleware('ability:system.role.store')
                     ->name('store');
@@ -71,6 +79,10 @@ Route::namespace('Kiyon\Laravel\Authorization\Controller')
                 Route::get('/', 'OrganizationController@index')
                     ->middleware('ability:system.organization.index')
                     ->name('index');
+
+                Route::get('/{organization}', 'OrganizationController@show')
+                    ->middleware('ability:system.organization.show')
+                    ->name('show');
 
                 Route::post('/', 'OrganizationController@store')
                     ->middleware('ability:system.organization.store')

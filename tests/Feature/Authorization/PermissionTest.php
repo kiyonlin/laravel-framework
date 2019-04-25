@@ -89,6 +89,33 @@ class PermissionTest extends AuthTestCase
     }
 
     /** @test */
+    public function 未授权用户不能查看权限()
+    {
+        $this->withExceptionHandling();
+
+        $permission = create(Permission::class);
+
+        $this->getJson(route('system.permission.show', ['permission' => $permission->id]))
+            ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    /** @test */
+    public function 授权用户可以查看权限()
+    {
+        $this->signInSystemAdmin();
+
+        /** @var Permission $permission */
+        $permission = create(Permission::class);
+
+        $resp = $this->getJson(route('system.permission.show', ['permission' => $permission->id]))
+            ->assertStatus(Response::HTTP_OK)
+            ->json();
+
+        $fields = ['key', 'display_name', 'description'];
+        $this->assertEquals(array_only($permission->toArray(), $fields), array_only($resp, $fields));
+    }
+
+    /** @test */
     public function 未授权用户不能更新权限()
     {
         $this->withExceptionHandling();
