@@ -25,6 +25,10 @@ class Role extends BaseModel implements AuthorizationRoleContract
         'key', 'display_name', 'description',
     ];
 
+    protected $searchable = [
+        'key', 'display_name', 'description'
+    ];
+
     /**
      * 获取管理员角色
      *

@@ -23,4 +23,8 @@ class Organization extends BaseModel implements AuthorizationOrganizationContrac
     protected $fillable = [
         'key', 'display_name', 'description',
     ];
+
+    protected $searchable = [
+        'key', 'display_name', 'description'
+    ];
 }

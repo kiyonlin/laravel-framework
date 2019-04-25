@@ -27,4 +27,7 @@ class Permission extends BaseModel implements AuthorizationPermissionContract
         'ability'
     ];
 
+    protected $searchable = [
+        'key', 'display_name', 'description', 'level'
+    ];
 }

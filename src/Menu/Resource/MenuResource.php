@@ -27,6 +27,7 @@ class MenuResource extends BaseResource
     public function collectionArray($request)
     {
         return [
+            'id'           => $this->id,
             'parent_menu'  => $this->parentMenu,
             'key'          => $this->key,
             'display_name' => $this->display_name,

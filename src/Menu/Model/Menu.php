@@ -31,6 +31,14 @@ class Menu extends BaseModel
         'uniqueKey'
     ];
 
+    protected $searchable = [
+        'key', 'display_name', 'type'
+    ];
+
+    protected $sortable = [
+        'sort'
+    ];
+
     /**
      * 所有子菜单
      *
@@ -53,6 +61,7 @@ class Menu extends BaseModel
 
     /**
      * append uniqueKey attribute
+     *
      * @return string
      */
     public function getUniqueKeyAttribute()
