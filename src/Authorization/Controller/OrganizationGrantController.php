@@ -9,45 +9,45 @@
 namespace Kiyon\Laravel\Authorization\Controller;
 
 
-use Kiyon\Laravel\Authorization\Model\Role;
-use Kiyon\Laravel\Authorization\Service\RoleService;
+use Kiyon\Laravel\Authorization\Model\Organization;
+use Kiyon\Laravel\Authorization\Service\OrganizationService;
 use Kiyon\Laravel\Foundation\Routing\Controller;
 
-class RoleGrantController extends Controller
+class OrganizationGrantController extends Controller
 {
 
-    /** @var RoleService */
+    /** @var OrganizationService */
     protected $service;
 
-    public function __construct(RoleService $service)
+    public function __construct(OrganizationService $service)
     {
         $this->service = $service;
     }
 
     /**
-     * @param Role $role
+     * @param Organization $organization
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function user(Role $role)
+    public function user(Organization $organization)
     {
         $userIds = (array)request('userIds', []);
 
-        $role->attachUsers($userIds);
+        $organization->attachUsers($userIds);
 
         return $this->respond();
     }
 
     /**
-     * @param Role $role
+     * @param Organization $organization
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function permission(Role $role)
+    public function permission(Organization $organization)
     {
         $permissionIds = (array)request('permissionIds', []);
 
-        $role->syncPermissions($permissionIds);
+        $organization->syncPermissions($permissionIds);
 
         return $this->respond();
     }

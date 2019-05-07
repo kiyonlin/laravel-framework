@@ -105,5 +105,15 @@ Route::namespace('Kiyon\Laravel\Authorization\Controller')
                 Route::delete('/{organization}', 'OrganizationController@destroy')
                     ->middleware('ability:system.organization.destroy')
                     ->name('destroy');
+
+                // 为组织分配用户
+                Route::put('/{organization}/user', 'OrganizationGrantController@user')
+                    ->middleware('ability:system.organization.grant-user')
+                    ->name('grant-user');
+
+                // 为组织分配权限
+                Route::put('/{organization}/permission', 'OrganizationGrantController@permission')
+                    ->middleware('ability:system.organization.grant-permission')
+                    ->name('grant-permission');
             });
     });
