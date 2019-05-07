@@ -22,6 +22,7 @@ class StaffResource extends BaseResource
             $this->collectionArray($request),
             [
                 'permissions' => $this->permissions,
+                'organizations' => $this->organizations,
             ]
         );
     }

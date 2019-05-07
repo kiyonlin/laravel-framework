@@ -53,4 +53,18 @@ class StaffGrantController extends Controller
 
         return new StaffResource($staff);
     }
+
+    /**
+     * @param Staff $staff
+     *
+     * @return StaffResource
+     */
+    public function organization(Staff $staff)
+    {
+        $organizationIds = (array)request('organizationIds', []);
+
+        $staff->syncOrganizations($organizationIds);
+
+        return new StaffResource($staff);
+    }
 }
