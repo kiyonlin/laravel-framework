@@ -21,7 +21,7 @@ class StaffResource extends BaseResource
         return array_merge(
             $this->collectionArray($request),
             [
-                'permissions' => $this->permissions,
+                'permissions'   => $this->permissions,
                 'organizations' => $this->organizations,
             ]
         );
@@ -33,6 +33,7 @@ class StaffResource extends BaseResource
     public function collectionArray($request)
     {
         return [
+            'id'           => $this->id,
             'username'     => $this->username,
             'display_name' => $this->display_name,
             'mobile'       => $this->mobile,
