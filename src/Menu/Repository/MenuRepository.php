@@ -17,6 +17,7 @@ class MenuRepository implements MenuRepositoryContract
 
     /**
      * MenuRepository constructor.
+     *
      * @param Menu $model
      */
     public function __construct(Menu $model)
@@ -29,7 +30,9 @@ class MenuRepository implements MenuRepositoryContract
      */
     public function sideNav()
     {
-        $builder = $this->model->where('type', Constant::MENU_SIDE_NAV);
+        $builder = $this->model
+            ->where('type', Constant::MENU_SIDE_NAV)
+            ->orderBy('sort');
 
         return $this->all($builder);
     }
@@ -39,7 +42,9 @@ class MenuRepository implements MenuRepositoryContract
      */
     public function topNav()
     {
-        $builder = $this->model->where('type', Constant::MENU_TOP_NAV);
+        $builder = $this->model
+            ->where('type', Constant::MENU_TOP_NAV)
+            ->orderBy('sort');
 
         return $this->all($builder);
     }
