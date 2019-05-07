@@ -40,5 +40,10 @@ Route::namespace('Kiyon\Laravel\Staff\Controller')
                 Route::delete('/{staff}', 'StaffController@destroy')
                     ->middleware('ability:system.staff.destroy')
                     ->name('destroy');
+
+                // 为员工分配角色
+                Route::put('/{staff}/role', 'StaffGrantController@role')
+                    ->middleware('ability:system.staff.grant-role')
+                    ->name('grant-role');
             });
     });
