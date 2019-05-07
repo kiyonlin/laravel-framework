@@ -20,7 +20,7 @@ class Permission extends BaseModel implements AuthorizationPermissionContract
     protected $table = 'sys_permissions';
 
     protected $fillable = [
-        'parent_id', 'key', 'display_name', 'description', 'level'
+        'parent_id', 'key', 'display_name', 'description', 'level', 'sort'
     ];
 
     protected $appends = [
@@ -29,5 +29,9 @@ class Permission extends BaseModel implements AuthorizationPermissionContract
 
     protected $searchable = [
         'key', 'display_name', 'description', 'level'
+    ];
+
+    protected $sortable = [
+        'sort'
     ];
 }

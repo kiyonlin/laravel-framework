@@ -102,9 +102,11 @@ class PermissionTest extends TestCase
 
         foreach ($permissions as $permission) {
             $permissionTree[] = [
+                'id'     => $permission->id,
                 'title'  => $permission->display_name,
                 'key'    => $permission->key,
-                'isLeaf' => true
+                'sort'   => $permission->sort,
+                'isLeaf' => true,
             ];
         }
 
@@ -114,15 +116,19 @@ class PermissionTest extends TestCase
 
         foreach ($subPermissions as $permission) {
             $subNode[] = [
+                'id'     => $permission->id,
                 'title'  => $permission->display_name,
                 'key'    => $permission->key,
-                'isLeaf' => true
+                'sort'   => $permission->sort,
+                'isLeaf' => true,
             ];
         }
 
         $permissionTree[] = [
+            'id'       => $parentPermission->id,
             'title'    => $parentPermission->display_name,
             'key'      => $parentPermission->key,
+            'sort'     => $permission->sort,
             'children' => $subNode
         ];
 

@@ -32,6 +32,7 @@ class PermissionService
      * 获取权限拥有者的权限 key 数组
      *
      * @param GrantPermissionContract $permissionOwner
+     *
      * @return mixed
      */
     public function getNgZorroCheckedKeys(GrantPermissionContract $permissionOwner)
@@ -46,7 +47,7 @@ class PermissionService
      */
     public function getNgZorroPermissionTree()
     {
-        $permissions = $this->repo->all();
+        $permissions = $this->repo->all()->sortBy('sort');
 
         return $this->generateNgZorroPermissionTree($permissions);
     }
@@ -55,7 +56,8 @@ class PermissionService
      * 生成 NgZorro 结构的权限树
      *
      * @param Collection $permissions
-     * @param int $parent_id
+     * @param int        $parent_id
+     *
      * @return array
      */
     private function generateNgZorroPermissionTree(
@@ -65,8 +67,10 @@ class PermissionService
 
         foreach ($this->subPermissions($permissions, $parent_id) as $permission) {
             $child = [
+                'id'    => $permission->id,
                 'title' => $permission->display_name,
                 'key'   => $permission->key,
+                'sort'  => $permission->sort
             ];
 
             if (count($this->subPermissions($permissions, $currentId = $permission->id))) {
@@ -85,7 +89,8 @@ class PermissionService
      * 过滤给定权限id的子权限
      *
      * @param Collection $permissions
-     * @param int $parent_id
+     * @param int        $parent_id
+     *
      * @return Collection
      */
     private function subPermissions(Collection $permissions, $parent_id)

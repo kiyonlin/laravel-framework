@@ -40,6 +40,7 @@ class CreateAuthorizationTables extends Migration
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
             $table->unsignedInteger('level')->default('1');
+            $table->unsignedInteger('sort')->default(0);
             $table->timestamps();
 
             $table->unique(['parent_id', 'key']);
