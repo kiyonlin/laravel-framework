@@ -14,6 +14,14 @@ use Kiyon\Laravel\Foundation\Model\GlobalScopes\UserTypeScope;
 class Staff extends User
 {
 
+    protected $searchable = [
+        'username', 'display_name', 'mobile', 'email', 'locked'
+    ];
+
+    protected $sortable = [
+        'created_at'
+    ];
+
     /**
      * 模型的「启动」方法
      *

@@ -18,14 +18,7 @@ class StaffResource extends BaseResource
      */
     public function itemArray($request)
     {
-        return [
-            'username'     => $this->username,
-            'display_name' => $this->display_name,
-            'mobile'       => $this->mobile,
-            'email'        => $this->email,
-            'locked'       => $this->locked,
-            'roles'        => $this->roles->toArray()
-        ];
+        return $this->collectionArray($request);
     }
 
     /**
@@ -34,10 +27,12 @@ class StaffResource extends BaseResource
     public function collectionArray($request)
     {
         return [
+            'username'     => $this->username,
             'display_name' => $this->display_name,
             'mobile'       => $this->mobile,
+            'email'        => $this->email,
             'locked'       => $this->locked,
-            'roles'        => $this->roles
+            'roles'        => $this->roles->toArray()
         ];
     }
 }
