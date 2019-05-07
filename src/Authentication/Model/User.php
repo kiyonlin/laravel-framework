@@ -23,7 +23,7 @@ class User extends BaseModel implements AuthenticatableContract, AuthorizationUs
     ];
 
     protected $hidden = [
-        'password', 'remember_token',
+        'remember_token',
     ];
 
     /**
