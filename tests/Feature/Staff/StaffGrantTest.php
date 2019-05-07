@@ -9,6 +9,7 @@
 namespace Tests\Feature\Staff;
 
 
+use Kiyon\Laravel\Authorization\Model\Permission;
 use Kiyon\Laravel\Authorization\Model\Role;
 use Kiyon\Laravel\Staff\Model\Staff;
 use Kiyon\Laravel\Support\Constant;
@@ -48,5 +49,38 @@ class StaffGrantTest extends AuthTestCase
 
         $this->assertEquals($staffRoleIds, $respRoleIds);
         $this->assertTrue(in_array($role->id, $staffRoleIds));
+    }
+
+    /** @test */
+    public function 未授权用户不可以给员工分配权限()
+    {
+        $this->withExceptionHandling();
+
+        $this->putJson(route('system.staff.grant-permission', ['staff' => 1]))
+            ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    /** @test */
+    public function 授权用户可以给员工分配权限()
+    {
+        $this->signInSystemAdmin();
+
+        /** @var Staff $staff */
+        $staff = createStaff();
+
+        $permission = create(Permission::class);
+
+        $staffPermissionIds = $staff->permissions->pluck('id')->toArray();
+        $this->assertFalse(in_array($permission->id, $staffPermissionIds));
+
+        $resp = $this->putJson(route('system.staff.grant-permission', ['staff' => $staff->id]), ['permissionIds' => $permission->id])
+            ->assertStatus(Response::HTTP_OK)
+            ->json();
+
+        $staffPermissionIds = $staff->fresh()->permissions->pluck('id')->toArray();
+        $respPermissionIds = collect(array_get($resp, 'permissions'))->pluck('id')->toArray();
+
+        $this->assertEquals($staffPermissionIds, $respPermissionIds);
+        $this->assertTrue(in_array($permission->id, $staffPermissionIds));
     }
 }

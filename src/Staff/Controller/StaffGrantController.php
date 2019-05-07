@@ -40,4 +40,17 @@ class StaffGrantController extends Controller
         return new StaffResource($staff);
     }
 
+    /**
+     * @param Staff $staff
+     *
+     * @return StaffResource
+     */
+    public function permission(Staff $staff)
+    {
+        $permissionIds = (array)request('permissionIds', []);
+
+        $staff->syncPermissions($permissionIds);
+
+        return new StaffResource($staff);
+    }
 }

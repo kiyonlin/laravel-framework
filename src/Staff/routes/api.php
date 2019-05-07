@@ -45,5 +45,10 @@ Route::namespace('Kiyon\Laravel\Staff\Controller')
                 Route::put('/{staff}/role', 'StaffGrantController@role')
                     ->middleware('ability:system.staff.grant-role')
                     ->name('grant-role');
+
+                // 为员工分配权限
+                Route::put('/{staff}/permission', 'StaffGrantController@permission')
+                    ->middleware('ability:system.staff.grant-permission')
+                    ->name('grant-permission');
             });
     });

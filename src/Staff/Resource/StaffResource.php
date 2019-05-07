@@ -18,7 +18,12 @@ class StaffResource extends BaseResource
      */
     public function itemArray($request)
     {
-        return $this->collectionArray($request);
+        return array_merge(
+            $this->collectionArray($request),
+            [
+                'permissions' => $this->permissions,
+            ]
+        );
     }
 
     /**
@@ -32,7 +37,7 @@ class StaffResource extends BaseResource
             'mobile'       => $this->mobile,
             'email'        => $this->email,
             'locked'       => $this->locked,
-            'roles'        => $this->roles->toArray()
+            'roles'        => $this->roles,
         ];
     }
 }
