@@ -47,6 +47,21 @@ Route::namespace('Kiyon\Laravel\Authorization\Controller')
                 Route::delete('/{permission}', 'PermissionController@destroy')
                     ->middleware('ability:system.permission.destroy')
                     ->name('destroy');
+
+                // 为权限分配用户
+                Route::put('/{permission}/user', 'PermissionGrantController@user')
+                    ->middleware('ability:system.permission.grant-user')
+                    ->name('grant-user');
+
+                // 为权限分配角色
+                Route::put('/{permission}/role', 'PermissionGrantController@role')
+                    ->middleware('ability:system.permission.grant-role')
+                    ->name('grant-role');
+
+                // 为权限分配组织
+                Route::put('/{permission}/organization', 'PermissionGrantController@organization')
+                    ->middleware('ability:system.permission.grant-organization')
+                    ->name('grant-organization');
             });
 
         Route::prefix('role')
