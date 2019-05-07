@@ -9,7 +9,7 @@ use Kiyon\Laravel\Authorization\Model\Role;
 
 trait AuthorizableRole
 {
-    use GrantPermission;
+    use GrantPermission, GrantUser;
 
     /**
      * Many-to-Many relations with the user model.

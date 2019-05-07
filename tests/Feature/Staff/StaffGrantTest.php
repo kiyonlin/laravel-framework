@@ -13,7 +13,6 @@ use Kiyon\Laravel\Authorization\Model\Organization;
 use Kiyon\Laravel\Authorization\Model\Permission;
 use Kiyon\Laravel\Authorization\Model\Role;
 use Kiyon\Laravel\Staff\Model\Staff;
-use Kiyon\Laravel\Support\Constant;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\AuthTestCase;
 
