@@ -29,7 +29,7 @@ class PermissionController extends Controller
     {
         $permissions = $this->service->all();
 
-        return $this->respond($permissions);
+        return PermissionResource::collection($permissions);
     }
 
     /**

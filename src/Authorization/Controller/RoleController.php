@@ -30,7 +30,7 @@ class RoleController extends Controller
     {
         $roles = $this->service->all();
 
-        return $this->respond($roles);
+        return RoleResource::collection($roles);
     }
 
     /**

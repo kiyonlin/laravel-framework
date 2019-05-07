@@ -29,7 +29,7 @@ class OrganizationController extends Controller
     {
         $organizations = $this->service->all();
 
-        return $this->respond($organizations);
+        return OrganizationResource::collection($organizations);
     }
 
     /**
