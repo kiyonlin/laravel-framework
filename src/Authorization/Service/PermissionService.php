@@ -53,6 +53,18 @@ class PermissionService
     }
 
     /**
+     * 获取 NgZorro 用户权限分配树
+     *
+     * @return array
+     */
+    public function getNgZorroGrantPermissionTree($owns)
+    {
+        $permissions = $this->repo->all()->sortBy('sort');
+
+        return $this->generateNgZorroPermissionTree($permissions);
+    }
+
+    /**
      * 生成 NgZorro 结构的权限树
      *
      * @param Collection $permissions
