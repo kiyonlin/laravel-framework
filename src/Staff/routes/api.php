@@ -41,10 +41,20 @@ Route::namespace('Kiyon\Laravel\Staff\Controller')
                     ->middleware('ability:system.staff.destroy')
                     ->name('destroy');
 
+                // 显示员工角色分配情况
+                Route::get('/{staff}/role', 'StaffRoleController@show')
+                    ->middleware('ability:system.staff.show-role')
+                    ->name('show-role');
+
                 // 为员工分配角色
-                Route::put('/{staff}/role', 'StaffGrantController@role')
+                Route::put('/{staff}/role', 'StaffRoleController@update')
                     ->middleware('ability:system.staff.grant-role')
                     ->name('grant-role');
+
+                // 删除员工角色
+                Route::delete('/{staff}/role', 'StaffRoleController@destroy')
+                    ->middleware('ability:system.staff.delete-role')
+                    ->name('delete-role');
 
                 // 为员工分配权限
                 Route::put('/{staff}/permission', 'StaffGrantController@permission')

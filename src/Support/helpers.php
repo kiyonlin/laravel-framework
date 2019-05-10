@@ -1,4 +1,7 @@
 <?php
+
+use Illuminate\Database\Eloquent\Model;
+
 if (!function_exists('create')) {
 
     /**
@@ -199,5 +202,21 @@ if (!function_exists('createStaff')) {
         \Kiyon\Laravel\Authorization\Model\Role::staffRole()->users()->attach($staff);
 
         return $staff;
+    }
+}
+
+if (!function_exists('modelFieldsOnly')) {
+
+    /**
+     * 获取模型指定字段闭包
+     *
+     * @param array $fields
+     *
+     * @return Closure
+     */
+    function modelFieldsOnly(array $fields) {
+        return function (Model $model) use($fields) {
+            return array_only($model->toArray(), $fields);
+        };
     }
 }
