@@ -22,6 +22,23 @@ trait GrantOrganization
      * @param array $pivot
      * @return void
      */
+    public function syncOrganizationsWithoutDetaching($organizations, $pivot = [])
+    {
+        if ($organizations instanceof Collection) {
+            $this->organizations()->syncWithoutDetaching($organizations);
+        } else {
+            $this->organizations()->syncWithoutDetaching($organizations, $pivot);
+        }
+    }
+
+    /**
+     * sync organizations without detaching.
+     *
+     * @param array|object|int $organizations
+     *
+     * @param array $pivot
+     * @return void
+     */
     public function syncOrganizations($organizations, $pivot = [])
     {
         if ($organizations instanceof Collection) {

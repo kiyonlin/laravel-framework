@@ -61,9 +61,19 @@ Route::namespace('Kiyon\Laravel\Staff\Controller')
                     ->middleware('ability:system.staff.grant-permission')
                     ->name('grant-permission');
 
+                // 显示员工组织分配情况
+                Route::get('/{staff}/organization', 'StaffOrganizationController@show')
+                    ->middleware('ability:system.staff.show-organization')
+                    ->name('show-organization');
+
                 // 为员工分配组织
-                Route::put('/{staff}/organization', 'StaffGrantController@organization')
+                Route::put('/{staff}/organization', 'StaffOrganizationController@update')
                     ->middleware('ability:system.staff.grant-organization')
                     ->name('grant-organization');
+
+                // 删除员工组织
+                Route::delete('/{staff}/organization', 'StaffOrganizationController@destroy')
+                    ->middleware('ability:system.staff.delete-organization')
+                    ->name('delete-organization');
             });
     });

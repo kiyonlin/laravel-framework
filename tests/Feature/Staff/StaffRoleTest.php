@@ -9,8 +9,6 @@
 namespace Tests\Feature\Staff;
 
 
-use Kiyon\Laravel\Authorization\Model\Organization;
-use Kiyon\Laravel\Authorization\Model\Permission;
 use Kiyon\Laravel\Authorization\Model\Role;
 use Kiyon\Laravel\Staff\Model\Staff;
 use Symfony\Component\HttpFoundation\Response;
@@ -96,6 +94,6 @@ class StaffRoleTest extends AuthTestCase
         $this->deleteJson(route('system.staff.delete-role', ['staff' => $staff->id]), ['roleIds' => $staff->roles[0]->id])
             ->assertStatus(Response::HTTP_NO_CONTENT);
 
-        $this->assertCount(0, $staff->fresh(['roles'])->roles);
+        $this->assertCount(0, $staff->fresh()->roles);
     }
 }
