@@ -94,21 +94,55 @@ class PermissionTest extends TestCase
     }
 
     /** @test */
-    public function 获取NgZorro格式的权限树()
+    public function 获取展示用户分配权限情况时NgZorro格式的权限树()
     {
+        // 目标用户
+        /** @var User $user */
+        $user = create(User::class);
+
+        // 预期权限树
         $permissionTree = [];
 
         $permissions = create(Permission::class, 3);
 
+        // 拥有三个权限
+        $user->syncPermissions($permissions);
+        $defaultChecked = $permissions->pluck('id')->toArray();
+
         foreach ($permissions as $permission) {
             $permissionTree[] = [
-                'id'     => $permission->id,
                 'title'  => $permission->display_name,
-                'key'    => $permission->key,
-                'sort'   => $permission->sort,
+                'key'    => $permission->id,
+                'disableCheckbox' => false,
                 'isLeaf' => true,
             ];
         }
+
+        // 重复权限
+        $permission = create(Permission::class);
+
+        /** @var Role $role */
+        $role = create(Role::class);
+        // 角色拥有重复权限
+        $role->syncPermissions($permission);
+        // 拥有该角色
+        $user->syncRoles($role);
+
+        /** @var Organization $role */
+        $organization = create(Organization::class);
+        // 角色拥有重复权限
+        $organization->syncPermissions($permission);
+        // 拥有该角色
+        $user->syncOrganizations($organization);
+
+        $defaultChecked = array_merge($defaultChecked, [$permission->id]);
+
+        $permissionTree[] = [
+            'title'           => $permission->display_name . '(角色,组织)',
+            'key'             => $permission->id,
+            'disableCheckbox' => true,
+            'isLeaf'          => true,
+        ];
 
         $parentPermission = create(Permission::class);
         $subPermissions = create(Permission::class, ['parent_id' => $parentPermission->id], 2);
@@ -116,27 +150,26 @@ class PermissionTest extends TestCase
 
         foreach ($subPermissions as $permission) {
             $subNode[] = [
-                'id'     => $permission->id,
                 'title'  => $permission->display_name,
-                'key'    => $permission->key,
-                'sort'   => $permission->sort,
+                'key'    => $permission->id,
+                'disableCheckbox' => false,
                 'isLeaf' => true,
             ];
         }
 
         $permissionTree[] = [
-            'id'       => $parentPermission->id,
             'title'    => $parentPermission->display_name,
-            'key'      => $parentPermission->key,
-            'sort'     => $permission->sort,
+            'key'      => $parentPermission->id,
+            'disableCheckbox' => false,
             'children' => $subNode
         ];
 
         /** @var PermissionService $service */
         $service = app(PermissionService::class);
 
-        $actualPermissionTree = $service->getNgZorroPermissionTree();
+        list($actualDefaultChecked, $actualPermissionTree) = $service->getNgZorroUserPermissionTree($user);
 
+        $this->assertEquals($defaultChecked, $actualDefaultChecked);
         $this->assertEquals($permissionTree, $actualPermissionTree);
     }
 

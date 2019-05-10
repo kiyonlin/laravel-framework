@@ -31,9 +31,10 @@ class StaffPermissionController extends Controller
      */
     public function show(Staff $staff)
     {
-        $grantPermissionTree = $this->permissionService->getNgZorroGrantPermissionTree($staff->permissions);
+        list($defaultChecked, $nodes) = $this->permissionService
+            ->getNgZorroUserPermissionTree($staff);
 
-        return $this->respond($grantPermissionTree);
+        return $this->respond(compact('defaultChecked', 'nodes'));
     }
 
     /**
