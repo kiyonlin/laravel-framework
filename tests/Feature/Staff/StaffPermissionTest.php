@@ -38,7 +38,7 @@ class StaffPermissionTest extends AuthTestCase
             ->json();
 
         // 拥有员工权限
-        $this->assertCount(0, $resp);
+        $this->assertCount(0, $resp['defaultChecked']);
     }
 
     /** @test */
