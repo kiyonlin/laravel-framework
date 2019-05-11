@@ -20,7 +20,7 @@ abstract class TestCase extends BaseTestCase
 
     use RefreshDatabase, CreatesApplication, WithMock, WithFaker;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

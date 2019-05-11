@@ -11,7 +11,7 @@ namespace Kiyon\Laravel\Foundation\Testing;
 abstract class AuthTestCase extends TestCase
 {
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
