@@ -137,7 +137,7 @@ Route::namespace('Kiyon\Laravel\Authorization\Controller')
                     ->name('show-permission');
 
                 // 为组织分配权限
-                Route::put('/{organization}/permission', 'OrganizationGrantController@permission')
+                Route::put('/{organization}/permission', 'OrganizationPermissionController@update')
                     ->middleware('ability:system.organization.grant-permission')
                     ->name('grant-permission');
             });
