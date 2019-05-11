@@ -169,6 +169,19 @@ class RoleTest extends AuthTestCase
     }
 
     /** @test */
+    public function 授权用户不可以更新初始角色key()
+    {
+        $this->signInSystemAdmin();
+
+        $role = Role::where('key', Constant::INIT_ROLES[0])->first();
+
+        $update = ['key' => 'updated_key'];
+
+        $this->patchJson(route('system.role.update', ['role' => $role->id]), $update)
+            ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    /** @test */
     public function 初始化角色key无法更新()
     {
         $this->signInSystemAdmin();
