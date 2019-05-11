@@ -49,7 +49,6 @@ class PermissionService
      * 获取 NgZorro 用户权限树
      *
      * @param Authenticatable $user
-     * @param array           $editableIds
      *
      * @return array
      */
@@ -75,6 +74,18 @@ class PermissionService
         $ownedIds = array_unique(array_merge($userPermissionIds, $rolePermissionIds, $organizationPermissionIds));
 
         return [$ownedIds, $this->generateNgZorroPermissionTree($permissions, $indirectPermissionIds, $userPermissionIds)];
+    }
+
+    /**
+     * 获取 NgZorro 权限树
+     *
+     * @return array
+     */
+    public function getNgZorroPermissionTree()
+    {
+        $permissions = $this->repo->all()->sortBy('sort');
+
+        return $this->generateNgZorroPermissionTree($permissions, [], []);
     }
 
     /**
