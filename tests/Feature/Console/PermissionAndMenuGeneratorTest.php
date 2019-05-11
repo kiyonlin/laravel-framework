@@ -24,7 +24,7 @@ class PermissionAndMenuGeneratorTest extends TestCase
     /** @var Menu $menuModel */
     protected $menuModel;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

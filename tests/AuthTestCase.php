@@ -11,7 +11,7 @@ namespace Tests;
 class AuthTestCase extends TestCase
 {
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

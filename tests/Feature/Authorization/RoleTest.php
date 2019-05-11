@@ -20,7 +20,7 @@ class RoleTest extends AuthTestCase
 
     use WithFaker;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

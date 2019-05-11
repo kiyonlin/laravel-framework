@@ -24,7 +24,6 @@ trait RestfulService
         if (property_exists($this, 'repo')) {
             return $this->repo->all($builder);
         }
-        return null;
     }
 
 
@@ -37,7 +36,6 @@ trait RestfulService
         if (property_exists($this, 'repo')) {
             return $this->repo->create($item);
         }
-        return null;
     }
 
     /**
@@ -50,7 +48,6 @@ trait RestfulService
         if (property_exists($this, 'repo')) {
             return $this->repo->update($item, $data);
         }
-        return null;
     }
 
     /**
@@ -62,7 +59,6 @@ trait RestfulService
         if (property_exists($this, 'repo')) {
             return $this->repo->show($item);
         }
-        return null;
     }
 
     /**
@@ -76,7 +72,6 @@ trait RestfulService
         if (property_exists($this, 'repo')) {
             return $this->repo->destroy($item, $data);
         }
-        return null;
     }
 
 }
