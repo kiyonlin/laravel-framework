@@ -9,50 +9,50 @@
 namespace Kiyon\Laravel\Authorization\Controller;
 
 
-use Kiyon\Laravel\Authorization\Model\Role;
+use Kiyon\Laravel\Authorization\Model\Organization;
+use Kiyon\Laravel\Authorization\Service\OrganizationService;
 use Kiyon\Laravel\Authorization\Service\PermissionService;
-use Kiyon\Laravel\Authorization\Service\RoleService;
 use Kiyon\Laravel\Foundation\Routing\Controller;
 
-class RolePermissionController extends Controller
+class OrganizationPermissionController extends Controller
 {
 
-    /** @var RoleService */
+    /** @var OrganizationService */
     protected $service;
 
     /** @var PermissionService */
     protected $permissionService;
 
-    public function __construct(RoleService $service, PermissionService $permissionService)
+    public function __construct(OrganizationService $service, PermissionService $permissionService)
     {
         $this->service = $service;
         $this->permissionService = $permissionService;
     }
 
     /**
-     * @param Role $role
+     * @param Organization $organization
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Role $role)
+    public function show(Organization $organization)
     {
         $nodes = $this->permissionService->getNgZorroPermissionTree();
 
-        $defaultChecked = $role->permissions->pluck('id')->toArray();
+        $defaultChecked = $organization->permissions->pluck('id')->toArray();
 
         return $this->respond(compact('defaultChecked', 'nodes'));
     }
 
     /**
-     * @param Role $role
+     * @param Organization $organization
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Role $role)
+    public function update(Organization $organization)
     {
         $permissionIds = (array)request('permissionIds', []);
 
-        $role->syncPermissions($permissionIds);
+        $organization->syncPermissions($permissionIds);
 
         return $this->respond();
     }

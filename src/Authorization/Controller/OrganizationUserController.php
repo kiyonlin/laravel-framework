@@ -13,7 +13,7 @@ use Kiyon\Laravel\Authorization\Model\Organization;
 use Kiyon\Laravel\Authorization\Service\OrganizationService;
 use Kiyon\Laravel\Foundation\Routing\Controller;
 
-class OrganizationGrantController extends Controller
+class OrganizationUserController extends Controller
 {
 
     /** @var OrganizationService */
@@ -29,25 +29,11 @@ class OrganizationGrantController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function user(Organization $organization)
+    public function update(Organization $organization)
     {
         $userIds = (array)request('userIds', []);
 
         $organization->attachUsers($userIds);
-
-        return $this->respond();
-    }
-
-    /**
-     * @param Organization $organization
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function permission(Organization $organization)
-    {
-        $permissionIds = (array)request('permissionIds', []);
-
-        $organization->syncPermissions($permissionIds);
 
         return $this->respond();
     }

@@ -127,9 +127,14 @@ Route::namespace('Kiyon\Laravel\Authorization\Controller')
                     ->name('destroy');
 
                 // 为组织分配用户
-                Route::put('/{organization}/user', 'OrganizationGrantController@user')
+                Route::put('/{organization}/user', 'OrganizationUserController@update')
                     ->middleware('ability:system.organization.grant-user')
                     ->name('grant-user');
+
+                // 显示组织分配权限情况
+                Route::get('/{organization}/permission', 'OrganizationPermissionController@show')
+                    ->middleware('ability:system.organization.show-permission')
+                    ->name('show-permission');
 
                 // 为组织分配权限
                 Route::put('/{organization}/permission', 'OrganizationGrantController@permission')
