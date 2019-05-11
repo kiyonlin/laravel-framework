@@ -88,12 +88,17 @@ Route::namespace('Kiyon\Laravel\Authorization\Controller')
                     ->name('destroy');
 
                 // 为角色分配用户
-                Route::put('/{role}/user', 'RoleGrantController@user')
+                Route::put('/{role}/user', 'RoleUserController@update')
                     ->middleware('ability:system.role.grant-user')
                     ->name('grant-user');
 
+                // 显示角色分配权限情况
+                Route::get('/{role}/permission', 'RolePermissionController@show')
+                    ->middleware('ability:system.role.show-permission')
+                    ->name('show-permission');
+
                 // 为角色分配权限
-                Route::put('/{role}/permission', 'RoleGrantController@permission')
+                Route::put('/{role}/permission', 'RolePermissionController@update')
                     ->middleware('ability:system.role.grant-permission')
                     ->name('grant-permission');
             });

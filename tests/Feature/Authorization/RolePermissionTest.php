@@ -9,44 +9,40 @@
 namespace Tests\Feature\Authorization;
 
 
-use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Authorization\Model\Permission;
 use Kiyon\Laravel\Authorization\Model\Role;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\AuthTestCase;
 
-class RoleGrantTest extends AuthTestCase
+class RolePermissionTest extends AuthTestCase
 {
 
     /** @test */
-    public function 未授权用户不可以给角色分配用户()
+    public function 未授权用户不可以查看角色权限分配情况()
     {
         $this->withExceptionHandling();
 
-        $this->putJson(route('system.role.grant-user', ['role' => 1]))
+        $this->getJson(route('system.role.show-permission', ['role' => 1]))
             ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     /** @test */
-    public function 授权用户可以给角色分配用户()
+    public function 授权用户可以查看角色权限分配情况()
     {
         $this->signInSystemAdmin();
 
         /** @var Role $role */
         $role = create(Role::class);
 
-        $user = create(User::class);
+        $permission = create(Permission::class);
+        $role->syncPermissions($permission);
 
-        $roleUserIds = $role->users->pluck('id')->toArray();
-        $this->assertFalse(in_array($user->id, $roleUserIds));
-
-        $this->putJson(route('system.role.grant-user', ['role' => $role->id]), ['userIds' => $user->id])
+        $resp = $this->getJson(route('system.role.show-permission', ['role' => $role->id]))
             ->assertStatus(Response::HTTP_OK)
             ->json();
 
-        $roleUserIds = $role->fresh()->users->pluck('id')->toArray();
-
-        $this->assertTrue(in_array($user->id, $roleUserIds));
+        $this->assertEquals([$permission->id], $resp['defaultChecked']);
+        $this->assertCount(1, $resp['nodes']);
     }
 
     /** @test */
@@ -79,4 +75,5 @@ class RoleGrantTest extends AuthTestCase
 
         $this->assertTrue(in_array($permission->id, $rolePermissionIds));
     }
+
 }

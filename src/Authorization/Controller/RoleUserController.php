@@ -13,7 +13,7 @@ use Kiyon\Laravel\Authorization\Model\Role;
 use Kiyon\Laravel\Authorization\Service\RoleService;
 use Kiyon\Laravel\Foundation\Routing\Controller;
 
-class RoleGrantController extends Controller
+class RoleUserController extends Controller
 {
 
     /** @var RoleService */
@@ -29,7 +29,7 @@ class RoleGrantController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function user(Role $role)
+    public function update(Role $role)
     {
         $userIds = (array)request('userIds', []);
 
@@ -38,17 +38,4 @@ class RoleGrantController extends Controller
         return $this->respond();
     }
 
-    /**
-     * @param Role $role
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function permission(Role $role)
-    {
-        $permissionIds = (array)request('permissionIds', []);
-
-        $role->syncPermissions($permissionIds);
-
-        return $this->respond();
-    }
 }
