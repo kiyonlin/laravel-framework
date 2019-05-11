@@ -187,7 +187,8 @@ class StaffTest extends AuthTestCase
         $staffs = createStaff(5);
 
         $this->deleteJson(route('system.staff.destroy', ['staff' => $staffs[0]->id]),
-            ['ids' => $staffs->pluck('id')->toArray()])
+            // 使用字符串参数测试代码
+            ['ids' => implode(',', $staffs->pluck('id')->toArray())])
             ->assertStatus(Response::HTTP_NO_CONTENT);
 
         $staffs->each(function ($staff) {
@@ -210,6 +211,7 @@ class StaffTest extends AuthTestCase
      * 添加记录辅助函数
      *
      * @param array $override
+     *
      * @return array
      */
     protected function storeStaff(array $override = [])
@@ -226,6 +228,7 @@ class StaffTest extends AuthTestCase
      * 更新记录辅助函数
      *
      * @param array $update
+     *
      * @return array
      */
     protected function updateStaff(array $update)
