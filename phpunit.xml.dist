@@ -24,7 +24,8 @@
                 <directory suffix="Factory.php">./src</directory>
                 <directory suffix="config.php">./src</directory>
                 <directory suffix="api.php">./src</directory>
-                <directory>./src/Testing</directory>
+                <directory suffix="Test.php">./src</directory>
+                <directory>./src/Foundation/Testing</directory>
             </exclude>
         </whitelist>
     </filter>
