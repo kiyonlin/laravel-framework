@@ -23,10 +23,10 @@ interface GrantUserContract
      * sync users.
      *
      * @param mixed $users
-     * @param array $pivot
+     * @param bool $detaching
      * @return void
      */
-    public function syncUsers($users, $pivot = []);
+    public function syncUsers($users, $detaching = true);
 
     /**
      * Attach multiple users to organizations

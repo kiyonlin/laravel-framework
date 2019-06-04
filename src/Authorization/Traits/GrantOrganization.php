@@ -19,16 +19,13 @@ trait GrantOrganization
      *
      * @param array|object|int $organizations
      *
-     * @param array $pivot
+     * @param array            $pivot
+     *
      * @return void
      */
-    public function syncOrganizationsWithoutDetaching($organizations, $pivot = [])
+    public function syncOrganizationsWithoutDetaching($organizations)
     {
-        if ($organizations instanceof Collection) {
-            $this->organizations()->syncWithoutDetaching($organizations);
-        } else {
-            $this->organizations()->syncWithoutDetaching($organizations, $pivot);
-        }
+        $this->syncOrganizations($organizations, false);
     }
 
     /**
@@ -36,16 +33,13 @@ trait GrantOrganization
      *
      * @param array|object|int $organizations
      *
-     * @param array $pivot
+     * @param array            $pivot
+     *
      * @return void
      */
-    public function syncOrganizations($organizations, $pivot = [])
+    public function syncOrganizations($organizations, $detaching = true)
     {
-        if ($organizations instanceof Collection) {
-            $this->organizations()->sync($organizations);
-        } else {
-            $this->organizations()->sync($organizations, $pivot);
-        }
+        $this->organizations()->sync($organizations, $detaching);
     }
 
     /**
@@ -53,6 +47,7 @@ trait GrantOrganization
      *
      * @param mixed $organizations
      * @param array $pivot
+     *
      * @return void
      */
     public function attachOrganizations($organizations, $pivot = [])
@@ -68,6 +63,7 @@ trait GrantOrganization
      * Alias to eloquent many-to-many relation's detach() method.
      *
      * @param mixed $organizations
+     *
      * @return void
      */
     public function detachOrganizations($organizations)

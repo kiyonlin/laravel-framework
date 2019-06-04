@@ -24,16 +24,18 @@ interface GrantOrganizationContract
      *
      * @param mixed $organizations
      *
-     * @param array $pivot
+     * @param bool  $detaching
+     *
      * @return void
      */
-    public function syncOrganizations($organizations, $pivot = []);
+    public function syncOrganizations($organizations, $detaching = true);
 
     /**
      * Alias to eloquent many-to-many relation's attach() method.
      *
      * @param mixed $organizations
      * @param array $pivot
+     *
      * @return void
      */
     public function attachOrganizations($organizations, $pivot = []);

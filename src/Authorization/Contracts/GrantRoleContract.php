@@ -23,16 +23,18 @@ interface GrantRoleContract
      * sync roles.
      *
      * @param mixed $roles
-     * @param array $pivot
+     * @param bool  $detaching
+     *
      * @return void
      */
-    public function syncRoles($roles, $pivot = []);
+    public function syncRoles($roles, $detaching = true);
 
     /**
      * Attach multiple roles to a user | organization
      *
      * @param mixed $roles
      * @param array $pivot
+     *
      * @return
      */
     public function attachRoles($roles, $pivot = []);

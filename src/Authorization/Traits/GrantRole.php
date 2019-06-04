@@ -20,15 +20,12 @@ trait GrantRole
      * @param mixed $roles
      *
      * @param array $pivot
+     *
      * @return void
      */
-    public function syncRoles($roles, $pivot = [])
+    public function syncRoles($roles, $detaching = true)
     {
-        if ($roles instanceof Collection) {
-            $this->roles()->sync($roles);
-        } else {
-            $this->roles()->sync($roles, $pivot);
-        }
+        $this->roles()->sync($roles, $detaching);
     }
 
     /**
@@ -37,15 +34,12 @@ trait GrantRole
      * @param mixed $roles
      *
      * @param array $pivot
+     *
      * @return void
      */
-    public function syncRolesWithoutDetaching($roles, $pivot = [])
+    public function syncRolesWithoutDetaching($roles)
     {
-        if ($roles instanceof Collection) {
-            $this->roles()->syncWithoutDetaching($roles);
-        } else {
-            $this->roles()->syncWithoutDetaching($roles, $pivot);
-        }
+        $this->syncRoles($roles, false);
     }
 
     /**
@@ -53,6 +47,7 @@ trait GrantRole
      *
      * @param mixed $roles
      * @param array $pivot
+     *
      * @return void
      */
     public function attachRoles($roles, $pivot = [])

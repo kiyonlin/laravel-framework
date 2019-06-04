@@ -21,9 +21,9 @@ trait GrantPermission
      *
      * @return void
      */
-    public function syncPermissions($permissions)
+    public function syncPermissions($permissions, $detaching = true)
     {
-        $this->permissions()->sync($permissions);
+        $this->permissions()->sync($permissions, $detaching);
     }
 
     /**

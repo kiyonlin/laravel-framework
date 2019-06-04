@@ -25,9 +25,11 @@ interface GrantPermissionContract
      *
      * @param mixed $permissions
      *
+     * @param bool  $detaching
+     *
      * @return void
      */
-    public function syncPermissions($permissions);
+    public function syncPermissions($permissions, $detaching = true);
 
 
     /**

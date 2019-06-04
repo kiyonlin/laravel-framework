@@ -20,15 +20,12 @@ trait GrantUser
      * @param mixed $users
      *
      * @param array $pivot
+     *
      * @return void
      */
-    public function syncUsers($users, $pivot = [])
+    public function syncUsers($users, $detaching = true)
     {
-        if ($users instanceof Collection) {
-            $this->users()->sync($users);
-        } else {
-            $this->users()->sync($users, $pivot);
-        }
+        $this->users()->sync($users, $detaching);
     }
 
     /**
