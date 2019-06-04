@@ -25,10 +25,9 @@ interface GrantPermissionContract
      *
      * @param mixed $permissions
      *
-     * @param array $pivot
      * @return void
      */
-    public function syncPermissions($permissions, $pivot = []);
+    public function syncPermissions($permissions);
 
 
     /**
@@ -37,6 +36,7 @@ interface GrantPermissionContract
      * @param mixed $permissions
      *
      * @param array $pivot
+     *
      * @return void
      */
     public function attachPermissions($permissions, $pivot = []);

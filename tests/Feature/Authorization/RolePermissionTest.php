@@ -62,9 +62,14 @@ class RolePermissionTest extends AuthTestCase
         /** @var Role $role */
         $role = create(Role::class);
 
+        $oldPermission = create(Permission::class);
+        $role->permissions()->attach($oldPermission);
+
         $permission = create(Permission::class);
 
         $rolePermissionIds = $role->permissions->pluck('id')->toArray();
+
+        $this->assertTrue(in_array($oldPermission->id, $rolePermissionIds));
         $this->assertFalse(in_array($permission->id, $rolePermissionIds));
 
         $this->putJson(route('system.role.grant-permission', ['role' => $role->id]), ['permissionIds' => $permission->id])
@@ -73,6 +78,7 @@ class RolePermissionTest extends AuthTestCase
 
         $rolePermissionIds = $role->fresh()->permissions->pluck('id')->toArray();
 
+        $this->assertFalse(in_array($oldPermission->id, $rolePermissionIds));
         $this->assertTrue(in_array($permission->id, $rolePermissionIds));
     }
 

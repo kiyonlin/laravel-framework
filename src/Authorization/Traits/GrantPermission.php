@@ -19,23 +19,19 @@ trait GrantPermission
      *
      * @param mixed $permissions
      *
-     * @param array $pivot
      * @return void
      */
-    public function syncPermissions($permissions, $pivot = [])
+    public function syncPermissions($permissions)
     {
-        if ($permissions instanceof Collection) {
-            $this->permissions()->sync($permissions);
-        } else {
-            $this->permissions()->sync($permissions, $pivot);
-        }
+        $this->permissions()->sync($permissions);
     }
 
     /**
      * Attach permission to current user | role | organization.
      *
      * @param array|object|int $permissions
-     * @param array $pivot
+     * @param array            $pivot
+     *
      * @return void
      */
     public function attachPermissions($permissions, $pivot = [])
