@@ -59,8 +59,8 @@ class PermissionAndMenuGeneratorTest extends TestCase
         $this->assertDatabaseHas($table, ['parent_id' => $systemFooPermission->id, 'key' => 'store']);
 
         $systemBarPermission = app(Permission::class)->where(['parent_id' => $systemPermission->id, 'key' => 'bar'])->first();
-        $this->assertDatabaseHas($table, ['parent_id' => $systemBarPermission->id, 'key' => 'index']);
-        $this->assertDatabaseHas($table, ['parent_id' => $systemBarPermission->id, 'key' => 'store']);
+        $this->assertDatabaseHas($table, ['parent_id' => $systemBarPermission->id, 'key' => 'index', 'display_name' => '列表']);
+        $this->assertDatabaseHas($table, ['parent_id' => $systemBarPermission->id, 'key' => 'other', 'display_name' => 'other']);
 
         $this->assertDatabaseHas($table, ['parent_id' => 0, 'key' => 'app']);
 
@@ -101,12 +101,12 @@ class PermissionAndMenuGeneratorTest extends TestCase
         $this->assertDatabaseHas($table, ['parent_id' => $systemPermission->id, 'key' => 'bar']);
 
         $systemFooPermission = app(Permission::class)->where(['parent_id' => $systemPermission->id, 'key' => 'foo'])->first();
-        $this->assertDatabaseHas($table, ['parent_id' => $systemFooPermission->id, 'key' => 'index']);
-        $this->assertDatabaseHas($table, ['parent_id' => $systemFooPermission->id, 'key' => 'store']);
+        $this->assertDatabaseHas($table, ['parent_id' => $systemFooPermission->id, 'key' => 'index', 'display_name' => '列表']);
+        $this->assertDatabaseHas($table, ['parent_id' => $systemFooPermission->id, 'key' => 'store', 'display_name' => '新建']);
 
         $systemBarPermission = app(Permission::class)->where(['parent_id' => $systemPermission->id, 'key' => 'bar'])->first();
         $this->assertDatabaseHas($table, ['parent_id' => $systemBarPermission->id, 'key' => 'index']);
-        $this->assertDatabaseHas($table, ['parent_id' => $systemBarPermission->id, 'key' => 'store']);
+        $this->assertDatabaseHas($table, ['parent_id' => $systemBarPermission->id, 'key' => 'other']);
 
         $this->assertDatabaseHas($table, ['parent_id' => 0, 'key' => 'app']);
 
@@ -229,8 +229,8 @@ class PermissionAndMenuGeneratorTest extends TestCase
         $router->get('system/bar', ['middleware' => ['ability:system.bar.index', 'auth'], function () {
             return 'bar.index';
         }]);
-        $router->post('system/bar', ['middleware' => ['ability:system.bar.store', 'auth'], function () {
-            return 'bar.store';
+        $router->post('system/bar', ['middleware' => ['ability:system.bar.other', 'auth'], function () {
+            return 'bar.other';
         }]);
 
         $router->get('app/foo', ['middleware' => ['ability:app.foo.index', 'auth'], function () {

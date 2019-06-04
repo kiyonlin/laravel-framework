@@ -46,7 +46,8 @@ class PermissionAndMenuGeneratorCommand extends Command
     /**
      * Create a new route command instance.
      *
-     * @param  \Illuminate\Routing\Router $router
+     * @param \Illuminate\Routing\Router $router
+     *
      * @return void
      */
     public function __construct(Router $router)
@@ -85,7 +86,7 @@ class PermissionAndMenuGeneratorCommand extends Command
             ->map(function (Route $route) {
                 return collect($route->gatherMiddleware())
                     ->filter(function ($middleware) {
-                        return ! ($middleware instanceof Closure) && Str::contains($middleware, 'ability:');
+                        return !($middleware instanceof Closure) && Str::contains($middleware, 'ability:');
                     })
                     ->map(function ($middleware) {
                         return Str::replaceFirst('ability:', '', $middleware);
@@ -104,11 +105,11 @@ class PermissionAndMenuGeneratorCommand extends Command
             $permissionKeys = explode('.', $ability);
             array_reduce($permissionKeys, function ($parent_id, $permissionKey) {
                 $permission = Permission::where(['parent_id' => $parent_id, 'key' => $permissionKey])->first();
-                if (! $permission) {
+                if (!$permission) {
                     $permission = Permission::create([
                         'parent_id'    => $parent_id,
                         'key'          => $permissionKey,
-                        'display_name' => $permissionKey
+                        'display_name' => $this->generalPermissionName($permissionKey)
                     ]);
                 }
 
@@ -132,7 +133,7 @@ class PermissionAndMenuGeneratorCommand extends Command
 
                 $menu = Menu::where(['parent_id' => $carry['parent_id'], 'key' => $menuKey])->first();
 
-                if (! $menu) {
+                if (!$menu) {
                     $menu = Menu::create([
                         'parent_id'    => $carry['parent_id'],
                         'key'          => $menuKey,
@@ -146,5 +147,28 @@ class PermissionAndMenuGeneratorCommand extends Command
                 return ['parent_id' => $menu->id, 'level' => $carry['level'] + 1];
             }, ['parent_id' => Constant::MENU_ROOT_ID, 'level' => 1]);
         }
+    }
+
+    /**
+     * 根据权限key自动生成常用的权限名称
+     *
+     * @param string $permissionKey
+     *
+     * @return string
+     */
+    private function generalPermissionName($permissionKey)
+    {
+        $generalName = [
+            'index'              => '列表',
+            'store'              => '新建',
+            'show'               => '查看',
+            'update'             => '更新',
+            'destroy'            => '删除',
+            'grant-user'         => '设置用户',
+            'grant-permission'   => '设置权限',
+            'grant-role'         => '设置角色',
+            'grant-organization' => '设置组织',
+        ];
+        return $generalName[$permissionKey] ?? $permissionKey;
     }
 }
