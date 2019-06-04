@@ -47,22 +47,8 @@ class StaffRoleController extends Controller
     {
         $roleIds = (array)request('roleIds', []);
 
-        $staff->syncRolesWithoutDetaching($roleIds);
+        $staff->syncRoles($roleIds);
 
         return new StaffResource($staff);
-    }
-
-    /**
-     * @param Staff $staff
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function destroy(Staff $staff)
-    {
-        $roleIds = (array)request('roleIds', []);
-
-        $staff->detachRoles($roleIds);
-
-        return $this->respondNoContent();
     }
 }

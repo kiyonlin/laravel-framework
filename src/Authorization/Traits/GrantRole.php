@@ -29,20 +29,6 @@ trait GrantRole
     }
 
     /**
-     * sync roles without detaching.
-     *
-     * @param mixed $roles
-     *
-     * @param array $pivot
-     *
-     * @return void
-     */
-    public function syncRolesWithoutDetaching($roles)
-    {
-        $this->syncRoles($roles, false);
-    }
-
-    /**
      * Alias to eloquent many-to-many relation's attach() method.
      *
      * @param mixed $roles

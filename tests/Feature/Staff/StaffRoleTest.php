@@ -9,6 +9,7 @@
 namespace Tests\Feature\Staff;
 
 
+use Illuminate\Support\Arr;
 use Kiyon\Laravel\Authorization\Model\Role;
 use Kiyon\Laravel\Staff\Model\Staff;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,7 +39,7 @@ class StaffRoleTest extends AuthTestCase
             ->json();
 
         // 拥有员工角色
-        $this->assertCount(1, array_get($resp, 'owns'));
+        $this->assertCount(1, Arr::get($resp, 'owns'));
     }
 
     /** @test */
@@ -58,9 +59,13 @@ class StaffRoleTest extends AuthTestCase
         /** @var Staff $staff */
         $staff = createStaff();
 
+        $oldRole = create(Role::class);
+        $staff->roles()->attach($oldRole);
+
         $role = create(Role::class);
 
         $staffRoleIds = $staff->roles->pluck('id')->toArray();
+        $this->assertTrue(in_array($oldRole->id, $staffRoleIds));
         $this->assertFalse(in_array($role->id, $staffRoleIds));
 
         $resp = $this->putJson(route('system.staff.grant-role', ['staff' => $staff->id]), ['roleIds' => $role->id])
@@ -68,32 +73,11 @@ class StaffRoleTest extends AuthTestCase
             ->json();
 
         $staffRoleIds = $staff->fresh()->roles->pluck('id')->toArray();
-        $respRoleIds = collect(array_get($resp, 'roles'))->pluck('id')->toArray();
+        $respRoleIds = collect(Arr::get($resp, 'roles'))->pluck('id')->toArray();
 
         $this->assertEquals($staffRoleIds, $respRoleIds);
+        $this->assertFalse(in_array($oldRole->id, $staffRoleIds));
         $this->assertTrue(in_array($role->id, $staffRoleIds));
     }
 
-    /** @test */
-    public function 未授权用户不可以取消员工角色()
-    {
-        $this->withExceptionHandling();
-
-        $this->deleteJson(route('system.staff.delete-role', ['staff' => 1]))
-            ->assertStatus(Response::HTTP_FORBIDDEN);
-    }
-
-    /** @test */
-    public function 授权用户可以取消员工角色()
-    {
-        $this->signInSystemAdmin();
-
-        /** @var Staff $staff */
-        $staff = createStaff();
-
-        $this->deleteJson(route('system.staff.delete-role', ['staff' => $staff->id]), ['roleIds' => $staff->roles[0]->id])
-            ->assertStatus(Response::HTTP_NO_CONTENT);
-
-        $this->assertCount(0, $staff->fresh()->roles);
-    }
 }
