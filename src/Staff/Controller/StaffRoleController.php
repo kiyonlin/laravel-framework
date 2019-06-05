@@ -33,9 +33,9 @@ class StaffRoleController extends Controller
     {
         $roles = $this->roleService->all()->map(modelFieldsOnly(['id', 'display_name']));
 
-        $owns = $staff->roles->map(modelFieldsOnly(['id', 'display_name']));
+        $ownIds = $staff->roles->map(modelFieldsOnly(['id']))->pluck('id');
 
-        return $this->respond(compact('roles', 'owns'));
+        return $this->respond(compact('roles', 'ownIds'));
     }
 
     /**

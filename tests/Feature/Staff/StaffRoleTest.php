@@ -39,7 +39,7 @@ class StaffRoleTest extends AuthTestCase
             ->json();
 
         // 拥有员工角色
-        $this->assertCount(1, Arr::get($resp, 'owns'));
+        $this->assertCount(1, Arr::get($resp, 'ownIds'));
     }
 
     /** @test */

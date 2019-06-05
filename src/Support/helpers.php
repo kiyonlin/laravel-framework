@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 if (!function_exists('create')) {
 
@@ -216,7 +217,7 @@ if (!function_exists('modelFieldsOnly')) {
      */
     function modelFieldsOnly(array $fields) {
         return function (Model $model) use($fields) {
-            return array_only($model->toArray(), $fields);
+            return Arr::only($model->toArray(), $fields);
         };
     }
 }
