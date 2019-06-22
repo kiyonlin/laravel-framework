@@ -206,4 +206,21 @@ class OrganizationTest extends TestCase
         $this->assertCount(0, $role->refresh()->organizations);
         $this->assertCount(0, $permission->refresh()->organizations);
     }
+
+    /** @test */
+    public function 组织有子组织()
+    {
+        $org = create(Organization::class);
+        create(Organization::class, ['parent_id' => $org->id]);
+        $this->assertInstanceOf(Collection::class, $org->subs);
+        $this->assertCount(1, $org->subs);
+    }
+
+    /** @test */
+    public function 组织有父项()
+    {
+        $parentOrg = create(Organization::class);
+        $org = create(Organization::class, ['parent_id' => $parentOrg->id]);
+        $this->assertInstanceOf(Organization::class, $org->parent);
+    }
 }

@@ -21,10 +21,28 @@ class Organization extends BaseModel implements AuthorizationOrganizationContrac
     protected $table = 'sys_organizations';
 
     protected $fillable = [
-        'key', 'display_name', 'description',
+        'parent_id', 'key', 'display_name', 'description', 'sort'
     ];
 
     protected $searchable = [
         'key', 'display_name', 'description'
     ];
+
+    /**
+     * 子项
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function subs()
+    {
+        return $this->hasMany(self::class, 'parent_id');
+    }
+
+    /**
+     * 父项
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function parent()
+    {
+        return $this->belongsTo(self::class, 'parent_id');
+    }
 }

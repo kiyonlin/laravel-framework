@@ -27,10 +27,14 @@ class CreateAuthorizationTables extends Migration
 
         Schema::create('sys_organizations', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('parent_id')->default(0);
             $table->string('key')->unique();
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
+            $table->unsignedInteger('sort')->default(0);
             $table->timestamps();
+
+            $table->unique(['parent_id', 'key']);
         });
 
         Schema::create('sys_permissions', function (Blueprint $table) {

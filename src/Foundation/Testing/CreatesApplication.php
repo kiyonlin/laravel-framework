@@ -15,7 +15,9 @@ trait CreatesApplication
      */
     public function createApplication()
     {
-        $app = require __DIR__ . '/../../../../../../bootstrap/app.php';
+        dd(base_path());
+
+        $app = require realpath('./') . '/bootstrap/app.php';
 
         $app->make(Kernel::class)->bootstrap();
 
