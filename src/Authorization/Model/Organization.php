@@ -17,6 +17,7 @@ class Organization extends BaseModel implements AuthorizationOrganizationContrac
 {
 
     use AuthorizableOrganization;
+    use \Kiyon\Laravel\Foundation\Model\Relations\Hierarchy;
 
     protected $table = 'sys_organizations';
 
@@ -28,21 +29,4 @@ class Organization extends BaseModel implements AuthorizationOrganizationContrac
         'key', 'display_name', 'description'
     ];
 
-    /**
-     * 子项
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function subs()
-    {
-        return $this->hasMany(self::class, 'parent_id');
-    }
-
-    /**
-     * 父项
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function parent()
-    {
-        return $this->belongsTo(self::class, 'parent_id');
-    }
 }
