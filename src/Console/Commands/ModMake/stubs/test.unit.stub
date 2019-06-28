@@ -2,7 +2,7 @@
 
 namespace DummyNamespace;
 
-use Kiyon\Laravel\Foundation\Testing\TestCase;
+use Tests\TestCase;
 
 class DummyClass extends TestCase
 {

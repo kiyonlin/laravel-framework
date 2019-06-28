@@ -2,9 +2,9 @@
 
 namespace DummyNamespace;
 
-use Kiyon\Laravel\Foundation\Testing\AuthTestCase;
-use Symfony\Component\HttpFoundation\Response;
 use DummyRootNamespace\Model\DummyModel;
+use Symfony\Component\HttpFoundation\Response;
+use Tests\AuthTestCase;
 
 class DummyClass extends AuthTestCase
 {
