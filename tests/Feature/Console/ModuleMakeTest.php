@@ -131,6 +131,8 @@ class ModuleMakeTest extends TestCase
     /** @test */
     public function 服务提供者创建命令()
     {
+        $this->initAppServiceProvider();
+
         $this->artisan('mod-make:service-provider', ['mod' => 'Module'])->run();
 
         $serviceProviderFile = $this->app->basePath() . '/app/Modules/Module/ModuleServiceProvider.php';
@@ -142,6 +144,43 @@ class ModuleMakeTest extends TestCase
         $serviceProviderFile = $this->app->basePath() . '/app/Modules/Module/ApplyServiceProvider.php';
 
         $this->assertFileExists($serviceProviderFile);
+        $this->assertRegisterServiceProvider();
+    }
+
+    /**
+     * 伪造AppServiceProvider文件内容
+     */
+    private function initAppServiceProvider()
+    {
+        $path = $this->app->basePath() . '/app/Providers';
+        if (! is_dir($path)) {
+            mkdir($path);
+        }
+        $path .= '/AppServiceProvider.php';
+
+        $contents = <<<eof
+        protected \$providers = [
+            \App\Modules\Exhibition\ExhibitionServiceProvider::class,
+        ];
+eof;
+        $appServiceProvider = fopen($path, "w");
+        fwrite($appServiceProvider, $contents);
+        fclose($appServiceProvider);
+    }
+
+    private function assertRegisterServiceProvider()
+    {
+        $path = $this->app->basePath() . '/app/Providers/AppServiceProvider.php';
+        $contents = file_get_contents($path);
+//         $newContents = preg_replace(
+//             '/protected\s+\$providers\s*=\s*\[(.*)\]/is',
+//             <<<eof
+// protected \$providers = [$1    \App\Modules\Module\ModuleServiceProvider::class,
+//         ]
+// eof,
+//             $contents);
+//         file_put_contents($path, $newContents);
+        $this->assertContains('\App\Modules\Module\ModuleServiceProvider::class', $contents);
     }
 
     /** @test */
