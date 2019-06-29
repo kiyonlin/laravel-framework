@@ -13,6 +13,7 @@ class Constant
 {
 
     const PERMISSION_ROOT_ID = 0;
+    const ORGANIZATION_ROOT_ID = 0;
 
     const SYSTEM_PERMISSION_DESTROY = 'destroy';
 

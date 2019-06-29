@@ -14,6 +14,7 @@ use Kiyon\Laravel\Authentication\Model\User;
 use Kiyon\Laravel\Authorization\Model\Organization;
 use Kiyon\Laravel\Authorization\Model\Permission;
 use Kiyon\Laravel\Authorization\Model\Role;
+use Kiyon\Laravel\Authorization\Service\OrganizationService;
 use Tests\TestCase;
 
 class OrganizationTest extends TestCase
@@ -222,5 +223,47 @@ class OrganizationTest extends TestCase
         $parentOrg = create(Organization::class);
         $org = create(Organization::class, ['parent_id' => $parentOrg->id]);
         $this->assertInstanceOf(Organization::class, $org->parent);
+    }
+
+    /** @test */
+    public function 获取展示分配用户组织情况时NgZorro格式的组织树()
+    {
+        // 预期组织树
+        $organizationTree = [];
+
+        $organizations = create(Organization::class, 3);
+
+        foreach ($organizations as $organization) {
+            $organizationTree[] = [
+                'title'           => $organization->display_name,
+                'key'             => $organization->id,
+                'isLeaf'          => true,
+            ];
+        }
+
+        $parentOrganization = create(Organization::class);
+        $subOrganizations = create(Organization::class, ['parent_id' => $parentOrganization->id], 2);
+        $subNode = [];
+
+        foreach ($subOrganizations as $organization) {
+            $subNode[] = [
+                'title'           => $organization->display_name,
+                'key'             => $organization->id,
+                'isLeaf'          => true,
+            ];
+        }
+
+        $organizationTree[] = [
+            'title'           => $parentOrganization->display_name,
+            'key'             => $parentOrganization->id,
+            'children'        => $subNode
+        ];
+
+        /** @var OrganizationService $service */
+        $service = app(OrganizationService::class);
+
+        $actualOrganizationTree = $service->getNgZorroOrganizationTree();
+
+        $this->assertEquals($organizationTree, $actualOrganizationTree);
     }
 }
