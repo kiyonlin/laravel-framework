@@ -15,9 +15,11 @@ $factory->define(Role::class, function (Faker $faker) {
 
 $factory->define(Organization::class, function (Faker $faker) {
     return [
+        'parent_id'    => 0,
         'key'          => str_random(),
         'display_name' => $faker->name,
         'description'  => $faker->sentence,
+        'sort'         => 0,
     ];
 });
 
@@ -27,6 +29,7 @@ $factory->define(Permission::class, function (Faker $faker) {
         'key'          => str_random(),
         'display_name' => $faker->name,
         'description'  => $faker->sentence,
-        'level'        => 1
+        'level'        => 1,
+        'sort'         => 1,
     ];
 });
