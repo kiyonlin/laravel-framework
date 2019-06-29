@@ -37,8 +37,8 @@ class StaffOrganizationTest extends AuthTestCase
             ->assertStatus(Response::HTTP_OK)
             ->json();
 
-        // 拥有员工组织
-        $this->assertCount(0, array_get($resp, 'owns'));
+        $this->assertCount(0, $resp['defaultChecked']);
+        $this->assertCount(0, $resp['nodes']);
     }
 
     /** @test */
@@ -74,32 +74,4 @@ class StaffOrganizationTest extends AuthTestCase
         $this->assertTrue(in_array($organization->id, $staffOrganizationIds));
     }
 
-    /** @test */
-    public function 未授权用户不可以取消员工组织()
-    {
-        $this->withExceptionHandling();
-
-        $this->deleteJson(route('system.staff.delete-organization', ['staff' => 1]))
-            ->assertStatus(Response::HTTP_FORBIDDEN);
-    }
-
-    /** @test */
-    public function 授权用户可以取消员工组织()
-    {
-        $this->signInSystemAdmin();
-
-        /** @var Staff $staff */
-        $staff = createStaff();
-
-        $organization = create(Organization::class);
-
-        $staff->syncOrganizations($organization);
-
-        $this->assertCount(1, $staff->organizations);
-
-        $this->deleteJson(route('system.staff.delete-organization', ['staff' => $staff->id]), ['organizationIds' => $organization->id])
-            ->assertStatus(Response::HTTP_NO_CONTENT);
-
-        $this->assertCount(0, $staff->fresh()->organizations);
-    }
 }

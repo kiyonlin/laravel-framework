@@ -71,9 +71,5 @@ Route::namespace('Kiyon\Laravel\Staff\Controller')
                     ->middleware('ability:system.staff.grant-organization')
                     ->name('grant-organization');
 
-                // 删除员工组织
-                Route::delete('/{staff}/organization', 'StaffOrganizationController@destroy')
-                    ->middleware('ability:system.staff.delete-organization')
-                    ->name('delete-organization');
             });
     });

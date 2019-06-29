@@ -31,11 +31,11 @@ class StaffOrganizationController extends Controller
      */
     public function show(Staff $staff)
     {
-        $organizations = $this->organizationService->all()->map(modelFieldsOnly(['id', 'display_name']));
+        $nodes = $this->organizationService->getNgZorroOrganizationTree();
 
-        $owns = $staff->organizations->map(modelFieldsOnly(['id', 'display_name']));
+        $defaultChecked = $staff->organizations->pluck('id')->toArray();
 
-        return $this->respond(compact('organizations', 'owns'));
+        return $this->respond(compact('defaultChecked', 'nodes'));
     }
 
     /**
@@ -47,22 +47,8 @@ class StaffOrganizationController extends Controller
     {
         $organizationIds = (array)request('organizationIds', []);
 
-        $staff->syncOrganizationsWithoutDetaching($organizationIds);
+        $staff->syncOrganizations($organizationIds);
 
         return new StaffResource($staff);
-    }
-
-    /**
-     * @param Staff $staff
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function destroy(Staff $staff)
-    {
-        $organizationIds = (array)request('organizationIds', []);
-
-        $staff->detachOrganizations($organizationIds);
-
-        return $this->respondNoContent();
     }
 }
