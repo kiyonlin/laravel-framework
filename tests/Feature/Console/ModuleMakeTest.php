@@ -10,6 +10,7 @@ namespace Tests\Feature\Console;
 
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 use Tests\TestCase;
 
 class ModuleMakeTest extends TestCase
@@ -144,7 +145,8 @@ class ModuleMakeTest extends TestCase
         $serviceProviderFile = $this->app->basePath() . '/app/Modules/Module/ApplyServiceProvider.php';
 
         $this->assertFileExists($serviceProviderFile);
-        $this->assertRegisterServiceProvider();
+
+        $this->assertInsertIntoAppServiceProvider();
     }
 
     /**
@@ -153,7 +155,7 @@ class ModuleMakeTest extends TestCase
     private function initAppServiceProvider()
     {
         $path = $this->app->basePath() . '/app/Providers';
-        if (! is_dir($path)) {
+        if (!is_dir($path)) {
             mkdir($path);
         }
         $path .= '/AppServiceProvider.php';
@@ -168,19 +170,15 @@ eof;
         fclose($appServiceProvider);
     }
 
-    private function assertRegisterServiceProvider()
+    private function assertInsertIntoAppServiceProvider($includeApply = true)
     {
         $path = $this->app->basePath() . '/app/Providers/AppServiceProvider.php';
         $contents = file_get_contents($path);
-//         $newContents = preg_replace(
-//             '/protected\s+\$providers\s*=\s*\[(.*)\]/is',
-//             <<<eof
-// protected \$providers = [$1    \App\Modules\Module\ModuleServiceProvider::class,
-//         ]
-// eof,
-//             $contents);
-//         file_put_contents($path, $newContents);
-        $this->assertContains('\App\Modules\Module\ModuleServiceProvider::class', $contents);
+
+        $this->assertStringContainsString('\App\Modules\Module\ModuleServiceProvider::class', $contents);
+        if ($includeApply) {
+            $this->assertStringContainsString('\App\Modules\Module\ApplyServiceProvider::class', $contents);
+        }
     }
 
     /** @test */
@@ -294,6 +292,8 @@ eof;
     /** @test */
     public function 创建模块命令()
     {
+        $this->initAppServiceProvider();
+
         Carbon::setTestNow('2018-11-21 08:57:22');
 
         $this->artisan('mod-make:module', ['mod' => 'Module'])
@@ -373,11 +373,15 @@ eof;
 
         $resourceFile = $this->app->basePath() . '/app/Modules/Module/Resource/ApplyResource.php';
         $this->assertFileExists($resourceFile);
+
+        $this->assertInsertIntoAppServiceProvider();
     }
 
     /** @test */
     public function 选择创建模块所有内容命令()
     {
+        $this->initAppServiceProvider();
+
         Carbon::setTestNow('2018-11-21 08:57:22');
 
         $this->artisan('mod-make:module', ['mod' => 'Module'])
@@ -422,6 +426,8 @@ eof;
 
         $resourceFile = $this->app->basePath() . '/app/Modules/Module/Resource/ModuleResource.php';
         $this->assertFileExists($resourceFile);
+
+        $this->assertInsertIntoAppServiceProvider(false);
     }
 
     /** @test */

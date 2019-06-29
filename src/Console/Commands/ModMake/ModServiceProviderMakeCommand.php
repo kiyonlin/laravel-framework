@@ -28,6 +28,34 @@ class ModServiceProviderMakeCommand extends GeneratorCommand
      */
     protected $type = 'ServiceProvider';
 
+    public function handle()
+    {
+        parent::handle();
+
+        $this->insertToAppServiceProvider();
+    }
+
+    /**
+     * 插入新的service provider到AppServiceProvider.php文件中
+     */
+    private function insertToAppServiceProvider()
+    {
+        $name = $this->qualifyClass($this->getNameInput());
+        $insertContents = "\\{$name}ServiceProvider::class,";
+
+        $path = $this->laravel['path'] . '/Providers/AppServiceProvider.php';
+        $contents = file_get_contents($path);
+
+        $newContents = preg_replace(
+            '/protected\s+\$providers\s*=\s*\[(.*)\]/is',
+            <<<"HD"
+protected \$providers = [$1    {$insertContents}
+    ]
+HD,
+            $contents);
+
+        file_put_contents($path, $newContents);
+    }
 
     /**
      * Get the stub file for the generator.
@@ -42,7 +70,8 @@ class ModServiceProviderMakeCommand extends GeneratorCommand
     /**
      * Get the default namespace for the class.
      *
-     * @param  string $rootNamespace
+     * @param string $rootNamespace
+     *
      * @return string
      */
     protected function getDefaultNamespace($rootNamespace)
