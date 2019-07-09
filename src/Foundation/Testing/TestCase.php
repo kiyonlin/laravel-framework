@@ -18,7 +18,7 @@ use Kiyon\Laravel\Authentication\Model\User;
 abstract class TestCase extends BaseTestCase
 {
 
-    use RefreshDatabase, CreatesApplication, WithMock, WithFaker;
+    use RefreshDatabase, WithMock, WithFaker;
 
     protected function setUp(): void
     {
